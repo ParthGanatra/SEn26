@@ -6,8 +6,7 @@ Rectangle {
 //    Layout.preferredHeight: 500
 //    Layout.preferredWidth: 500
 
-    width: 300
-    height: 500
+
     Text {
         anchors.centerIn: parent
         text: qsTr("Pop-up Area")

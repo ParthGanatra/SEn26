@@ -3,14 +3,12 @@ import QtQuick.Layouts 1.1
 
 Rectangle {
 
-//    Layout.alignment: Qt.AlignBottom
-//    Layout.preferredHeight: parent.height * 0.3
+//    Layout.alignment: Qt.AlignTop
+//    Layout.preferredHeight: parent.height * 0.7
 //    Layout.preferredWidth: parent.width * 0.7
 
-    width: 1100
-    height: 300
     Text {
         anchors.centerIn: parent
-        text: qsTr("Newsfeeds Area")
+        text: qsTr("Charting Area")
     }
 }
