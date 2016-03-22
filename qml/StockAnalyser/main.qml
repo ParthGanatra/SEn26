@@ -9,7 +9,7 @@ import Material.ListItems 0.1 as ListItem
 
 ApplicationWindow {
     id: mainWindow
-    title: "Stock Analyser"
+    title: "StockAnalyser"
     visible: true
 
     width: Settings.screenWidth
