@@ -1,7 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.4
 
-import "stockAnalyserCore"
+import "stockanalyserCore"
 //import "stockAnalyserCore/javascriptFiles/main.js" as Mainjs
 
 import Material 0.2

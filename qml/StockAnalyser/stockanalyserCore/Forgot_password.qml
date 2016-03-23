@@ -5,7 +5,7 @@ import QtQuick.Controls 1.3 as Controls
 import "../stockanalyserCore"
 
 Page{
-    id: signup_page
+    id: forget_password_page
     title: Settings.windowTitle
 
     TextField {

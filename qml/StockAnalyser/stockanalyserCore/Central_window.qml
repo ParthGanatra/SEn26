@@ -6,7 +6,7 @@ import QtQuick.Controls 1.3 as Controls
 import "../stockanalyserCore"
 
 Page{
-    id: signup_page
+    id: central_window_page
     title: Settings.windowTitle
 
     actions: [
@@ -16,7 +16,7 @@ Page{
 
             onTriggered: {
                 var component = Qt.createComponent("Add_Popup.qml")
-                var window = component.createObject(signup_page)
+                var window = component.createObject(central_window_page)
                 window.show()
             }
         },
@@ -28,7 +28,7 @@ Page{
 
             onTriggered: {
                 var component = Qt.createComponent("Configure.qml")
-                var window = component.createObject(signup_page)
+                var window = component.createObject(central_window_page)
                 window.show()
             }
         },
@@ -40,7 +40,7 @@ Page{
 
             onTriggered: {
                 var component = Qt.createComponent("Account.qml")
-                var window = component.createObject(signup_page)
+                var window = component.createObject(central_window_page)
                 window.show()
             }
         }
@@ -50,19 +50,19 @@ Page{
 //        ColumnLayout {
         Charts {
             id: chart_window
-            width: signup_page.width*0.7
-            height: signup_page.height*0.8
+            width: central_window_page.width*0.7
+            height: central_window_page.height*0.8
         }
         Newsfeeds {
             anchors.top: chart_window.bottom
-            width: signup_page.width*0.7
-            height: signup_page.height*0.2
+            width: central_window_page.width*0.7
+            height: central_window_page.height*0.2
         }
 //        }
     Popups {
         anchors.left: chart_window.right
-        width: signup_page.width*0.3
-        height: signup_page.height
+        width: central_window_page.width*0.3
+        height: central_window_page.height
     }
 //    }
 }
