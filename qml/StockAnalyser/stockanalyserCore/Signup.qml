@@ -8,8 +8,6 @@ Page{
     id: signup_page
     title:"Sign Up"
 
-
-
     ColumnLayout {
 
         id: column
@@ -31,11 +29,6 @@ Page{
               anchors.horizontalCenter: parent.horizontalCenter
 
           }
-
-
-
-
-
 
         TextField {
             id: username
@@ -63,8 +56,6 @@ Page{
             echoMode: TextInput.Password
             anchors.horizontalCenter: parent.horizontalCenter
         }
-
-
 
         RowLayout{
             id: row

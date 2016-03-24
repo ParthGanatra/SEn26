@@ -71,7 +71,7 @@ Page {
                 anchors.leftMargin: 15
 
                 onClicked: {
-                    pageStack.replace(Qt.resolvedUrl("Central_window.qml"))
+                    pageStack.replace(Qt.resolvedUrl("Central_window.qml"));
                 }
             }
         }

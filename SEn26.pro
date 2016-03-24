@@ -18,7 +18,11 @@ QML_IMPORT_PATH = [qml/StockAnalyser/modules]
 # CONFIG += qdeclarative-boostable
 
 # The .cpp file which was generated for your project. Feel free to hack it.
-SOURCES += main.cpp
+HEADERS += \
+    backend.h
+
+SOURCES += main.cpp \
+    backend.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 desktopInstallPrefix = D:\Qt\StockAnalyser
