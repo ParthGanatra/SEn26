@@ -6,13 +6,96 @@ import "../stockanalyserCore"
 
 Page{
     id: signup_page
-    title: Settings.windowTitle
+    title:"Sign Up"
 
-    Rectangle {
-        anchors.fill: parent
-        Text {
-            anchors.centerIn: parent
-            text: qsTr("Signup")
+
+
+    ColumnLayout {
+
+        id: column
+        anchors.centerIn: parent
+        spacing: Units.dp(32)
+
+          TextField {
+              id: firstname
+              implicitWidth: 200
+              placeholderText: "First Name"
+              floatingLabel: true
+              anchors.horizontalCenter: parent.horizontalCenter
+          }
+          TextField {
+              id: lastname
+              implicitWidth: 200
+              placeholderText: "Last Name"
+              floatingLabel: true
+              anchors.horizontalCenter: parent.horizontalCenter
+
+          }
+
+
+
+
+
+
+        TextField {
+            id: username
+            implicitWidth: 200
+            placeholderText: "username"
+            floatingLabel: true
+            anchors.horizontalCenter: parent.horizontalCenter
+
+        }
+
+        TextField {
+            id: passwordField
+            implicitWidth: 200
+            placeholderText: "Password"
+            floatingLabel: true
+            echoMode: TextInput.Password
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        TextField {
+            id: verifyPasswordField
+            implicitWidth: 200
+            placeholderText: "Verify Password"
+            floatingLabel: true
+            echoMode: TextInput.Password
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+
+
+        RowLayout{
+            id: row
+            anchors.top: parent.bottom*0.8
+            spacing: Units.dp(32)
+
+            Button {
+                text: "SignUp"
+                elevation: 1
+                anchors.right: parent.horizontalCenter*0.8
+                onClicked: {
+                    //Check if details are valid in their context
+                    //If valid then generate OTP to the specified email.
+                    //If not valid donot open verify page
+
+                    pageStack.push(Qt.resolvedUrl("Verify_Email.qml"))
+                }
+            }
+
+            Button {
+                text: "Back"
+                elevation: 1
+                activeFocusOnPress: true
+                backgroundColor: Theme.primaryColor
+                anchors.left: parent.horizontalCenter*1.2
+
+                onClicked: {
+                    pageStack.replace(Qt.resolvedUrl("Login.qml"))
+//                    activated()
+                }
+            }
         }
     }
 }
