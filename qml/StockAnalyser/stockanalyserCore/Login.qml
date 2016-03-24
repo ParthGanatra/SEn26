@@ -5,8 +5,6 @@ import QtQuick.Controls 1.3 as Controls
 
 Page {
     id: login_page
-//    anchors.horizontalCenter: parent.horizontalCenter
-//    anchors.fill: parent
 //    signal activated
 
     ColumnLayout {
@@ -53,13 +51,14 @@ Page {
 
         RowLayout{
             id: row
-            anchors.top: parent.bottom*0.8
+            anchors.top: parent.bottom
             spacing: Units.dp(32)
 
             Button {
                 text: "SignUp"
                 elevation: 1
-                anchors.right: parent.horizontalCenter*0.8
+                anchors.right: parent.horizontalCenter
+                anchors.rightMargin: 15
                 onClicked: pageStack.push(Qt.resolvedUrl("Signup.qml"))
             }
 
@@ -68,7 +67,8 @@ Page {
                 elevation: 1
                 activeFocusOnPress: true
                 backgroundColor: Theme.primaryColor
-                anchors.left: parent.horizontalCenter*1.2
+                anchors.left: parent.horizontalCenter
+                anchors.leftMargin: 15
 
                 onClicked: {
                     pageStack.replace(Qt.resolvedUrl("Central_window.qml"))
