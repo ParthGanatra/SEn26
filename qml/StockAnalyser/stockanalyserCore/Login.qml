@@ -72,7 +72,6 @@ Page {
 
                 onClicked: {
                     pageStack.replace(Qt.resolvedUrl("Central_window.qml"))
-//                    activated()
                 }
             }
         }
