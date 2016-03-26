@@ -1,0 +1,43 @@
+# Project: Project2
+# Makefile created by Dev-C++ 5.8.2
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = main.o util.o wavecount.o wave_description.o rules_check.o wavecount2.o
+LINKOBJ  = main.o util.o wavecount.o wave_description.o rules_check.o wavecount2.o
+LIBS     = -L"E:/Study/Dev C++/Dev-Cpp/MinGW64/lib" -L"E:/Study/Dev C++/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
+INCS     = -I"E:/Study/Dev C++/Dev-Cpp/MinGW64/include" -I"E:/Study/Dev C++/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"E:/Study/Dev C++/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"
+CXXINCS  = -I"E:/Study/Dev C++/Dev-Cpp/MinGW64/include" -I"E:/Study/Dev C++/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"E:/Study/Dev C++/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include" -I"E:/Study/Dev C++/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"
+BIN      = Project2.exe
+CXXFLAGS = $(CXXINCS) 
+CFLAGS   = $(INCS) 
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.cpp
+	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+
+util.o: util.cpp
+	$(CPP) -c util.cpp -o util.o $(CXXFLAGS)
+
+wavecount.o: wavecount.cpp
+	$(CPP) -c wavecount.cpp -o wavecount.o $(CXXFLAGS)
+
+wave_description.o: wave_description.cpp
+	$(CPP) -c wave_description.cpp -o wave_description.o $(CXXFLAGS)
+
+rules_check.o: rules_check.cpp
+	$(CPP) -c rules_check.cpp -o rules_check.o $(CXXFLAGS)
+
+wavecount2.o: wavecount2.cpp
+	$(CPP) -c wavecount2.cpp -o wavecount2.o $(CXXFLAGS)
