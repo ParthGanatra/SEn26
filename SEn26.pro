@@ -19,10 +19,12 @@ QML_IMPORT_PATH = [qml/StockAnalyser/modules]
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 HEADERS += \
-    backend.h
+    backend.h \
+    forntend.h
 
 SOURCES += main.cpp \
-    backend.cpp
+    backend.cpp \
+    forntend.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 desktopInstallPrefix = D:\Qt\StockAnalyser
