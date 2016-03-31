@@ -1,12 +1,23 @@
-#ifndef FRONTEND_H
-#define FRONTEND_H
+#ifndef FORNTEND
+#define FORNTEND
 
 #include <QObject>
+#include <QDebug>
 
-class Frontend
+class Forntent : public QObject
 {
+    Q_OBJECT
+
 public:
-    Frontend();
+    explicit Forntent(QObject *parent = 0);
+
+signals:
+
+public slots:
+    int func();
+
 };
 
-#endif // FRONTEND_H
+
+#endif // FORNTEND
+

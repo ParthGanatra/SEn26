@@ -1,6 +1,14 @@
-#include "frontend.h"
+#include "forntend.h"
+#include <QJsonObject>
 
-Frontend::Frontend()
+Forntent::Forntent(QObject *parent) :
+    QObject(parent)
 {
-
 }
+
+int Forntent::func()
+{
+    qDebug() << "In C++ function";
+    return 1;
+}
+
