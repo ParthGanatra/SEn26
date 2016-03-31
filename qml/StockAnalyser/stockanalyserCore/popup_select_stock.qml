@@ -51,7 +51,7 @@ ApplicationWindow {
                     onClicked: {
                         var stockname = select_stock.text
 //                        console.log("Stock" + stockname)
-                        pageStack.push(Qt.resolvedUrl("popup_select_indicator.qml"),{stock: stockname})
+                        pageStack.push(Qt.resolvedUrl("popup_select_indicator.qml"),{selected_stock: stockname})
                     }
                 }
             }

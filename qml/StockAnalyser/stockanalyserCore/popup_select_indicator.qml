@@ -8,6 +8,7 @@ import Material.ListItems 0.1 as ListItem
 Page {
     id: popup_select_indicator_page
     title: "Add Notification"
+    property string selected_stock: "default"
 
     Rectangle {
         id: main_rect
@@ -36,10 +37,10 @@ Page {
                 activeFocusOnPress: true
                 backgroundColor: Theme.primaryColor
                 onClicked: {
-                    var indicator = select_indicator.text
-                    console.log(pageStack.)
-                    console.log("indicator: " + indicator)
-                    pageStack.push(Qt.resolvedUrl("popup_select_condition.qml"))
+                    var selected_indicator = select_indicator.selectedText
+//                    console.log("Stock:" + stock)
+//                    console.log("indicator: " + indicator)
+                    pageStack.push(Qt.resolvedUrl("popup_select_condition.qml"),{selected_stock: selected_stock,selected_indicator: selected_indicator})
                 }
             }
         }
