@@ -14,7 +14,8 @@ public:
 signals:
 
 public slots:
-    void sendOTP(QString email);
+    void sendOTP(QString email,QString otp);
+    QString generateOtp();
 };
 
 

@@ -6,7 +6,7 @@ import "../stockanalyserCore"
 
 Page {
 
-    property int otp: -2
+    property string otp: ""
     id:verify_email
     ColumnLayout {
 
@@ -47,14 +47,14 @@ Page {
             }
 
             Button {
-                text: "Back"
+                text: "Reveal Otp"
                 elevation: 1
                 activeFocusOnPress: true
                 backgroundColor: Theme.primaryColor
                 anchors.left: parent.horizontalCenter*1.2
 
                 onClicked: {
-                    pageStack.replace(Qt.resolvedUrl("Signup.qml"))
+                    otp_field.text=otp
                 }
             }
         }

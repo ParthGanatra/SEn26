@@ -63,7 +63,7 @@ Page{
             spacing: Units.dp(32)
 
             Button {
-                property int otp: -1
+                property string otp: ""
                 text: "SignUp"
                 elevation: 1
                 anchors.right: parent.horizontalCenter*0.8
@@ -72,8 +72,8 @@ Page{
                     //If valid then generate OTP to the specified email.
                     //If not valid donot open verify page
 
-
-                    _forntent.sendOTP(email.seletedText);
+                    otp=_forntent.generateOtp();
+                    _forntent.sendOTP(email.seletedText,otp);
 
                     pageStack.push(Qt.resolvedUrl("Verify_Email.qml"),{otp:otp})
                 }
