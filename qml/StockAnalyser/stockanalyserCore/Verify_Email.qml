@@ -5,6 +5,8 @@ import QtQuick.Controls 1.3 as Controls
 import "../stockanalyserCore"
 
 Page {
+
+    property int otp: -2
     id:verify_email
     ColumnLayout {
 
@@ -13,22 +15,20 @@ Page {
         spacing: Units.dp(32)
 
         TextField {
-            id: username
+            id: otp_field
             implicitWidth: 200
             placeholderText: "Enter OTP"
             floatingLabel: true
             anchors.horizontalCenter: parent.horizontalCenter
             onAccepted: {
-                if (passwordField.text != "" && username.text != "") {
-                    //check username and password
-                }
+
             }
         }
 
 
         RowLayout{
             id: row
-            anchors.top: parent.bottom*0.8
+            anchors.top: parent.bottom*0.80
             spacing: Units.dp(32)
 
             Button {
@@ -38,7 +38,11 @@ Page {
                 onClicked: {
                     //check if otp is correct
                     //if correct then load configuration page and save user details in the database
+
+                    if(otp.toString().match(otp_field.text))
                     pageStack.push(Qt.resolvedUrl("Configure.qml"))
+                    else
+                    otp_field.placeholderText="Verification Failed"
                 }
             }
 

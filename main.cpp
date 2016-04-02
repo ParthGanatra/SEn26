@@ -3,7 +3,7 @@
 
 #include <qqmlcontext.h>
 #include "backend.h"
-#include "forntend.h"
+#include "frontend.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
     Backend backend;
     backend.add_popup_data();
 
-    Forntent forntent;
-    forntent.add_popup_data();
+    Frontend forntent;
+    //forntent.add_popup_data();
 
     engine.rootContext()->setContextProperty("_backend", &backend);
     engine.rootContext()->setContextProperty("_forntent", &forntent);

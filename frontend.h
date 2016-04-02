@@ -1,21 +1,20 @@
-#ifndef FORNTEND
-#define FORNTEND
+#ifndef FRONTEND
+#define FRONTEND
 
 #include <QObject>
 #include <QDebug>
 
-class Forntent : public QObject
+class Frontend : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Forntent(QObject *parent = 0);
+    explicit Frontend(QObject *parent = 0);
 
 signals:
 
 public slots:
-    int func();
-
+    void sendOTP(QString email);
 };
 
 
