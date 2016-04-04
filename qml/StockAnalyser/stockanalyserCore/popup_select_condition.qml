@@ -42,7 +42,8 @@ Page {
                 onClicked: {
 //                    selected_condition = conditions_loader.item.select_condition_indicator1.selectedText
                     console.log(selected_condition)
-                    popups_model.append({"popups_stock": selected_stock, "popups_indicator":selected_indicator, "popups_condition":selected_condition})
+//                    popups_model.append({"popups_stock": selected_stock, "popups_indicator":selected_indicator, "popups_condition":selected_condition})
+                    _backend.add_popup_data(selected_stock,selected_indicator,selected_condition);
                     popup_select_stock.close()
                 }
             }
@@ -55,48 +56,87 @@ Page {
                 id: conditions_loader
                 anchors.centerIn: parent
                 sourceComponent: {
-                    if(selected_indicator=="Indicator1"){
-                        condition_indicator1
+                    if(selected_indicator=="RSI"){
+                        condition_RSI
                     }
-                    else if(selected_indicator=="Indicator2"){
-                        condition_indicator2
+                    else if(selected_indicator=="Simple_MA"){
+                        condition_Simple_MA
                     }
-                    else if(selected_indicator=="Indicator3"){
-                        condition_indicator2
+                    else if(selected_indicator=="MACD"){
+                        condition_MACD
                     }
-
+                    else if(selected_indicator=="exp_MA"){
+                        condition_exp_MA
+                    }
+                    else if(selected_indicator=="CCI"){
+                        condition_CCI
+                    }
+                    else if(selected_indicator=="ADX"){
+                        condition_ADX
+                    }
                 }
 
             }
         }
 
         Component {
-            id: condition_indicator1
+            id: condition_RSI
             MenuField {
-                id: select_condition_indicator1
+                id: select_condition_RSI
                 anchors.centerIn: parent
                 width: 150
-                model: ["Condition1", "Condition2", "Condition3"]       //From database later
+                model: ["Condition1", "Condition2", "Condition3"]
             }
         }
 
 
         Component {
-            id: condition_indicator2
+            id: condition_Simple_MA
             TextField {
-                id: select_condition_indicator2
+                id: select_condition_Simple_MA
                 placeholderText: "Conditon"
                 anchors.centerIn: parent
             }
         }
 
         Component {
-            id: condition_indicator3
-            Label {
+            id: condition_MACD
+            TextField {
+                id: select_condition_MACD
+                placeholderText: "Conditon"
                 anchors.centerIn: parent
-                text: "Conditions for " + selected_indicator
-                color: Theme.light.textColor
-                style: "display1"
+            }
+        }
+
+
+        Component {
+            id: condition_exp_MA
+            TextField {
+                id: select_condition_exp_MA
+                placeholderText: "Conditon"
+                anchors.centerIn: parent
+            }
+        }
+
+        //["RSI", "Simple_MA", "MACD", "exp_MA", "CCI", "ADX"]
+
+
+        Component {
+            id: condition_CCI
+            TextField {
+                id: select_condition_CCI
+                placeholderText: "Conditon"
+                anchors.centerIn: parent
+            }
+        }
+
+
+        Component {
+            id: condition_ADX
+            TextField {
+                id: select_condition_ADX
+                placeholderText: "Conditon"
+                anchors.centerIn: parent
             }
         }
     }

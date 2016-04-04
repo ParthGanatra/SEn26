@@ -5,34 +5,35 @@ import Material.ListItems 0.1 as ListItem
 import Material.Extras 0.1
 import QtQuick.Controls 1.4 as Controls
 import QtQuick.Layouts 1.1
+import "../stockanalyserCore"
 
 Window {
     id: all_popups_window
     width: 600
     height: 700
 
-    ListModel {         // Need to replace with database
-        id: popups_model
-        ListElement {
-            popups_id: "1"
-            popups_stock: "stock1"
-            popups_indicator: "indicator1"
-            popups_condition: "condition1"
-        }
-        ListElement {
-            popups_id: "2"
-            popups_stock: "stock2"
-            popups_indicator: "indicator2"
-            popups_condition: "condition2"
-        }
-        ListElement {
-            popups_id: "3"
-            popups_stock: "stock3"
-            popups_indicator: "indicator3"
-            popups_condition: "condition3"
-        }
+    //    ListModel {         // Need to replace with database
+    //        id: popups_model
+    //        ListElement {
+    //            popups_id: "1"
+    //            popups_stock: "stock1"
+    //            popups_indicator: "indicator1"
+    //            popups_condition: "condition1"
+    //        }
+    //        ListElement {
+    //            popups_id: "2"
+    //            popups_stock: "stock2"
+    //            popups_indicator: "indicator2"
+    //            popups_condition: "condition2"
+    //        }
+    //        ListElement {
+    //            popups_id: "3"
+    //            popups_stock: "stock3"
+    //            popups_indicator: "indicator3"
+    //            popups_condition: "condition3"
+    //        }
 
-    }
+    //    }
 
     Component {
         id: popupsDelegate
@@ -51,21 +52,21 @@ Window {
                     Label {
                         id: popups_list_stock
                         style: "title"
-                        text: popups_stock
+                        text: modelData["stock"]
                     }
 
 
                     Label {
                         id: popups_list_indicator
                         style: "title"
-                        text: popups_indicator
+                        text: modelData["indicator"]
                     }
 
 
                     Label {
                         id: popups_list_condition
                         style: "title"
-                        text: popups_condition
+                        text: modelData["condition"]
                     }
 
                     Button {
@@ -116,28 +117,28 @@ Window {
         id: popups_list
         anchors.fill: parent
         header: popups_list_header
-        model: popups_model
+        model: _backend.get_Popup_data()
         delegate: popupsDelegate
     }
 
-    Button {        //Temporary
-        anchors {
-            bottom: parent.bottom
-            left: parent.left
-            margins: Units.dp(10)
-        }
+    //    Button {        //Temporary
+    //        anchors {
+    //            bottom: parent.bottom
+    //            left: parent.left
+    //            margins: Units.dp(10)
+    //        }
 
-        textColor: "white"
-        backgroundColor: Theme.primaryColor
-        elevation: 1
-        text: "Add Random Pop-up"
+    //        textColor: "white"
+    //        backgroundColor: Theme.primaryColor
+    //        elevation: 1
+    //        text: "Add Random Pop-up"
 
-        onClicked: {
-            var num = popups_model.count + 1
-            popups_model.append({"popups_stock": "stock" + num , "popups_indicator":"indicator" + num , "popups_condition":"condition" + num})
+    //        onClicked: {
+    //            var num = popups_model.count + 1
+    //            popups_model.append({"popups_stock": "stock" + num , "popups_indicator":"indicator" + num , "popups_condition":"condition" + num})
 
-        }
-    }
+    //        }
+    //    }
 
     Button {
         id: add_popup_button

@@ -1,5 +1,6 @@
 #include "backend.h"
 #include <QJsonObject>
+#include <QString>
 
 Backend::Backend(QObject *parent) :
     QObject(parent)
@@ -8,7 +9,7 @@ Backend::Backend(QObject *parent) :
 
 void Backend::add_popup_data()
 {
-    for(int i=0;i<15;i++){
+    for(int i=0;i<5;i++){
         QJsonObject temp1;
         temp1["stock"] = "STOCK1";
         temp1["indicator"] = "INDICATOR1";
@@ -20,6 +21,15 @@ void Backend::add_popup_data()
         }
         Popup_data.append(temp1);
     }
+}
+
+void Backend::add_popup_data(QString s, QString i, QString c)
+{
+    QJsonObject temp1;
+    temp1["stock"] = s;
+    temp1["indicator"] = i;
+    temp1["condition"] = c;
+    Popup_data.append(temp1);
 }
 
 void Backend::remove_Popup_data(int index)

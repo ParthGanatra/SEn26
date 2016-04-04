@@ -49,7 +49,7 @@ Page {
             id: select_indicator
             anchors.centerIn: parent
             width: 150
-            model: ["Indicator1", "Indicator2", "Indicator3"]       //From database later
+            model: ["RSI", "Simple_MA", "MACD", "exp_MA", "CCI", "ADX"]
         }
     }
 }
