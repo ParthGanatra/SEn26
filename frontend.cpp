@@ -13,31 +13,27 @@ void Frontend::sendOTP(QString email,QString otp)
 {
 
         SmtpClient smtp("smtp.gmail.com", 465, SmtpClient::SslConnection);
-
-
-
         smtp.setUser("group26.sen@gmail.com");
         smtp.setPassword("Group26 SEn.");
-
+        qDebug() << "connect" << smtp.connectToHost();
+        qDebug() << "Login" << smtp.login();
+        
         MimeMessage message;
 
-        message.setSender(new EmailAddress("group26.sen@gmail.com", "GROUP 26"));
+        message.setSender(new EmailAddress("group26sen@gmail.com", "Group 26"));
         message.addRecipient(new EmailAddress(email, "User"));
         message.setSubject("Group 26");
 
         MimeText text;
 
-
-
-
+        qDebug() << "To: " << email;
+        
         text.setText("Your confirmaion key = "+otp+"");
 
 
         message.addPart(&text);
 
-        smtp.connectToHost();
-        smtp.login();
-        smtp.sendMail(message);
+        qDebug() << smtp.sendMail(message);
         smtp.quit();
 
 

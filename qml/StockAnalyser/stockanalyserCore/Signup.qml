@@ -73,7 +73,7 @@ Page{
                     //If not valid donot open verify page
 
                     otp=_forntent.generateOtp();
-                    _forntent.sendOTP(email.seletedText,otp);
+                    _forntent.sendOTP(email.text,otp);
 
                     pageStack.push(Qt.resolvedUrl("Verify_Email.qml"),{otp:otp})
                 }

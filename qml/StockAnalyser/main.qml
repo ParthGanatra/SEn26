@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 
 import "stockanalyserCore"
 //import "stockAnalyserCore/javascriptFiles/main.js" as Mainjs
+import  "../StockAnalyser/stockanalyserCore/javascriptFiles/techan.min.js" as Techan
 
 import Material 0.2
 import Material.ListItems 0.1 as ListItem
@@ -32,7 +33,6 @@ ApplicationWindow {
             visible: status == Loader.Ready
 
             //  For testing your component change the login below to the name of your file.
-
             source: {
                 return Qt.resolvedUrl(Settings.qml_files + "/Login.qml")
             }
