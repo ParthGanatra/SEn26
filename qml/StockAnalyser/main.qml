@@ -2,7 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.4
 
 import "stockanalyserCore"
-//import "stockAnalyserCore/javascriptFiles/main.js" as Mainjs
+
 
 import Material 0.2
 import Material.ListItems 0.1 as ListItem
