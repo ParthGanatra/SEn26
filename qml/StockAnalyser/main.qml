@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.4
 
 import "stockanalyserCore"
+
 //import "stockAnalyserCore/javascriptFiles/main.js" as Mainjs
 import  "../StockAnalyser/stockanalyserCore/javascriptFiles/techan.min.js" as Techan
 

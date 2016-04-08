@@ -1,9 +1,9 @@
-//Qt.include("d3.v3.min.js")
+//Qt.include("d3.js")
+//Qt.include("techan.js")
 .import "d3.js" as D3
 .import "techan.js" as Techan
 
-function drawGraph(){
-//    var ctx = getContext("2d");
+function drawGraph(ctx){
 //    var w = canvas.width;
 //    var h = canvas.height;
 //    var delta = 4; // Spacing between lines
@@ -107,5 +107,6 @@ function drawGraph(){
                 .style("text-anchor", "end")
                 .text("Price ($)");
         console.log("Render time: " + (Date.now()-timestart));
+        ctx = svg;
     });
 }

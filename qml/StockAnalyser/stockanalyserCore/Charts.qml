@@ -1,34 +1,15 @@
 import QtQuick 2.4
-import Material 0.2
-import Material.ListItems 0.1 as ListItem
+import QtQuick.Layouts 1.1
+import QtWebEngine 1.2
 
-Page {
-    id: page
-    title: "Page with right sidebar"
+//import "javascriptFiles/main.js" as Mainjs
 
-    actions: [
-        Action {
-            iconName: "action/search"
-            text: "Search"
+Rectangle {
+
+    WebEngineView {
+            id: webview
+            anchors.fill: parent
+            anchors.centerIn: parent
+            url: "../stockanalyserCore/javascriptFiles/index.html"
         }
-    ]
-
-    Button {
-        anchors.centerIn: parent
-        text: "Sub page"
-        onClicked: pageStack.push(Qt.resolvedUrl("SubPage.qml"))
-    }
-
-    rightSidebar: PageSidebar {
-        title: "Sidebar"
-
-        width: Units.dp(320)
-
-        actions: [
-            Action {
-                iconName: "action/delete"
-                text: "Delete"
-            }
-        ]
-    }
 }

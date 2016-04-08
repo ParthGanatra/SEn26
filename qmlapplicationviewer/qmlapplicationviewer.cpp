@@ -42,10 +42,18 @@
 
 #include <QDir>
 #include <QFileInfo>
-#include <QApplication>
-#include <QDeclarativeComponent>
-#include <QDeclarativeEngine>
-#include <QDeclarativeContext>
+//#include <QApplication>
+//#include <QDeclarativeComponent>
+//#include <QDeclarativeEngine>
+//#include <QDeclarativeContext>
+
+#include <QCoreApplication>
+#include <QDir>
+#include <QFileInfo>
+#include <QQmlComponent>
+#include <QQmlEngine>
+#include <QQmlContext>
+#include <QDebug>
 
 #include <qplatformdefs.h> // MEEGO_EDITION_HARMATTAN
 
@@ -55,13 +63,13 @@
 
 #if defined(QMLJSDEBUGGER) && QT_VERSION < 0x040800
 
-#include <qt_private/qdeclarativedebughelper_p.h>
+//#include <qt_private/qdeclarativedebughelper_p.h>
 
 #if !defined(NO_JSDEBUGGER)
 #include <jsdebuggeragent.h>
 #endif
 #if !defined(NO_QMLOBSERVER)
-#include <qdeclarativeviewobserver.h>
+//#include <QQuickViewobserver.h>
 #endif
 
 // Enable debugging before any QDeclarativeEngine is created
@@ -107,12 +115,12 @@ QString QmlApplicationViewerPrivate::adjustPath(const QString &path)
     return path;
 }
 
-QmlApplicationViewer::QmlApplicationViewer(QWidget *parent)
-    : QDeclarativeView(parent)
+QmlApplicationViewer::QmlApplicationViewer(QWindow *parent)
+    : QQuickView(parent)
     , d(new QmlApplicationViewerPrivate())
 {
     connect(engine(), SIGNAL(quit()), SLOT(close()));
-    setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    setResizeMode(QQuickView::SizeRootObjectToView);
 
     // Qt versions prior to 4.8.0 don't have QML/JS debugging services built in
 #if defined(QMLJSDEBUGGER) && QT_VERSION < 0x040800
@@ -120,7 +128,7 @@ QmlApplicationViewer::QmlApplicationViewer(QWidget *parent)
     new QmlJSDebugger::JSDebuggerAgent(engine());
 #endif
 #if !defined(NO_QMLOBSERVER)
-    new QmlJSDebugger::QDeclarativeViewObserver(this, this);
+    new QmlJSDebugger::QQuickViewObserver(this, this);
 #endif
 #endif
 }
@@ -169,9 +177,9 @@ void QmlApplicationViewer::showExpanded()
 
 QApplication *createApplication(int &argc, char **argv)
 {
-#ifdef HARMATTAN_BOOSTER
-    return MDeclarativeCache::qApplication(argc, argv);
-#else
-    return new QApplication(argc, argv);
-#endif
+//#ifdef HARMATTAN_BOOSTER
+//    return MDeclarativeCache::qApplication(argc, argv);
+//#else
+//    return new QApplication(argc, argv);
+//#endif
 }
