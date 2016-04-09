@@ -48,7 +48,7 @@ Column {
 
         Text {
             id: titleText
-            text: title + timeSinceEvent(pubDate) + " (<a href=\"" + link + "\">Link</a>)"
+            text: "<a href=\"" + link + "\">" + title + "</a>--" + timeSinceEvent(pubDate)
             onLinkActivated: {
                 Qt.openUrlExternally(link)
             }
