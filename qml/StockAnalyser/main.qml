@@ -3,8 +3,7 @@ import QtQuick.Controls 1.4
 
 import "stockanalyserCore"
 
-//import "stockAnalyserCore/javascriptFiles/main.js" as Mainjs
-import  "../StockAnalyser/stockanalyserCore/javascriptFiles/techan.min.js" as Techan
+//import "../StockAnalyser/stockanalyserCore/javascriptFiles/main.js" as Mainjs
 
 import Material 0.2
 import Material.ListItems 0.1 as ListItem

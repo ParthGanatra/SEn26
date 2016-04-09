@@ -3,9 +3,9 @@ import QtQuick.Layouts 1.1
 import Material 0.2
 import Material.ListItems 0.1 as ListItem
 import "../stockanalyserCore"
+import QtQuick.Layouts 1.3
 
 Rectangle {
-
     Flickable {
         id: flickable
         anchors.fill: parent
@@ -20,9 +20,11 @@ Rectangle {
                 model: _backend.get_Popup_data()
 
                 delegate: Rectangle{
+                    id: rect
                     color: "#ecf0f1"
                     height: 60
-                    width: Settings.screenWidth*0.3
+//                    Layout.fillWidth: true
+                    width: Settings.screenWidth*0.2
                     ActionButton {
                         isMiniSize: true
                         backgroundColor: "#95a5a6"

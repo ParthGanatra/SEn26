@@ -1,9 +1,9 @@
-//Qt.include("d3.js")
-//Qt.include("techan.js")
+//Qt.include("D3.d3.js")
+//Qt.include("Techan.techan.js")
 .import "d3.js" as D3
 .import "techan.js" as Techan
 
-function drawGraph(ctx){
+function drawGraph(canvas){
 //    var w = canvas.width;
 //    var h = canvas.height;
 //    var delta = 4; // Spacing between lines
@@ -53,8 +53,8 @@ function drawGraph(ctx){
 //    }
     console.log("In javascript file");
     var margin = {top: 20, right: 20, bottom: 30, left: 50},
-                width = 960 - margin.left - margin.right,
-                height = 500 - margin.top - margin.bottom;
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
     var parseDate = D3.d3.time.format("%d-%b-%y").parse;
     var x = Techan.techan.scale.financetime()
             .range([0, width]);
@@ -69,11 +69,12 @@ function drawGraph(ctx){
     var yAxis = D3.d3.svg.axis()
             .scale(y)
             .orient("left");
-    var svg = D3.d3.select("body").append("svg")
+    var svg = D3.d3.select(canvas).append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
     D3.d3.csv("data.csv", function(error, data) {
         var accessor = candlestick.accessor(),
             timestart = Date.now();
@@ -107,6 +108,5 @@ function drawGraph(ctx){
                 .style("text-anchor", "end")
                 .text("Price ($)");
         console.log("Render time: " + (Date.now()-timestart));
-        ctx = svg;
     });
 }

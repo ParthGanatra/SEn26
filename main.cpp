@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     backend.add_popup_data();
 
     Frontend forntent;
-    forntent.sendOTP("guptaanurag5395@gmail.com","123132");
+//    forntent.sendOTP("guptaanurag5395@gmail.com","123132");
     //forntent.add_popup_data();
 
     engine.rootContext()->setContextProperty("_backend", &backend);

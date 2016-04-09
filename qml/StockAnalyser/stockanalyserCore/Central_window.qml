@@ -50,18 +50,19 @@ Page{
 //        ColumnLayout {
         Charts {
             id: chart_window
-            width: central_window.width*0.7
+            width: central_window.width*0.8
             height: central_window.height*0.8
         }
         Newsfeeds {
             anchors.top: chart_window.bottom
-            width: central_window.width*0.7
+            width: central_window.width*0.8
             height: central_window.height*0.2
         }
 //        }
     Popups {
+        id: popup
         anchors.left: chart_window.right
-        width: central_window.width*0.3
+        width: central_window.width*0.2
         height: central_window.height
     }
 //    }
