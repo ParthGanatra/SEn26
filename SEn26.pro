@@ -33,7 +33,11 @@ HEADERS += \
     SMTP/quotedprintable.h \
     SMTP/smtpclient.h \
     SMTP/smtpexports.h \
-    frontend.h
+    frontend.h \
+#    ElliottWaveCount/rules_check.h \
+#    ElliottWaveCount/util.h \
+#    ElliottWaveCount/wave_description.h \
+#    ElliottWaveCount/wavecount.h
 
 SOURCES += main.cpp \
     backend.cpp \
@@ -49,7 +53,13 @@ SOURCES += main.cpp \
     SMTP/mimetext.cpp \
     SMTP/quotedprintable.cpp \
     SMTP/smtpclient.cpp \
-    frontend.cpp
+    frontend.cpp \
+#    ElliottWaveCount/main.cpp \
+#    ElliottWaveCount/rules_check.cpp \
+#    ElliottWaveCount/util.cpp \
+#    ElliottWaveCount/wave_description.cpp \
+#    ElliottWaveCount/wavecount.cpp \
+#    ElliottWaveCount/wavecount2.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 desktopInstallPrefix = D:\Qt\StockAnalyser
