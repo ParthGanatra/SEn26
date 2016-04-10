@@ -1,83 +1,81 @@
 //Qt.include("D3.d3.js")
 //Qt.include("Techan.techan.js")
-.import "d3.js" as D3
-.import "techan.js" as Techan
+// .import "d3.js" as D3
+// .import "techan.js" as Techan
 
-function drawGraph(canvas){
-//    var w = canvas.width;
-//    var h = canvas.height;
-//    var delta = 4; // Spacing between lines
-//    var phase = 1;
-//    var x1 = 0;
-//    var y1 = 0;
-//    var x2 = w;
-//    var y2 = 0;
+'use strict';
+var wsUri = "ws://localhost:12345";
+var dataRecieved = 0, value;
 
-//    while (true) {
-//        ctx.moveTo(x1, y1);
-//        ctx.lineTo(x2, y2);
-//        ctx.stroke();
+window.onload = function() {
+    var socket = new WebSocket(wsUri);
 
-//        switch (phase) {
-//        case 1:
-//            x1 += delta; y2 += delta;
-//            if (x1 >= w || y2 >= h) {
-//                x1 = w; y2 = h;
-//                phase = 2;
-//            }
-//            break;
-//        case 2:
-//            y1 += delta; x2 -= delta;
-//            if (y1 >= w || x2 <= 0) {
-//                y1 = h; x2 = 0;
-//                phase = 3;
-//            }
-//            break;
-//        case 3:
-//            x1 -= delta; y2 -= delta;
-//            if (x1 <= 0 || y2 <= 0) {
-//                x1 = 0; x2 = 0;
-//                phase = 4;
-//            }
-//            break;
-//        case 4:
-//            y1 -= delta; x2 += delta;
-//            if (y1 <= 0 || x2 >= w) {
-//                y1 = 0; x2 = w;
-//                phase = 5;
-//            }
-//            break;
-//        case 5:
-//            return;
-//        }
-//    }
-    console.log("In javascript file");
-    var margin = {top: 20, right: 20, bottom: 30, left: 50},
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
-    var parseDate = D3.d3.time.format("%d-%b-%y").parse;
-    var x = Techan.techan.scale.financetime()
+    socket.onclose = function()
+    {
+        console.error("web channel closed");
+    };
+    socket.onerror = function(error)
+    {
+        console.error("web channel error: " + error);
+    };
+    socket.onopen = function()
+    {
+        new QWebChannel(socket, function(channel) {
+            window.chart = channel.objects.chartdata;
+
+            chart.getWH(function (returnValue){
+                value_recieved(chart,returnValue);
+            });
+        });
+    }
+}
+
+function value_recieved(chart,value){
+    console.log(value.width, value.height);
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    window.onresize = function(){ location.reload(); }
+
+    var margin = {top: 50, right: 70, bottom: 50, left: 50},
+            width = window.innerWidth - margin.left - margin.right,
+            height = window.innerHeight - margin.top - margin.bottom;
+
+    var parseDate = d3.time.format("%d-%b-%y").parse;
+
+    var x = techan.scale.financetime()
             .range([0, width]);
-    var y = D3.d3.scale.linear()
+
+    var y = d3.scale.linear()
             .range([height, 0]);
-    var candlestick = Techan.techan.plot.candlestick()
+
+    var candlestick = techan.plot.candlestick()
             .xScale(x)
             .yScale(y);
-    var xAxis = D3.d3.svg.axis()
+
+    var xAxis = d3.svg.axis()
             .scale(x)
             .orient("bottom");
-    var yAxis = D3.d3.svg.axis()
+
+    var yAxis = d3.svg.axis()
             .scale(y)
             .orient("left");
-    var svg = D3.d3.select(canvas).append("svg")
+
+    var svg = d3.select("#t1").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    D3.d3.csv("data.csv", function(error, data) {
+    d3.csv("data.csv", function(error, data) {
         var accessor = candlestick.accessor(),
             timestart = Date.now();
+
         data = data.slice(0, 200).map(function(d) {
             return {
                 date: parseDate(d.Date),
@@ -87,17 +85,21 @@ function drawGraph(canvas){
                 close: +d.Close,
                 volume: +d.Volume
             };
-        }).sort(function(a, b) { return D3.d3.ascending(accessor.d(a), accessor.d(b)); });
+        }).sort(function(a, b) { return d3.ascending(accessor.d(a), accessor.d(b)); });
+
         x.domain(data.map(accessor.d));
-        y.domain(Techan.techan.scale.plot.ohlc(data, accessor).domain());
+        y.domain(techan.scale.plot.ohlc(data, accessor).domain());
+
         svg.append("g")
                 .datum(data)
                 .attr("class", "candlestick")
                 .call(candlestick);
+
         svg.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0," + height + ")")
                 .call(xAxis);
+
         svg.append("g")
                 .attr("class", "y axis")
                 .call(yAxis)
@@ -107,6 +109,7 @@ function drawGraph(canvas){
                 .attr("dy", ".71em")
                 .style("text-anchor", "end")
                 .text("Price ($)");
+
         console.log("Render time: " + (Date.now()-timestart));
     });
 }

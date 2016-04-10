@@ -21,7 +21,6 @@ QJsonObject Chartdata::getWH() const
 }
 
 void Chartdata::setWH(int width, int height){
-    qDebug()<<width<<" "<<height;
     Width = width;
     Height = height;
 }
