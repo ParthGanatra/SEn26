@@ -1,5 +1,5 @@
-QT += qml quick webengine
-CONFIG += c++11
+QT += qml quick webengine webchannel websockets
+CONFIG += c++11 console
 
 # Add more folders to ship with the application, here
 folder_01.source = qml/StockAnalyser
@@ -38,6 +38,13 @@ HEADERS += \
 #    ElliottWaveCount/util.h \
 #    ElliottWaveCount/wave_description.h \
 #    ElliottWaveCount/wavecount.h
+#    ElliottWaveCount/rules_check.h \
+#    ElliottWaveCount/util.h \
+#    ElliottWaveCount/wave_description.h \
+#    ElliottWaveCount/wavecount.h \
+    shared/websocketclientwrapper.h \
+    shared/websockettransport.h \
+    chartdata.h
 
 SOURCES += main.cpp \
     backend.cpp \
@@ -60,6 +67,16 @@ SOURCES += main.cpp \
 #    ElliottWaveCount/wave_description.cpp \
 #    ElliottWaveCount/wavecount.cpp \
 #    ElliottWaveCount/wavecount2.cpp
+#    ElliottWaveCount/main.cpp \
+#    ElliottWaveCount/rules_check.cpp \
+#    ElliottWaveCount/util.cpp \
+#    ElliottWaveCount/wave_description.cpp \
+#    ElliottWaveCount/wavecount.cpp \
+#    ElliottWaveCount/wavecount2.cpp \
+    shared/websocketclientwrapper.cpp \
+    shared/websockettransport.cpp \
+#    Queries_in_mongoDB.cpp \
+    chartdata.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 desktopInstallPrefix = D:\Qt\StockAnalyser

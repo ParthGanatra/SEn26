@@ -36,15 +36,47 @@
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://techanjs.org/techan.min.js"></script>
+<script type="text/javascript" src="qwebchannel.js"></script>
 <script>
-	function getParameterByName(name) {
-	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-	        results = regex.exec(location.search);
-	    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-	}
+        'use strict';
+        var wsUri = "ws://localhost:12345";
+        var dataRecieved = 0, value;
 
-	window.onresize = function(){ location.reload(); }
+        window.onload = function() {
+            var socket = new WebSocket(wsUri);
+
+            socket.onclose = function()
+            {
+                console.error("web channel closed");
+            };
+            socket.onerror = function(error)
+            {
+                console.error("web channel error: " + error);
+            };
+            socket.onopen = function()
+            {
+                new QWebChannel(socket, function(channel) {
+                    window.chart = channel.objects.chartdata;
+
+                    chart.getWH(function (returnValue){
+                        value_recieved(chart,returnValue);
+                    });
+                });
+            }
+        }
+</script>
+<script>
+function value_recieved(chart,value){
+    console.log(value.width, value.height);
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    window.onresize = function(){ location.reload(); }
 
     var margin = {top: 50, right: 70, bottom: 50, left: 50},
             width = window.innerWidth - margin.left - margin.right,
@@ -116,5 +148,7 @@
 
         console.log("Render time: " + (Date.now()-timestart));
     });
-
+}
 </script>
+</body>
+</html>
