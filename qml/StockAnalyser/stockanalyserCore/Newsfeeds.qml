@@ -18,11 +18,13 @@ Rectangle {
     property int itemWidth: 150
     RssFeeds { id: rssFeeds }
 
-    XmlListModel {      //Need to change according to reuters
+    XmlListModel {
         id: feedModel
-        source: "http://" + window.currentFeed
-        query: "/rss/channel/item[child::media:content]"
-        namespaceDeclarations: "declare namespace media = 'http://search.yahoo.com/mrss/';"
+        source: window.currentFeed
+        //query: "/rss/channel/item[child::media:content]"
+        //namespaceDeclarations: "declare namespace media = 'http://search.yahoo.com/mrss/';"
+        query: "/rss/channel/item"
+//        namespaceDeclarations: "declare namespace media = 'http://search.yahoo.com/mrss/';"
         XmlRole { name: "title"; query: "title/string()" }
         XmlRole { name: "link"; query: "link/string()" }
         XmlRole { name: "pubDate"; query: "pubDate/string()" }
