@@ -7,6 +7,7 @@ import "../stockanalyserCore"
 Page {
 
     property string otp: ""
+
     id:verify_email
     ColumnLayout {
 
@@ -39,7 +40,7 @@ Page {
                     //check if otp is correct
                     //if correct then load configuration page and save user details in the database
 
-                    if(otp.toString().match(otp_field.text))
+                    if(otp.toString().match(otp_field.text) && (otp.toString().length===otp_field.text.length))
                     pageStack.push(Qt.resolvedUrl("Configure.qml"))
                     else
                     otp_field.placeholderText="Verification Failed"

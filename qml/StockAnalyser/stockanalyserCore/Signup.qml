@@ -72,8 +72,8 @@ Page{
                     //If valid then generate OTP to the specified email.
                     //If not valid donot open verify page
 
-                    otp=_frontent.generateOtp();
-                    _frontent.sendOTP(email.text,otp);
+                    otp=_frontend.generateOtp();
+                    _frontend.sendOTP(email.text,otp);
 
                     pageStack.push(Qt.resolvedUrl("Verify_Email.qml"),{otp:otp})
                 }

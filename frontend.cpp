@@ -3,6 +3,10 @@
 #include "../SMTP/SmtpMime"
 #include "QTime"
 #include "QtGlobal"
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
+
 Frontend::Frontend(QObject *parent) :
     QObject(parent)
 {
@@ -39,6 +43,27 @@ void Frontend::sendOTP(QString email,QString otp)
 
 }
 
+
+
+QString firstname;
+QString secondname;
+QString email;
+QString passwordHash;
+
+
+
+int Frontend::SaveConfiguration()
+{
+//    ofstream myfile;
+//      myfile.open ("example.txt");
+//      myfile << "Writing this to a file.\n";
+//      myfile.close();
+//      return 0;
+
+}
+
+
+
 QString Frontend::generateOtp()
 {
 
@@ -65,3 +90,5 @@ QString Frontend::generateOtp()
 
     return str;
 }
+
+
