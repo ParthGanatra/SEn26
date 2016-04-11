@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <QFile>
 
 Frontend::Frontend(QObject *parent) :
     QObject(parent)
@@ -54,11 +55,13 @@ QString passwordHash;
 
 int Frontend::SaveConfiguration()
 {
-//    ofstream myfile;
-//      myfile.open ("example.txt");
-//      myfile << "Writing this to a file.\n";
-//      myfile.close();
-//      return 0;
+    QFile file("user.conf");
+
+    QTextStream in(&file);
+      while (!in.atEnd()) {
+          QString line = in.readLine();
+         // process_line(line);
+      }
 
 }
 

@@ -17,6 +17,7 @@
 #include "backend.h"
 #include "frontend.h"
 #include "database.h"
+#include "userconfig.h"
 
 int main(int argc, char *argv[])
 {
@@ -29,6 +30,7 @@ int main(int argc, char *argv[])
 
     Backend backend;
     backend.add_popup_data();
+    UserConfig uc;
 
     Frontend frontend;
     Database db;
@@ -38,6 +40,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("_backend", &backend);
     engine.rootContext()->setContextProperty("_frontend", &frontend);
     engine.rootContext()->setContextProperty("_database", &backend);
+    engine.rootContext()->setContextProperty("_userconfig", &uc);
 
     QWebSocketServer server(QStringLiteral("QWebChannel Standalone Example Server"),
                                 QWebSocketServer::NonSecureMode);
