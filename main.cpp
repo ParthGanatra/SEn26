@@ -16,7 +16,7 @@
 #include <qqmlcontext.h>
 #include "backend.h"
 #include "frontend.h"
-//#include "database.h"
+#include "database.h"
 #include "userconfig.h"
 #include "helper.h"
 
@@ -29,22 +29,22 @@ int main(int argc, char *argv[])
     engine.addImportPath("qml/StockAnalyser/modules");
     engine.load(QUrl(QStringLiteral("qml/StockAnalyser/main.qml")));
 
-    Backend backend;
-    backend.add_popup_data();
+//    Backend backend;
+//    backend.add_popup_data();
     UserConfig uc;
     Frontend frontend;
-<<<<<<< HEAD
+
     Database db;
     db.run();
 
     db.getTick(10);
 
-=======
+
 //    Database db;
 //    db.run();
     Helper login_helper;
->>>>>>> cc97e2de49ac85502ff2a8bbbd7602c02bb76654
-    engine.rootContext()->setContextProperty("_backend", &backend);
+
+//    engine.rootContext()->setContextProperty("_backend", &backend);
     engine.rootContext()->setContextProperty("_frontend", &frontend);
 //    engine.rootContext()->setContextProperty("_database", &db);
     engine.rootContext()->setContextProperty("_userconfig", &uc);

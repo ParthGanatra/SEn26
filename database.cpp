@@ -22,7 +22,11 @@ int dataloaded=-1;
 
 int Database :: storePopup(QString json)
 {
-return 0;
+//mongo::BSONObj temp=mongo::fromjson(json);
+
+//c.insert("Stock.popups",temp);
+
+
 }
 
 
