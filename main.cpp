@@ -36,7 +36,6 @@ int main(int argc, char *argv[])
     Database db;
     db.run();
     Helper login_helper;
-
     engine.rootContext()->setContextProperty("_backend", &backend);
     engine.rootContext()->setContextProperty("_frontend", &frontend);
     engine.rootContext()->setContextProperty("_database", &db);
