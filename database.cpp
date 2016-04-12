@@ -11,7 +11,6 @@
 #include <mongo/client/dbclientinterface.h>
 #include <QStringList>
 
-
 #define 	MONGO_QUERY(x)   ::mongo::Query(BSON(x))
 
 mongo::DBClientConnection c;
@@ -41,7 +40,7 @@ QString Database:: getTick(int index)
         return "";
 
     std::auto_ptr<mongo::DBClientCursor> cursor = c.query("Stocks.APPLE", MONGO_QUERY("index" << index));
-    //qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
+    qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
 
     mongo::BSONObj temp=cursor->peekFirst();
 
@@ -74,7 +73,7 @@ void Database::run() {
 
     mongo::BSONObjBuilder b;
 
-    QFile file("/home/harshil/Desktop/SEN/SEn26/Data.csv");               // Enter your own path
+    QFile file("Data.csv");               // Enter your own path
 
     if (!file.open(QIODevice::ReadOnly)) {
            qDebug() << file.errorString();
