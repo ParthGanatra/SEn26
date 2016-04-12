@@ -44,7 +44,9 @@ HEADERS += \
 #    ElliottWaveCount/wavecount.h \
     shared/websocketclientwrapper.h \
     shared/websockettransport.h \
-    chartdata.h
+    chartdata.h \
+    database.h \
+    userconfig.h
 
 SOURCES += main.cpp \
     backend.cpp \
@@ -76,10 +78,18 @@ SOURCES += main.cpp \
     shared/websocketclientwrapper.cpp \
     shared/websockettransport.cpp \
 #    Queries_in_mongoDB.cpp \
-    chartdata.cpp
+    chartdata.cpp \
+    database.cpp \
+    userconfig.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 desktopInstallPrefix = D:\Qt\StockAnalyser
 exists(qmlapplicationviewer/qmlapplicationviewer.pri):include(qmlapplicationviewer/qmlapplicationviewer.pri)
 else:include(qmlapplicationviewer.pri)
 qtcAddDeployment()
+
+unix:!macx: LIBS += -lmongoclient
+unix:!macx: LIBS += -lboost_system
+unix:!macx: LIBS += -lboost_filesystem
+unix:!macx: LIBS += -lpthread
+unix:!macx: LIBS += -lboost_thread

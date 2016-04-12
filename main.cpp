@@ -16,6 +16,8 @@
 #include <qqmlcontext.h>
 #include "backend.h"
 #include "frontend.h"
+#include "database.h"
+#include "userconfig.h"
 
 int main(int argc, char *argv[])
 {
@@ -28,13 +30,16 @@ int main(int argc, char *argv[])
 
     Backend backend;
     backend.add_popup_data();
+    UserConfig uc;
 
     Frontend frontend;
-    //forntent.sendOTP("guptaanurag5395@gmail.com","123132");
-    //forntent.add_popup_data();
+    Database db;
+    db.run();
 
     engine.rootContext()->setContextProperty("_backend", &backend);
-    engine.rootContext()->setContextProperty("_frontent", &frontend);
+    engine.rootContext()->setContextProperty("_frontend", &frontend);
+    engine.rootContext()->setContextProperty("_database", &backend);
+    engine.rootContext()->setContextProperty("_userconfig", &uc);
 
     QWebSocketServer server(QStringLiteral("QWebChannel Standalone Example Server"),
                                 QWebSocketServer::NonSecureMode);
