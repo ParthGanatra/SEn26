@@ -47,7 +47,9 @@ HEADERS += \
     chartdata.h \
     database.h \
     userconfig.h \
-    helper.h
+    helper.h \
+    SMTP/stock.h \
+    elliott.h
 
 SOURCES += main.cpp \
     backend.cpp \
@@ -82,7 +84,9 @@ SOURCES += main.cpp \
     chartdata.cpp \
     database.cpp \
     userconfig.cpp \
-    helper.cpp
+    helper.cpp \
+    stock.cpp \
+    elliott.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 desktopInstallPrefix = D:\Qt\StockAnalyser
