@@ -64,7 +64,7 @@ Page{
 
             Button {
                 property string otp: ""
-                text: "SignUp"
+                text: "Next"
                 elevation: 1
                 anchors.right: parent.horizontalCenter*0.8
                 onClicked: {

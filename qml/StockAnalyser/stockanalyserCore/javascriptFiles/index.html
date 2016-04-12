@@ -1,36 +1,47 @@
 <!DOCTYPE html>
     <meta charset="utf-8">
     <style>
-        body {
-            font: 10px sans-serif;
-       		max-width: 100%;
-       		height: auto;
-        }
+        
+    body {
+        font: 10px sans-serif;
+    }
 
-        .axis path,
-        .axis line {
-            fill: none;
-            stroke: #000;
-            shape-rendering: crispEdges;
-        }
+    button {
+        position: absolute;
+        right: 10%;
+        top: 17%;
+    }
+    
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
 
-        path.candle {
-            stroke: #000000;
-        }
+    path.candle {
+        stroke: #000000;
+    }
 
-        path.candle.body {
-            stroke-width: 0;
-        }
+    path.candle.body {
+        stroke-width: 0;
+    }
 
-        path.candle.up {
-            fill: #00AA00;
-            stroke: #00AA00;
-        }
+    path.candle.up {
+        fill: #00AA00;
+        stroke: #00AA00;
+    }
 
-        path.candle.down {
-            fill: #FF0000;
-            stroke: #FF0000;
-        }
+    path.candle.down {
+        fill: #FF0000;
+        stroke: #FF0000;
+    }
+
+    rect.pane {
+        cursor: move;
+        fill: none;
+        pointer-events: all;
+    }
 
     </style>
     <body>
@@ -40,25 +51,26 @@
         <script src="http://d3js.org/d3.v3.min.js"></script>
         <script src="http://techanjs.org/techan.min.js"></script>
         <script type="text/javascript" src="qwebchannel.js"></script>
-        
+        <script type="text/javascript" src="main.js"></script>
+
         <div class="tabbable">
-            <ul class="nav nav-tabs">
-                <li class="active">
+            <ul class="nav nav-tabs" id="mainTabs">
+        <!--         <li class="active">
                     <a href="#tab1" data-toggle="tab">Stock 1</a>
                 </li>
                 <li>
                     <a href="#tab2" data-toggle="tab">Stock 2</a>
                 </li>
+         -->
             </ul>
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab1">
+            <div class="tab-content" id="mainTabsContent">
+                <!-- <div class="tab-pane active" id="tab1">
                     <div id="t1">
-                        <script type="text/javascript" src="main.js"></script>
                     </div>
                 </div>
                 <div class="tab-pane" id="tab2">
                     <p>Howdy, I'm Viewing Stock 2.</p>
-                </div>
+                </div> -->
             </div>
         </div>
     </body>

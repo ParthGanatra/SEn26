@@ -7,7 +7,7 @@ import "../stockanalyserCore"
 //import QtQuick.Layouts 1.1
 //import Qt.WebSockets 1.0
 
-import "javascriptFiles/main.js" as Mainjs
+//import "javascriptFiles/main.js" as Mainjs
 
 Rectangle {
     id: chart

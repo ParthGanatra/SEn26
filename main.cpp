@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     //forntent.add_popup_data();
 
     engine.rootContext()->setContextProperty("_backend", &backend);
-    engine.rootContext()->setContextProperty("frontend", &frontend);
+    engine.rootContext()->setContextProperty("_frontent", &frontend);
 
     QWebSocketServer server(QStringLiteral("QWebChannel Standalone Example Server"),
                                 QWebSocketServer::NonSecureMode);
