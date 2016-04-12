@@ -7,6 +7,7 @@
 #include <QString>
 #include <stock.h>
 #include <elliott.h>
+#include "database.h"
 using namespace std;
 
 class Backend : public QObject
@@ -20,13 +21,14 @@ class Backend : public QObject
 public:
     explicit Backend(QObject *parent = 0);
     int no_of_stocks;
+    Database db;
     void init();
 
     vector<Stock> stocks;
     vector<bool> condition;
     vector<double> threshold;
 signals:
-    void pop_satisfied(QString stock, QString ind, int value);  //add data to give to popup.
+    void pop_satisfied(QJsonObject popup);  //add data to give to popup.
     void add_indicator_data(QJsonArray indicator_data);  //jason array containing the indiactor data.
     void get_data();
     void set_elliott_count(int* count);
@@ -42,7 +44,8 @@ public slots:
     //QJsonArray get_Popup_data();
     //int get_Popup_size();
     int get_index(QString stock);
-
+private:
+    void checkConditions(StockPrice & sp);
 };
 
 
