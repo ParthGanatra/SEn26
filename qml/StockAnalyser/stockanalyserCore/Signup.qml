@@ -64,17 +64,17 @@ Page{
 
             Button {
                 property string otp: ""
-                text: "SignUp"
+                text: "Next"
                 elevation: 1
                 anchors.right: parent.horizontalCenter*0.8
                 onClicked: {
                     //Check if details are valid in their context
                     //If valid then generate OTP to the specified email.
                     //If not valid donot open verify page
-
-                    otp=_frontend.generateOtp();
-                    _frontend.sendOTP(email.text,otp);
-
+                    console.log("Call to save file")
+                    _userconfig.saveConfig(firstname.text,lastname.text,email.text,passwordField.text);
+//                    otp=_frontend.generateOtp();
+//                    _frontend.sendOTP(email.text,otp);
                     pageStack.push(Qt.resolvedUrl("Verify_Email.qml"),{otp:otp,firstname:firstname.text,lastname:lastname.text,email:email.text,password:passwordField.text})
                 }
             }

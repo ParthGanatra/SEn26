@@ -1,7 +1,11 @@
 #include "userconfig.h"
-
 #include<QFile>
 #include<QTextStream>
+#include<QDebug>
+#include<QString>
+#include<QObject>
+#include<QDir>
+#include<helper.h>
 
 UserConfig::UserConfig(QObject *parent) :
     QObject(parent)
@@ -9,20 +13,26 @@ UserConfig::UserConfig(QObject *parent) :
 
 }
 
-
-
-void UserConfig ::saveConfig()
+void UserConfig ::saveConfig(QString f, QString l, QString e, QString p)
 {
-    QFile file("/home/harshil/Desktop/SEN/user.conf");
+    qDebug() << "saving file";
+    if(!QDir("Users").exists())
+        QDir().mkdir("Users");
 
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-            return;
+    QFile file("Users/" + f +".conf");
 
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)){
+        qDebug() << "Error coundn't write to file";
+        return;
+    }
+    Helper userconfig_helper;
     QTextStream out(&file);
-    out << firstname <<"\n";
-    out << lastname <<"\n";
-    out << email <<"\n";
-    out << password <<"\n";
-
+    out << f <<"\n";
+    out << l <<"\n";
+    out << e <<"\n";
+//    std::string utf8_text = p.toUtf8().constData()
+    out << userconfig_helper.compute_hash(p.toStdString()) <<"\n";
+    qDebug() << "saved file";
     file.close();
 }
+

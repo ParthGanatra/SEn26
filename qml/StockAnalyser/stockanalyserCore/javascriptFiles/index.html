@@ -1,64 +1,103 @@
 <!DOCTYPE html>
     <meta charset="utf-8">
     <style>
-        body {
-            font: 10px sans-serif;
-       		max-width: 100%;
-       		height: auto;
-        }
+        
+    body {
+        font: 10px sans-serif;
+    }
 
-        .axis path,
-        .axis line {
-            fill: none;
-            stroke: #000;
-            shape-rendering: crispEdges;
-        }
+    button {
+        position: absolute;
+        right: 10%;
+        top: 12%;
+    }
+    
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
 
-        path.candle {
-            stroke: #000000;
-        }
+    text.symbol {
+        fill: #BBBBBB;
+    }
 
-        path.candle.body {
-            stroke-width: 0;
-        }
+    path.candle {
+        stroke: #000000;
+    }
 
-        path.candle.up {
-            fill: #00AA00;
-            stroke: #00AA00;
-        }
+    path.candle.body {
+        stroke-width: 0;
+    }
 
-        path.candle.down {
-            fill: #FF0000;
-            stroke: #FF0000;
-        }
+    path.candle.up {
+        fill: #00AA00;
+        stroke: #00AA00;
+    }
+
+    path.candle.down {
+        fill: #FF0000;
+        stroke: #FF0000;
+    }
+
+    rect.pane {
+        cursor: move;
+        fill: none;
+        pointer-events: all;
+    }
+
+     path.tradearrow {
+        stroke: none;
+    }
+
+    path.tradearrow.buy {
+        fill: #0000FF;
+    }
+
+    path.tradearrow.buy-pending {
+        fill-opacity: 0.2;
+        stroke: #0000FF;
+        stroke-width: 1.5;
+    }
+
+    path.tradearrow.sell {
+        fill: #9900FF;
+    }
+
+    .tradearrow path.highlight {
+        fill: none;
+        stroke-width: 2;
+    }
+
+    .tradearrow path.highlight.buy,.tradearrow path.highlight.buy-pending {
+        stroke: #0000FF;
+    }
+
+    .tradearrow path.highlight.buy-pending {
+        fill: #0000FF;
+        fill-opacity: 0.3;
+    }
+
+    .tradearrow path.highlight.sell {
+        stroke: #9900FF;
+    }
 
     </style>
     <body>
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
         <script src="http://code.jquery.com/jquery.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
         <script src="http://d3js.org/d3.v3.min.js"></script>
         <script src="http://techanjs.org/techan.min.js"></script>
-        <script type="text/javascript" src="qwebchannel.js"></script>
         
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <script src="bootstrap/js/bootstrap.min.js"></script>        
+        <script type="text/javascript" src="qwebchannel.js"></script>
+        <script type="text/javascript" src="main.js"></script>
+
         <div class="tabbable">
-            <ul class="nav nav-tabs">
-                <li class="active">
-                    <a href="#tab1" data-toggle="tab">Stock 1</a>
-                </li>
-                <li>
-                    <a href="#tab2" data-toggle="tab">Stock 2</a>
-                </li>
+            <ul class="nav nav-tabs" id="mainTabs">
             </ul>
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab1">
-                    <div id="t1">
-                        <script type="text/javascript" src="main.js"></script>
-                    </div>
-                </div>
-                <div class="tab-pane" id="tab2">
-                    <p>Howdy, I'm Viewing Stock 2.</p>
-                </div>
+            <div class="tab-content" id="mainTabsContent">
             </div>
         </div>
     </body>

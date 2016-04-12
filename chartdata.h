@@ -15,6 +15,7 @@ class Chartdata : public QObject
 
     public:
         Q_INVOKABLE QJsonObject getWH() const;
+        Q_INVOKABLE QJsonObject getStockList();
         Q_INVOKABLE void setWH(int width, int height);
 };
 

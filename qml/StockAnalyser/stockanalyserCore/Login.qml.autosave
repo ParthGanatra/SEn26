@@ -67,7 +67,7 @@ Page {
                     if(result == true)
                         pageStack.replace(Qt.resolvedUrl("Central_window.qml"));
                     else
-                        snackbar.open("Username and Password doesn't match")
+                        snackbar.open("Username and Password doesn't match.")
                 }
             }
         }
