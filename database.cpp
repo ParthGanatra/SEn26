@@ -39,7 +39,8 @@ QString Database:: getTick(int index)
 {
     if(dataloaded==-1)
         return "";
-    mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query("Stocks.APPLE", MONGO_QUERY("index" << index));
+
+    std::auto_ptr<mongo::DBClientCursor> cursor = c.query("Stocks.APPLE", MONGO_QUERY("index" << index));
     //qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
 
     mongo::BSONObj temp=cursor->peekFirst();

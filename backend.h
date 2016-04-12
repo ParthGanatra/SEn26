@@ -21,7 +21,7 @@ public:
     explicit Backend(QObject *parent = 0);
     int no_of_stocks;
     void init();
-    int get_index(QString stock);
+
     vector<Stock> stocks;
     vector<bool> condition;
     vector<double> threshold;
@@ -34,13 +34,14 @@ signals:
 public slots:
     void add_data(QJsonObject data);  //notification as data came.
     void set_data(QJsonArray data);  //set data for elliott.
-    void cahnge_pop_condition(QString stock, bool gret, double thr); // data consisting the change of thresold.
-    void add_popup_data(QString s, QString i, QString c);
+    void change_pop_condition(QString stock, bool gret, double thr); // data consisting the change of thresold.
+//    void add_popup_data(QString s, QString i, QString c);
     void add_popup_data();
-    void remove_popup_data(QString stock);
+//    void remove_popup_data(QString stock);
     void get_elliott_count(QString stock, int start, int end, int lev);
     //QJsonArray get_Popup_data();
     //int get_Popup_size();
+    int get_index(QString stock);
 
 };
 

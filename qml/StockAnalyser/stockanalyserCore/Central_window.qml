@@ -22,18 +22,6 @@ Page{
         },
 
         Action {
-            iconName: "action/settings"
-            name: "Configure"
-            hoverAnimation: true
-
-            onTriggered: {
-                var component = Qt.createComponent("Configure.qml")
-                var window = component.createObject(central_window)
-                window.show()
-            }
-        },
-
-        Action {
             iconName: "action/account_circle"
             hoverAnimation: true
             name: "Accounts"
@@ -41,6 +29,20 @@ Page{
             onTriggered: {
                 var component = Qt.createComponent("Account.qml")
                 var window = component.createObject(central_window)
+                window.show()
+            }
+        },
+
+
+        Action {
+            iconName: "action/power_settings_new"
+            name: "Logout"
+            hoverAnimation: true
+
+            onTriggered: {
+                var component = Qt.createComponent("Login.qml")
+                var window = component.createObject(central_window)
+                central_window.close()
                 window.show()
             }
         }
