@@ -48,8 +48,8 @@ HEADERS += \
     database.h \
     userconfig.h \
     helper.h \
-    SMTP/stock.h \
-    elliott.h
+    elliott.h \
+    stock.h
 
 SOURCES += main.cpp \
     backend.cpp \
