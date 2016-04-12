@@ -13,44 +13,42 @@ void Backend::init(){
 
 }
 
-void Backend::add_data(QJason data){
+void Backend::add_data(QJsonObject data){
 
-    Qstring stock_name;  //CHANGE here according to jason.
-    double index=get_index(stock_name);
-    double high=data.high;
-    double low=data.low;
-    double open=data.open;
-    double close=data.close;
-    double time=data.time;
-    stocks[index].prices.add_point(new StockPrice(open,close,high,low,time));
+//    QString stock_name;  //CHANGE here according to jason.
+//    double index=get_index(stock_name);
+//    double high=data.high;
+//    double low=data.low;
+//    double open=data.open;
+//    double close=data.close;
+//    double time=data.time;
+//    stocks[index].prices.add_point(new StockPrice(open,close,high,low,time));
     //call signal for changing in db
     //check for popup
 
 }
 
-void Backend::cahnge_pop_condition(QString stock, boolean gret, double thr){
-     condition[get_index(stock)]=gret;
-     threshold[get_index(stock)]=thr;
+void Backend::cahnge_pop_condition(QString stock, bool gret, double thr){
+//     condition[get_index(stock)]=gret;
+//     threshold[get_index(stock)]=thr;
 }
 
 void Backend::get_elliott_count(QString stock, int start, int end, int lev){
     Elliott e;
-    emmit get_data();
+    emit get_data();
 
 }
-void Backend::remove_popup_data(QString stock){
+//void Backend::remove_popup_data(QString stock){
 
-}
+//}
 
-void Backend::set_data(QJasonArray data){
+//void Backend::set_data(QJsonArray data){
 
-}
+//}
 
-void Backend::get_index(QString stock){
+//void Backend::get_index(QString stock){
 
-}
-
-/*
+//}
 
 void Backend::add_popup_data()
 {
@@ -67,4 +65,3 @@ void Backend::add_popup_data()
         Popup_data.append(temp1);
     }
 }
-*/

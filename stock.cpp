@@ -1,12 +1,15 @@
 #include "stock.h"
 #include <QJsonObject>
 #include <QString>
-#include<vector.h>
+#include<vector>
+
 using namespace std;
-Stock::Stock(Object *parent) :
+
+Stock::Stock(QObject *parent) :
     QObject(parent)
 {
 }
+
 void Stock::addData(StockPrice & val){
     prices.push_back(val);
     computeCCI();

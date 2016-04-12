@@ -1,13 +1,7 @@
-//Qt.include("D3.d3.js")
-//Qt.include("Techan.techan.js")
-// .import "d3.js" as D3
-// .import "techan.js" as Techan
-
 'use strict';
 var wsUri = "ws://localhost:12345";
-var dataRecieved = 0, value;
 window.onresize = function(){ location.reload(); }
-var indicatorType, currentLevel;
+var indicatorType, currentLevel, stockName;
 
 window.onload = function() {
     var socket = new WebSocket(wsUri);
@@ -68,6 +62,7 @@ function add_tabs(tabList){
             $("#mainTabsContent").append($("<div class=\"tab-pane active\" id=\"tab" + (numTabs+1) + "\">\
                                     <button class=\"btn\" id=\"buttontab" + (numTabs+1) + "\">Reset</button>\
                                 </div>"));
+            stockName = tabList.list[numTabs].name;
         }
         else{
             $("#mainTabs").append($("<li>\
@@ -76,14 +71,16 @@ function add_tabs(tabList){
             $("#mainTabsContent").append($("<div class=\"tab-pane\" id=\"tab" + (numTabs+1) + "\">\
                         <button class=\"btn\" id=\"buttontab" + (numTabs+1) + "\">Reset</button>\
                         </div>"));
-
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-                var currentTab = "tab" + e.target.href.slice(-1); // get current tab
-                value_recieved(currentTab,mainData);
-            });
         }
         addContent(numTabs+1,tabList.list[numTabs]);
     }
+
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+        var currentTab = "tab" + e.target.href.slice(-1); // get current tab
+        stockName = e.target.text;
+        value_recieved(currentTab,mainData);
+    });
     
     d3.csv("data.csv", function(error, data) {
         var parseDate = d3.time.format("%d-%b-%y").parse;
@@ -160,7 +157,9 @@ function value_recieved(displayTab,data){
         width = window.innerWidth - margin.left - margin.right,
         height = window.innerHeight - margin.top - margin.bottom;
 
-    var parseDate = d3.time.format("%d-%b-%y").parse;
+    var dateFormat = d3.time.format("%d-%b-%y"),
+        parseDate = dateFormat.parse,
+        valueFormat = d3.format(',.2fs');
 
     var x = techan.scale.financetime()
         .range([0, width]);
@@ -171,6 +170,13 @@ function value_recieved(displayTab,data){
     var candlestick = techan.plot.candlestick()
         .xScale(x)
         .yScale(y);
+
+    var tradearrow = techan.plot.tradearrow()
+            .xScale(x)
+            .yScale(y)
+            .orient(function(d) { return d.type.startsWith("buy") ? "up" : "down"; })
+            .on("mouseenter", enter)
+            .on("mouseout", out);
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -197,6 +203,20 @@ function value_recieved(displayTab,data){
         .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    var trades = [
+            { date: data[100].date, type: "buy", price: data[100].low, quantity: 1000 },
+            { date: data[150].date, type: "sell", price: data[150].high, quantity: 200 },
+            { date: data[70].date, type: "buy", price: data[70].open, quantity: 500 },
+        ];
+
+    var valueText = svg.append('text')
+            .style("text-anchor", "end")
+            .attr("class", "coords")
+            .attr("x", width - 5)
+            .attr("y", 15)
+            .text("TEXT");
+
+
     svg.append("clipPath")
             .attr("id", "clip")
         .append("rect")
@@ -204,6 +224,10 @@ function value_recieved(displayTab,data){
             .attr("y", y(1))
             .attr("width", width)
             .attr("height", y(0) - y(1));
+    
+    svg.append("g")
+            .attr("class", "tradearrow")
+            .attr("clip-path", "url(#clip)");
 
     svg.append("g")
             .attr("class", "candlestick")
@@ -234,6 +258,7 @@ function value_recieved(displayTab,data){
     y.domain(techan.scale.plot.ohlc(data, accessor).domain());
 
     svg.select("g.candlestick").datum(data);
+    svg.select("g.tradearrow").datum(trades);
     draw();
 
     d3.select("#button" + displayTab).on("click", reset);
@@ -242,13 +267,29 @@ function value_recieved(displayTab,data){
 
     function draw() {
         svg.select("g.candlestick").call(candlestick);
+        svg.select("g.tradearrow").call(tradearrow);
+
         svg.select("g.x.axis").call(xAxis);
-        svg.select("g.y.axis").call(yAxis)
+        svg.select("g.y.axis").call(yAxis);
     }
 
     function reset() {
         zoom.scale(1);
         zoom.translate([0,0]);
         draw();
+    }
+
+    function enter(d) {
+        console.log("sdf");
+        valueText.style("display", "inline");
+        refreshText(d);
+    }
+
+    function out() {
+        valueText.style("display", "none");
+    }
+
+    function refreshText(d) {
+        valueText.text("Trade: " + dateFormat(d.date) + ", " + d.type + ", " + valueFormat(d.price));
     }
 }

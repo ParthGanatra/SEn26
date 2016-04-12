@@ -5,8 +5,9 @@
 #include <QDebug>
 #include <QJsonArray>
 #include <QString>
-#include<Vector>
-#include<QJason>
+#include <vector>
+#include<QJsonObject>
+using namespace std;
 
 struct StockPrice{
     double high,low,open,close,volume;
@@ -22,7 +23,7 @@ class Stock : public QObject
 
 public:
     explicit Stock(QObject *parent = 0);
-    addData(StockPrice & val);
+    void addData(StockPrice & val);
 private:
     vector<StockPrice> prices;
     int lookBackTime = 14;

@@ -7,6 +7,7 @@
 #include <QString>
 #include <stock.h>
 #include <elliott.h>
+using namespace std;
 
 class Backend : public QObject
 {
@@ -21,20 +22,21 @@ public:
     int no_of_stocks;
     void init();
     int get_index(QString stock);
-    vector<stock> stocks;
-    vector<boolean> condition;
+    vector<Stock> stocks;
+    vector<bool> condition;
     vector<double> threshold;
 signals:
-    void pop_satisfied(Qstring stock, QString ind, int value);  //add data to give to popup.
-    void add_indicator_data(QJasonArray indicator_data);  //jason array containing the indiactor data.
+    void pop_satisfied(QString stock, QString ind, int value);  //add data to give to popup.
+    void add_indicator_data(QJsonArray indicator_data);  //jason array containing the indiactor data.
     void get_data();
     void set_elliott_count(int* count);
 
 public slots:
-    void add_data(QJason data);  //notification as data came.
-    void set_data(QJasonArray data);  //set data for elliott.
-    void cahnge_pop_condition(QString stock, boolean gret, double thr); // data consisting the change of thresold.
-    //void add_popup_data(QString s, QString i, QString c);
+    void add_data(QJsonObject data);  //notification as data came.
+    void set_data(QJsonArray data);  //set data for elliott.
+    void cahnge_pop_condition(QString stock, bool gret, double thr); // data consisting the change of thresold.
+    void add_popup_data(QString s, QString i, QString c);
+    void add_popup_data();
     void remove_popup_data(QString stock);
     void get_elliott_count(QString stock, int start, int end, int lev);
     //QJsonArray get_Popup_data();

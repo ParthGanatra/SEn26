@@ -6,21 +6,25 @@
 #include <QDebug>
 #include <QJsonArray>
 #include <QString>
-#include<Vector>
-#include<QJason>
+#include<vector>
+#include<QJsonObject>
+using namespace std;
 
-struct StockPrice{
-    double high,low,open,close,volume;
-    double time;
-    double rsi,cci,ma,soD,soK;
-    StockPrice(double o,double c,double h,double l,double t,double v = 0):high(h),close(c),open(o),low(l),volume(v),time(t){
-    }
-};
+#define MAXLEVEL 10
 
 class Elliott : public QObject
 {
     Q_OBJECT
 public:
+    explicit Elliott(QObject *parent = 0);
+    struct StockPrice{
+        double high,low,open,close,volume;
+        double time;
+        double rsi,cci,ma,soD,soK;
+        StockPrice(double o,double c,double h,double l,double t,double v = 0):high(h),close(c),open(o),low(l),volume(v),time(t){
+        }
+    };
+
     vector<double> prices;
     vector<int> wavecount[MAXLEVEL];
     void addPoints(double* price,int size);

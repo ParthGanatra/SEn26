@@ -1,9 +1,10 @@
 #include "elliott.h"
+#include "stock.h"
 #include <QJsonObject>
 #include <QString>
-#include<vector.h>
-#include <vector>
+#include<vector>
 #include<stdio.h>
+#include <QObject>
 #define MAXLEVEL 10
 #define impulseUp 0
 #define impulseDown 1
@@ -11,21 +12,21 @@
 #define correctiveDown 3
 
 using namespace std;
-Stock::Stock(Object *parent) :
-    QObject(parent)
+Elliott::Elliott(QObject *parent)
+    :QObject(parent)
 {
 
-    double phi = 1.618;
-    double ratio = phi;
-    double cur = ratio;
-    for(int i=1;i<MAXLEVEL;i++){
-       minLen[i] = cur;
-       cur *= ratio;
-    }
-    for(int i=0;i< MAXLEVEL-1 ;i++)
-       maxLen[i] = minLen[i+1];
-    maxLen[MAXLEVEL-1] = 1e10;
-    minLen[0] = 0;
+//    double phi = 1.618;
+//    double ratio = phi;
+//    double cur = ratio;
+//    for(int i=1;i<MAXLEVEL;i++){
+//       minLen[i] = cur;
+//       cur *= ratio;
+//    }
+//    for(int i=0;i< MAXLEVEL-1 ;i++)
+//       maxLen[i] = minLen[i+1];
+//    maxLen[MAXLEVEL-1] = 1e10;
+//    minLen[0] = 0;
 }
 
 
