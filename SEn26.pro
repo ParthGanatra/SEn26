@@ -46,7 +46,8 @@ HEADERS += \
     shared/websockettransport.h \
     chartdata.h \
     database.h \
-    userconfig.h
+    userconfig.h \
+    helper.h
 
 SOURCES += main.cpp \
     backend.cpp \
@@ -80,7 +81,8 @@ SOURCES += main.cpp \
 #    Queries_in_mongoDB.cpp \
     chartdata.cpp \
     database.cpp \
-    userconfig.cpp
+    userconfig.cpp \
+    helper.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 desktopInstallPrefix = D:\Qt\StockAnalyser

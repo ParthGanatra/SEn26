@@ -18,6 +18,7 @@
 #include "frontend.h"
 #include "database.h"
 #include "userconfig.h"
+#include "helper.h"
 
 int main(int argc, char *argv[])
 {
@@ -31,19 +32,20 @@ int main(int argc, char *argv[])
     Backend backend;
     backend.add_popup_data();
     UserConfig uc;
-
     Frontend frontend;
     Database db;
     db.run();
-
+    Helper login_helper;
 
     engine.rootContext()->setContextProperty("_backend", &backend);
     engine.rootContext()->setContextProperty("_frontend", &frontend);
-    engine.rootContext()->setContextProperty("_database", &backend);
+    engine.rootContext()->setContextProperty("_database", &db);
     engine.rootContext()->setContextProperty("_userconfig", &uc);
+    engine.rootContext()->setContextProperty("_helper", &login_helper);
 
     QWebSocketServer server(QStringLiteral("QWebChannel Standalone Example Server"),
                                 QWebSocketServer::NonSecureMode);
+
     if (!server.listen(QHostAddress::LocalHost, 12345)) {
         qFatal("Failed to open web socket server.");
         return 1;
