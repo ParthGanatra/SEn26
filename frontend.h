@@ -17,6 +17,7 @@ public slots:
     void sendOTP(QString email,QString otp);
     QString generateOtp();
     int SaveConfiguration();
+
 };
 
 

@@ -5,7 +5,9 @@
 
 #include <QObject>
 #include <QDebug>
-#include <mongo/client/dbclient.h>
+#include <QStringList>
+//#include <mongo/bson/bsonobjbuilder.h>
+
 
 class Database : public QObject
 {
@@ -18,7 +20,10 @@ signals:
 
 public slots:
 void run();
+QString getTick(int index);
+QStringList getTickInterval(int start,int end);
 
+int storePopup(QString json);
 
 };
 

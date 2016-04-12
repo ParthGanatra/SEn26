@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
     Database db;
     db.run();
 
+    db.getTick(10);
 
     engine.rootContext()->setContextProperty("_backend", &backend);
     engine.rootContext()->setContextProperty("_frontend", &frontend);
