@@ -102,8 +102,33 @@ bool Helper::isValidEmailAddress(std::string email)
     return !(DotOffset >= ((int)Length-1)); //Chech there is some other letters after the Dot
 }
 
+QString Helper::get_user_lastname(QString u)
+{
+    qDebug() << "Lastname" + u + "\n";
+    if(u.isNull())
+        return "null";
+    QString temp = "Users/" + u + ".conf";
+    std::string user = temp.toStdString();
+    QFile file;
+    file.setFileName(temp);
+    if(file.exists())
+    {
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)){
+            QTextStream in(&file);
+            QString lastname;
+            lastname = in.readLine();
+            lastname = in.readLine();
+            file.close();
+            qDebug() << lastname;
+            return lastname;
+        }
+        return "null";
+    }
+}
+
 QString Helper::get_user_email(QString u)
 {
+    qDebug() << "Email" + u + "\n";
     if(u.isNull())
         return "null";
 
@@ -154,4 +179,32 @@ void Helper::change_password(QString u, QString p)
         qDebug() << "Password Succesfully Changed";
     }
 
+}
+
+void Helper::change_details(QString old_user, QString nu, QString l, QString email)
+{
+    QFile file;
+    file.setFileName("Users/" + old_user + ".conf");
+    QString old_pass;
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        QTextStream in(&file);
+        QTextStream out(&file);
+        old_pass = in.readLine();
+        old_pass = in.readLine();
+        old_pass = in.readLine();
+        old_pass = in.readLine();
+    }
+    file.remove();
+    file.close();
+    file.setFileName("Users/" + nu + ".conf");
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QTextStream out(&file);
+        out << nu + "\n";
+        out << l + "\n";
+        out << email + "\n";
+        out << old_pass <<"\n";
+        file.close();
+        qDebug() << "Password Succesfully Changed";
+    }
 }

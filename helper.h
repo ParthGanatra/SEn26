@@ -23,6 +23,8 @@ public slots:
     bool isCharacter(const char Character);
     QString get_user_email(QString u);
     void change_password(QString u, QString p);
+    QString get_user_lastname(QString u);
+    void change_details(QString old_user, QString nu, QString l, QString email);
 };
 
 
