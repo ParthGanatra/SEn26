@@ -28,7 +28,7 @@ public:
 
     vector<double> prices;
     vector<int> wavecount[MAXLEVEL];
-    void addPoints(double* price,int size);
+    void addPoints(vector<double> price);
     double maxLen[MAXLEVEL];
     double minLen[MAXLEVEL];
     void init();
