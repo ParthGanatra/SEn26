@@ -11,7 +11,6 @@
 #include <mongo/client/dbclientinterface.h>
 #include <QStringList>
 
-
 #define 	MONGO_QUERY(x)   ::mongo::Query(BSON(x))
 
 mongo::DBClientConnection c;
@@ -47,7 +46,9 @@ QString Database:: getTick(int index)
     if(dataloaded==-1)
         return "";
 
+
     mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query("db.stock", MONGO_QUERY("index" << index));
+    //std::auto_ptr<mongo::DBClientCursor> cursor = c.query("Stocks.APPLE", MONGO_QUERY("index" << index));
     qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
 
     mongo::BSONObj temp=cursor->peekFirst();
