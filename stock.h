@@ -11,9 +11,10 @@ using namespace std;
 
 struct StockPrice{
     double high,low,open,close,volume;
-    double time;
+    int time;
+    string date;
     double rsi,cci,ma,soD,soK;
-    StockPrice(double o,double c,double h,double l,double t,double v = 0):high(h),close(c),open(o),low(l),volume(v),time(t){
+    StockPrice(double o,double c,double h,double l,int t,string d,double v = 0):high(h),close(c),open(o),low(l),volume(v),time(t),date(d){
     }
 };
 

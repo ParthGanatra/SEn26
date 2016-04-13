@@ -3,40 +3,66 @@
 #include <QString>
 #include "stock.h"
 #include "elliott.h"
+#include <QJsonDocument>
+#include <QFile>
+using namespace std;
+
+
 
 Backend::Backend(QObject *parent) :
     QObject(parent)
 {
-}
+
+//        indlist.append("RSI");
+//        indlist.append("CCI");
+//        indlist.append("MA");
+//        indlist.append("SO");
 
 
-void Backend::init(){
-    vector<QString> stock_name;
+//        QFile file("stocklist");               // Enter your own path
+
+//        if (!file.open(QIODevice::ReadOnly)) {
+//               qDebug() << file.errorString();
+//               return;
+//        }
+
+//        while (!file.atEnd()) {
+//               stocklist.append(file.readLine());
+//        }
+
+//        for (int i=0;i<stocklist.size();i++)
+//        {
+//            qDebug() << stocklist.at(i);
+//        }
+
 }
+
+Backend::~Backend()
+{}
 
 void Backend::add_data(QStringList data){           // count other indicators and pass it to databse
     for(int i=0;i<data.size();i++){
         QString str = data.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
         QJsonObject json = doc.object();
-        int t = json["index"].toInteger();
-        string name = json["name"].toString();
-        string date = json["date"].toString();
+        int t = json["index"].toInt();
+        string name = json["name"].toString().toStdString();
+        string date = json["date"].toString().toStdString();
         double o = json["open"].toDouble();
         double c = json["close"].toDouble();
         double h = json["high"].toDouble();
         double l = json["low"].toDouble();
         double v = json["volume"].toDouble();
         int index = get_index(name);
-        StockPrice sp = new StockPrice(o,c,h,l,t,date,v);
+        StockPrice sp(o,c,h,l,t,date,v);
         stocks[index].addData(sp);
 
 
 
         QJsonObject tmp;
         tmp["index"] = sp.time;
-        tmp["date"] = sp.date;
-        tmp["name"] = name;
+        tmp["date"] = QString::fromStdString(sp.date);
+        tmp["name"] = QString::fromStdString(name);
         tmp["rsi"] = sp.rsi;
         tmp["cci"] = sp.cci;
         tmp["ma"] = sp.ma;
@@ -53,11 +79,11 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         QString str = conditions.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
         QJsonObject json = doc.object();
-        double threashold = json["threashold"];
+        double threashold = json["threashold"].toDouble();
         if(json["condition"].toString().compare(">")==0){
             if(sp.rsi>threashold){
-                QjsonObject tmp;
-                tmp["name"] = name;
+                QJsonObject tmp;
+                tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "rsi";
                 tmp["value"] = sp.rsi;
                 emit pop_satisfied(tmp);
@@ -65,8 +91,8 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         }
         else{
             if(sp.rsi<threashold){
-                QjsonObject tmp;
-                tmp["name"] = name;
+                QJsonObject tmp;
+                tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "rsi";
                 tmp["value"] = sp.rsi;
                 emit pop_satisfied(tmp);
@@ -78,11 +104,11 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         QString str = conditions.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
         QJsonObject json = doc.object();
-        double threashold = json["threashold"];
+        double threashold = json["threashold"].toDouble();
         if(json["condition"].toString().compare(">")==0){
             if(sp.cci>threashold){
-                QjsonObject tmp;
-                tmp["name"] = name;
+                QJsonObject tmp;
+                tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "cci";
                 tmp["value"] = sp.cci;
                 emit pop_satisfied(tmp);
@@ -90,8 +116,8 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         }
         else{
             if(sp.cci<threashold){
-                QjsonObject tmp;
-                tmp["name"] = name;
+                QJsonObject tmp;
+                tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "cci";
                 tmp["value"] = sp.cci;
                 emit pop_satisfied(tmp);
@@ -103,11 +129,11 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         QString str = conditions.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
         QJsonObject json = doc.object();
-        double threashold = json["threashold"];
+        double threashold = json["threashold"].toDouble();
         if(json["condition"].toString().compare(">")==0){
             if(sp.ma>threashold){
-                QjsonObject tmp;
-                tmp["name"] = name;
+                QJsonObject tmp;
+                tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "ma";
                 tmp["value"] = sp.ma;
                 emit pop_satisfied(tmp);
@@ -115,8 +141,8 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         }
         else{
             if(sp.ma<threashold){
-                QjsonObject tmp;
-                tmp["name"] = name;
+                QJsonObject tmp;
+                tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "ma";
                 tmp["value"] = sp.ma;
                 emit pop_satisfied(tmp);
@@ -128,11 +154,11 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         QString str = conditions.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
         QJsonObject json = doc.object();
-        double threashold = json["threashold"];
+        double threashold = json["threashold"].toDouble();
         if(json["condition"].toString().compare(">")==0){
             if(sp.soD>threashold){
-                QjsonObject tmp;
-                tmp["name"] = name;
+                QJsonObject tmp;
+                tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "so";
                 tmp["value"] = sp.soD;
                 emit pop_satisfied(tmp);
@@ -140,8 +166,8 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         }
         else{
             if(sp.soD<threashold){
-                QjsonObject tmp;
-                tmp["name"] = name;
+                QJsonObject tmp;
+                tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "so";
                 tmp["value"] = sp.soD;
                 emit pop_satisfied(tmp);
@@ -150,38 +176,41 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
     }
 }
 
-void Backend::change_pop_condition(QString stock, bool gret, double thr){
+//void Backend::change_pop_condition(QString stock, bool gret, double thr){
 
-}
+//}
 
 void Backend::get_elliott_count(QString stock, int start, int end, int lev){
-    Elliott e;
-    emit get_data();
-}
-void Backend::remove_popup_data(QString stock,QString ind){
-
-}
-
-void Backend::set_data(QJsonArray data){
-
-}
-
-int Backend::get_index(String stock){
-    return hmap[stock];
-}
-
-void Backend::add_popup_data()
-{
-    for(int i=0;i<5;i++){
-        QJsonObject temp1;
-        temp1["stock"] = "STOCK1";
-        temp1["indicator"] = "INDICATOR1";
-        temp1["condition"] = "CONDITION1";
-        if(i==2){
-            temp1["stock"] = "STOCK112";
-            temp1["indicator"] = "INDICATOR1123";
-            temp1["condition"] = "CONDITION1132";
-        }
-        Popup_data.append(temp1);
+    QStringList data; //= db.getTickInterval(start,end,stock);
+    vector<double> price;
+    for(int i=0;i<data.size();i++){
+        QString str = data.at(i);
+        QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
+        QJsonObject json = doc.object();
+        int t = json["index"].toInt();
+        string name = json["name"].toString().toStdString();
+        string date = json["date"].toString().toStdString();
+        double c = json["close"].toDouble();
+        price.push_back(c);
     }
+//    e.addPoints(price);
+//    vector<int> wc = e.wavecount[lev-1];
+//    emit set_elliott_count(wc);
 }
+void Backend::remove_popup_condition(QString stock,QString indicator,QString condition,QString threashold){
+    QJsonObject tmp;
+    tmp["name"] =  stock;
+    tmp["indicator"] =  indicator;
+    tmp["condition"] =  condition;
+    tmp["threashold"] =  threashold;
+
+}
+void Backend::add_popup_condition(QString stock,QString indicator,QString condition,QString threashold){
+//    db.add_popup_condition(data);
+    ;
+}
+
+int Backend::get_index(string stock){
+    return hmap[stock] ;
+}
+

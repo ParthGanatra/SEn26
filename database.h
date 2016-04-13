@@ -15,15 +15,26 @@ class Database : public QObject
 
 public:
     explicit Database(QObject *parent = 0);
+    virtual ~Database();
+
+    QString username;
 
 signals:
 
 public slots:
-void run();
-QString getTick(int index);
-QStringList getTickInterval(int start,int end);
 
-int storePopup(QString json);
+void run();
+QString getTick(int index,QString name);
+QStringList getTickInterval(int start,int end,QString name);
+int storePopup(QString jsonString);
+
+void setUser(QString user);
+//to be implemented
+int removePopup(QString name,QString indicator,QString condition,QString threshold);
+
+
+
+
 
 };
 
