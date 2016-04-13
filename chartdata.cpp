@@ -8,15 +8,17 @@
 Chartdata::Chartdata(QObject *parent)
     : QObject(parent)
 {
+    Backend * backend = new Backend();
+    Database * datbase = new Database();
 }
 
 Chartdata::~Chartdata()
 {}
 
-//void Chartdata::addBackend_data(Backend temp, Database temp1){
-//    backend = temp;
-//    datbase = temp1;
-//}
+void Chartdata::addBackend_data(Backend *temp, Database *temp1){
+    backend = temp;
+    database = temp1;
+}
 
 QJsonObject Chartdata::getWH() const
 {

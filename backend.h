@@ -10,7 +10,7 @@
 #include <QList>
 #include "elliott.h"
 #include "database.h"
-using namespace std;
+
 
 class Backend : public QObject
 {

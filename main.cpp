@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 
     // setup the dialog and publish it to the QWebChannel
     Chartdata chartdata;
-//    chartdata.addBackend(backend);
+    chartdata.addBackend_data(&backend,&db);
     channel.registerObject("chartdata", &chartdata);
     engine.rootContext()->setContextProperty("_chartdata", &chartdata);
 

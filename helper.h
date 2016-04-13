@@ -8,6 +8,9 @@
 #include<QFile>
 #include<QDebug>
 
+#include "backend.h"
+#include "database.h"
+
 class Helper : public QObject
 {
     Q_OBJECT

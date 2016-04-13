@@ -19,7 +19,6 @@ QML_IMPORT_PATH = [qml/StockAnalyser/modules]
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 HEADERS += \
-    backend.h \
     SMTP/emailaddress.h \
     SMTP/mimeattachment.h \
     SMTP/mimecontentformatter.h \
@@ -44,15 +43,15 @@ HEADERS += \
 #    ElliottWaveCount/wavecount.h \
     shared/websocketclientwrapper.h \
     shared/websockettransport.h \
-    chartdata.h \
-    database.h \
     userconfig.h \
     helper.h \
     elliott.h \
-    stock.h
+    stock.h \
+    database.h \
+    backend.h \
+    chartdata.h
 
 SOURCES += main.cpp \
-    backend.cpp \
     SMTP/emailaddress.cpp \
     SMTP/mimeattachment.cpp \
     SMTP/mimecontentformatter.cpp \
@@ -81,12 +80,13 @@ SOURCES += main.cpp \
     shared/websocketclientwrapper.cpp \
     shared/websockettransport.cpp \
 #    Queries_in_mongoDB.cpp \
-    chartdata.cpp \
-    database.cpp \
     userconfig.cpp \
     helper.cpp \
     stock.cpp \
-    elliott.cpp
+    elliott.cpp \
+    database.cpp \
+    backend.cpp \
+    chartdata.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 desktopInstallPrefix = D:\Qt\StockAnalyser
