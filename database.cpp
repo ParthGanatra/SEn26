@@ -29,14 +29,6 @@ void Database::setUser(QString user)
 
 
 
-int Database :: storePopup(QString json)
-{
-mongo::BSONObj temp= mongo::fromjson(json.toStdString());
-
-c.insert("stock.popup",temp);
-
-
-}
 
 Database::Database(QObject *parent) :
     QObject(parent)
@@ -144,5 +136,55 @@ int Database::removePopup(QString name,QString indicator,QString condition,QStri
 
 
 
+QString Database:: getTickIndicator(int index,QString name,QString rsi,QString cci,QString ma, QString so)
+{
+    if(dataloaded==-1)
+        return "";
 
+    QString temp2=username+".indicator";
+
+
+
+    mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("index" << index << "name" << name.toStdString()<<"rsi"<<rsi.toStdString()<<"cci"<<cci.toStdString()<<"ma"<<ma.toStdString()<<"so"<<so.toStdString()));
+    //std::auto_ptr<mongo::DBClientCursor> cursor = c.query("Stocks.APPLE", MONGO_QUERY("index" << index));
+    qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
+
+    mongo::BSONObj temp=cursor->peekFirst();
+
+
+    return QString::fromStdString(temp.jsonString());
+}
+
+
+QStringList Database ::getTickIntervalIndicator(int start,int end,QString name,QString rsi,QString cci,QString ma, QString so)
+{
+    QStringList list;
+
+    if(dataloaded==-1)
+        return list;
+
+
+    for(int i=start;i<=end;i++)
+    {
+        list.append(getTickIndicator(i,name,rsi,cci,ma,so));
+     }
+
+    return list;
+}
+
+
+void Database::addPopup(QString name,QString indicator,QString condition,QString threshold)
+{
+    mongo::BSONObjBuilder b;
+
+    b.append("name",name.toStdString());
+    b.append("indicator",indicator.toStdString());
+    b.append("condition",condition.toStdString());
+    b.append("threshold",threshold.toStdString());
+
+    QString temp2=username+".popup";
+
+    c.insert(temp2.toStdString(),b.obj());
+
+}
 
