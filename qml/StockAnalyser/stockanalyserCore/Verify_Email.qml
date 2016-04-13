@@ -48,7 +48,8 @@ Page {
                     {
                         console.log("saving details to file")
                         _userconfig.saveConfig(firstname,lastname,email,password);
-                        pageStack.replace(Qt.resolvedUrl("Login.qml"));
+                        pageStack.clear()
+                        pageStack.push(Qt.resolvedUrl("Login.qml"));
                     }
                     else
                     {
@@ -57,17 +58,17 @@ Page {
                 }
             }
 
-//            Button {
-//                text: "Reveal Otp"
-//                elevation: 1
-//                activeFocusOnPress: true
-//                backgroundColor: Theme.primaryColor
-//                anchors.left: parent.horizontalCenter*1.2
-
-//                onClicked: {
-//                    otp_field.text=otp
-//                }
-//            }
+            Button {
+                text: "Cancel"
+                elevation: 1
+                activeFocusOnPress: true
+                backgroundColor: Theme.primaryColor
+                anchors.left: parent.horizontalCenter*1.2
+                onClicked: {
+                    pageStack.clear()
+                    pageStack.push(Qt.resolvedUrl("Login.qml"));
+                }
+            }
         }
     }
 

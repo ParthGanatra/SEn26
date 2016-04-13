@@ -7,7 +7,7 @@ import "../stockanalyserCore"
 Page {
     id: login_page
 //    signal activated
-
+    property string account_username: "value"
     ColumnLayout {
 
         id: column
@@ -61,13 +61,15 @@ Page {
                 anchors.left: parent.horizontalCenter
                 anchors.leftMargin: 15
                 onClicked: {
-//                  console.log("Verify Password")
+//                    console.log("Verify Password")
                     var result = _helper.verify_user_password(username.text, passwordField.text)
                     console.log(result)
-                    if(result == true)
-                        pageStack.replace(Qt.resolvedUrl("Central_window.qml"));
+                    if(result == true){
+                        Settings.username = username.text
+                        pageStack.replace(Qt.resolvedUrl("Central_window.qml"))
+                    }
                     else
-                        snackbar.open("Username and Password doesn't match.")
+                        snackbar.open("Invalid username and password")
                 }
             }
         }
