@@ -11,6 +11,7 @@ using namespace std;
 Backend::Backend(QObject *parent) :
     QObject(parent)
 {
+
         indlist.append("RSI");
         indlist.append("CCI");
         indlist.append("MA");
@@ -20,7 +21,6 @@ Backend::Backend(QObject *parent) :
 
 void Backend::init(){
     vector<QString> stock_name;
-
 
 }
 
@@ -160,38 +160,40 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
     }
 }
 
-void Backend::change_pop_condition(QString stock, bool gret, double thr){
+//void Backend::change_pop_condition(QString stock, bool gret, double thr){
 
-}
+//}
 
 void Backend::get_elliott_count(QString stock, int start, int end, int lev){
-    Elliott e;
-    emit get_data();
+    QStringList data = db.getTickInterval(stock,start,end);
+    vector<double> price;
+    for(int i=0;i<data.size();i++){
+        QString str = data.at(i);
+        QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
+        QJsonObject json = doc.object();
+        int t = json["index"].toInt();
+        string name = json["name"].toString().toStdString();
+        string date = json["date"].toString().toStdString();
+        double c = json["close"].toDouble();
+        price.push_back(c);
+    }
+    e.addPoints(price);
+    vector<int> wc = e.wavecount[lvl-1];
+    emit set_elliott_count(wc);
 }
-void Backend::remove_popup_data(QString stock,QString ind){
+void Backend::remove_popup_condition(QString stock,QString indicator,QString condition,QString threashold){
+    QJsonObject tmp;
+    tmp["name"] =  stock;
+    tmp["indicator"] =  indicator;
+    tmp["condition"] =  condition;
+    tmp["threashold"] =  threashold;
 
 }
-
-void Backend::set_data(QJsonArray data){
-
+void Backend::add_popup_condition(QString data){
+    db.add_popup_condition(data);
 }
 
 int Backend::get_index(string stock){
     return hmap[stock] ;
 }
 
-void Backend::add_popup_data()
-{
-    for(int i=0;i<5;i++){
-        QJsonObject temp1;
-        temp1["stock"] = "STOCK1";
-        temp1["indicator"] = "INDICATOR1";
-        temp1["condition"] = "CONDITION1";
-        if(i==2){
-            temp1["stock"] = "STOCK112";
-            temp1["indicator"] = "INDICATOR1123";
-            temp1["condition"] = "CONDITION1132";
-        }
-        Popup_data.append(temp1);
-    }
-}
