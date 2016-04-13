@@ -13,6 +13,10 @@ Chartdata::Chartdata(QObject *parent)
 Chartdata::~Chartdata()
 {}
 
+void Chartdata::addBackend(Backend temp){
+    backend = temp;
+}
+
 QJsonObject Chartdata::getWH() const
 {
     qDebug()<<"asdasd";
@@ -26,6 +30,18 @@ void Chartdata::setWH(int width, int height){
     Width = width;
     Height = height;
 }
+
+/*
+ *  database
+ *  stockList
+ *  getTick(stock,start_index, end_index)
+ *
+ *  backend
+ *
+ *  get_elliette_count(stock, start_index, end_index, level)
+ *  add_data(start_index)
+*/
+
 
 QJsonObject Chartdata::getStockList(){
     QJsonArray arr;

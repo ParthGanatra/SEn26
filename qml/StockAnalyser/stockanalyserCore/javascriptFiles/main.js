@@ -1,7 +1,20 @@
 'use strict';
 var wsUri = "ws://localhost:12345";
 window.onresize = function(){ location.reload(); }
-var indicatorType = {}, currentLevel = {}, stockName;
+var indicatorType = {}, currentLevel = {}, stockName, mainData;
+
+var stockList = [
+    "stock1",
+    "stock2",
+    "stock3",
+    "stock4",
+    "stock5",
+    "stock6",
+    "stock7",
+    "stock8",
+    "stock9",
+    "stock10"
+];
 
 window.onload = function() {
     var socket = new WebSocket(wsUri);
@@ -32,15 +45,15 @@ window.onload = function() {
         list: [
             {
                 name: "stock1",
-                maxlevels: 3
+                maxlevels: 5
             },
             {
                 name: "stock2",
-                maxlevels: 6
+                maxlevels: 5
             },
             {
                 name: "stock3",
-                maxlevels: 2
+                maxlevels: 5
             },
             {
                 name: "stock4",
@@ -48,11 +61,11 @@ window.onload = function() {
             }
         ]
     };
-    // add_tabs(tabList);
+    add_tabs(tabList);
 }
 
 function add_tabs(tabList){
-    var numTabs = 0,mainData;
+    var numTabs = 0;
 
     for(numTabs=0;numTabs<tabList.list.length;numTabs++){
         if(numTabs==0){
@@ -77,12 +90,39 @@ function add_tabs(tabList){
         addContent(numTabs+1,tabList.list[numTabs]);
     }
 
+    $("#mainTabs").append($("<li>\
+        <a href=\"#\" class=\"add-contact\">+ Add Stock</a>\
+        </li>"));
 
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-        var currentTab = "tab" + e.target.href.slice(-1); // get current tab
-        stockName = e.target.text;
-        value_recieved(currentTab,mainData);
+    $(".nav-tabs").on("click", "a", function (e) {
+        e.preventDefault();
+        if (!$(this).hasClass('add-contact')) {
+            $(this).tab('show');
+        }
+    })
+    .on("click", "span", function () {
+        var anchor = $(this).siblings('a');
+        $(anchor.attr('href')).remove();
+        $(this).parent().remove();
+        $(".nav-tabs li").children('a').first().click();
     });
+
+    $('.add-contact').click(function (e) {
+        e.preventDefault();
+        var id = $(".nav-tabs").children().length;
+
+        $(this).closest('li').before("<li>\
+                                <a href=\"#tab" + (id) + "\" data-toggle=\"tab\">New Stock</a>\
+                                </li>");
+        $("#mainTabsContent").append($("<div class=\"tab-pane\" id=\"tab" + (id) + "\">\
+                        </div>"));
+
+        $('.nav-tabs li:nth-child(' + id + ') a').click();
+
+        addNewTab(id);
+    });
+
+    registerClickEvent()
     
     d3.csv("data.csv", function(error, data) {
         var parseDate = d3.time.format("%d-%b-%y").parse;
@@ -99,6 +139,41 @@ function add_tabs(tabList){
         });
         mainData = data;
         value_recieved("tab1",mainData);
+    });
+}
+
+function addNewTab(index){
+    var str = "<div id=addTab" + index + " style=\"position: absolute; left: 50%; top: 25%;\" class=\"btn-group\">\
+            <a class=\"btn dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">\
+                <span id=\"addStock"+index+"\">Select Stock</span>\
+                <span class=\"caret\"></span>\
+            </a>\
+            <ul class=\"dropdown-menu\" role=\"menu\" aria-labelledby=\"dropdownMenu\">";
+    for(var i=0;i<stockList.length;i++){
+        str = str + "<li><a id=\"" + stockList[i] + "_" + index + "_" + i + "\" tabindex=\"-1\" href=\"#\">" + stockList[i] + "</a></li>";
+    }
+    str = str + "</ul></div>";
+    $("#tab" + index).append($(str));
+    for(var i=0;i<stockList.length;i++){
+        $("#"+stockList[i] + "_" + index + "_" + i).click(function(e) {
+            indicatorType["tab"+index] = "normal";
+            currentLevel["tab"+index] = -1;
+            $("#addTab" + index).remove();
+            $('#mainTabs li:eq(' + (e.target.id.slice(-3,-2)-1) + ') a').html(stockList[e.target.id.slice(-1)])
+
+            $("#tab"+index).append($("<button class=\"btn\" id=\"buttontab" + index + "\">Reset</button>"));
+            addContent(index,{"name":stockList[e.target.id.slice(-1)],"maxlevels":5});
+            value_recieved("tab"+index,mainData);
+            registerClickEvent()
+        });
+    }
+}
+
+function registerClickEvent(){
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+        var currentTab = "tab" + e.target.href.slice(-1); // get current tab
+        stockName = e.target.text;
+        value_recieved(currentTab,mainData);
     });
 }
 
@@ -121,7 +196,6 @@ function addContent(index,dataObject){
         currentLevel["tab"+index] = -1;
         $("#levels").remove();
         $("#mainName"+index).html("Normal");
-        console.log(indicatorType,currentLevel);
     });
 
     $("#elliott"+index).click(function() {
@@ -147,7 +221,6 @@ function addContent(index,dataObject){
             $("#level_"+i+"_"+index).click(function(e) {
                 currentLevel["tab"+index] = e.target.text.slice(-1);
                 $("#mainLevel"+index).html("Level " + e.target.text.slice(-1));
-                console.log(indicatorType,currentLevel);
             });
         }
         // <li><a tabindex=\"-1\" href=\"#\">Level 1</a></li>\
@@ -174,7 +247,6 @@ function value_recieved(displayTab,data){
         .yScale(y);
 
     if(indicatorType[displayTab] == "elliott"){
-        console.log("sdf");
         var tradearrow = techan.plot.tradearrow()
                 .xScale(x)
                 .yScale(y)
