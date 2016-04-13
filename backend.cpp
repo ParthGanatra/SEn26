@@ -1,6 +1,7 @@
 #include "backend.h"
 #include <QJsonObject>
 #include <QString>
+#include <vector>
 #include "stock.h"
 #include "elliott.h"
 #include <QJsonDocument>
@@ -13,27 +14,30 @@ Backend::Backend(QObject *parent) :
     QObject(parent)
 {
 
-//        indlist.append("RSI");
-//        indlist.append("CCI");
-//        indlist.append("MA");
-//        indlist.append("SO");
+        indlist.append("RSI");
+        indlist.append("CCI");
+        indlist.append("MA");
+        indlist.append("SO");
 
 
-//        QFile file("stocklist");               // Enter your own path
+        QFile file("stocklist");               // Enter your own path
 
-//        if (!file.open(QIODevice::ReadOnly)) {
-//               qDebug() << file.errorString();
-//               return;
-//        }
+        if (!file.open(QIODevice::ReadOnly)) {
+               qDebug() << file.errorString();
+               return;
+        }
 
-//        while (!file.atEnd()) {
-//               stocklist.append(file.readLine());
-//        }
+        while (!file.atEnd()) {
+               stocklist.append(file.readLine());
+        }
 
-//        for (int i=0;i<stocklist.size();i++)
-//        {
+        for (int i=0;i<stocklist.size();i++)
+        {
 //            qDebug() << stocklist.at(i);
-//        }
+            hmap[stocklist.at(i).toStdString()] = i;
+
+            stocks[i]=new Stock();
+        }
 
 }
 
@@ -55,9 +59,9 @@ void Backend::add_data(QStringList data){           // count other indicators an
         double v = json["volume"].toDouble();
         int index = get_index(name);
         StockPrice sp(o,c,h,l,t,date,v);
-        stocks[index].addData(sp);
+        stocks[index]->addData(sp);
 
-
+        checkConditions(sp,name);
 
         QJsonObject tmp;
         tmp["index"] = sp.time;
@@ -193,9 +197,9 @@ void Backend::get_elliott_count(QString stock, int start, int end, int lev){
         double c = json["close"].toDouble();
         price.push_back(c);
     }
-//    e.addPoints(price);
-//    vector<int> wc = e.wavecount[lev-1];
-//    emit set_elliott_count(wc);
+    e.addPoints(price);
+    vector<int> wc = e.wavecount[lev-1];
+    emit set_elliott_count(wc);
 }
 void Backend::remove_popup_condition(QString stock,QString indicator,QString condition,QString threashold){
     QJsonObject tmp;

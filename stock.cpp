@@ -11,6 +11,8 @@ Stock::Stock(QObject *parent) :
 }
 
 void Stock::addData(StockPrice & val){
+    if(prices.size()==lookBackTime)
+        prices.erase(prices.begin());
     prices.push_back(val);
     computeCCI();
     computeMA();

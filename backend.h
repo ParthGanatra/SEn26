@@ -6,6 +6,8 @@
 #include <QJsonArray>
 #include <QString>
 #include <stock.h>
+#include <vector>
+#include <QList>
 #include "elliott.h"
 #include "database.h"
 using namespace std;
@@ -23,14 +25,14 @@ public:
     virtual ~Backend();
     int no_of_stocks;
 
-//    Database db;
+    Database db;
 
     QStringList indlist;
     QStringList stocklist;
 
 
-//    Elliott e;
-    vector<Stock> stocks;
+    Elliott e;
+    Stock * stocks[100];
 //    vector<bool> condition;
 //    vector<double> threshold;
 
