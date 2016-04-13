@@ -44,38 +44,30 @@ Page {
                 elevation: 1
                 anchors.right: parent.horizontalCenter*0.8
                 onClicked: {
-                    //check if otp is correct
-                    //if correct then load configuration page and save user details in the database
-
                     if(otp.toString().match(otp_field.text) && (otp.toString().length===otp_field.text.length))
-                    {pageStack.push(Qt.resolvedUrl("Configure.qml"))
-                        _userconfig.firstname=verify_email.firstname
-                        _userconfig.lastname=verify_email.lastname
-                        _userconfig.email=verify_email.email
-                        _userconfig.password=verify_email.password
-
-                        _userconfig.saveConfig();
-
+                    {
+                        console.log("saving details to file")
+                        _userconfig.saveConfig(firstname,lastname,email,password);
+                        pageStack.replace(Qt.resolvedUrl("Login.qml"));
                     }
                     else
                     {
-
                         otp_field.placeholderText="Verification Failed"
                     }
                 }
             }
 
-            Button {
-                text: "Reveal Otp"
-                elevation: 1
-                activeFocusOnPress: true
-                backgroundColor: Theme.primaryColor
-                anchors.left: parent.horizontalCenter*1.2
+//            Button {
+//                text: "Reveal Otp"
+//                elevation: 1
+//                activeFocusOnPress: true
+//                backgroundColor: Theme.primaryColor
+//                anchors.left: parent.horizontalCenter*1.2
 
-                onClicked: {
-                    otp_field.text=otp
-                }
-            }
+//                onClicked: {
+//                    otp_field.text=otp
+//                }
+//            }
         }
     }
 

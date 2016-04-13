@@ -61,14 +61,13 @@ Page {
                 anchors.left: parent.horizontalCenter
                 anchors.leftMargin: 15
                 onClicked: {
-                    if(!(username.text=="" || passwordField.text==""))
-//                    console.log("Verify Password")
+//                  console.log("Verify Password")
                     var result = _helper.verify_user_password(username.text, passwordField.text)
                     console.log(result)
                     if(result == true)
                         pageStack.replace(Qt.resolvedUrl("Central_window.qml"));
                     else
-                        snackbar.open("Username and Password doesn't match")
+                        snackbar.open("Username and Password doesn't match.")
                 }
             }
         }

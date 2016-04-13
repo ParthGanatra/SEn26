@@ -45,7 +45,7 @@ HEADERS += \
     shared/websocketclientwrapper.h \
     shared/websockettransport.h \
     chartdata.h \
-#    database.h \
+    database.h \
     userconfig.h \
     helper.h \
     elliott.h \
@@ -82,7 +82,7 @@ SOURCES += main.cpp \
     shared/websockettransport.cpp \
 #    Queries_in_mongoDB.cpp \
     chartdata.cpp \
-#    database.cpp \
+    database.cpp \
     userconfig.cpp \
     helper.cpp \
     stock.cpp \

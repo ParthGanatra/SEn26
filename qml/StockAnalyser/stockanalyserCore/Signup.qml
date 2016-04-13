@@ -14,21 +14,21 @@ Page{
         anchors.centerIn: parent
         spacing: Units.dp(32)
 
-          TextField {
-              id: firstname
-              implicitWidth: 200
-              placeholderText: "First Name"
-              floatingLabel: true
-              anchors.horizontalCenter: parent.horizontalCenter
-          }
-          TextField {
-              id: lastname
-              implicitWidth: 200
-              placeholderText: "Last Name"
-              floatingLabel: true
-              anchors.horizontalCenter: parent.horizontalCenter
+        TextField {
+            id: firstname
+            implicitWidth: 200
+            placeholderText: "First Name"
+            floatingLabel: true
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+        TextField {
+            id: lastname
+            implicitWidth: 200
+            placeholderText: "Last Name"
+            floatingLabel: true
+            anchors.horizontalCenter: parent.horizontalCenter
 
-          }
+        }
 
         TextField {
             id: email
@@ -68,29 +68,47 @@ Page{
                 elevation: 1
                 anchors.right: parent.horizontalCenter*0.8
                 onClicked: {
-                    //Check if details are valid in their context
-                    //If valid then generate OTP to the specified email.
-                    //If not valid donot open verify page
-                    console.log("Call to save file")
-                    _userconfig.saveConfig(firstname.text,lastname.text,email.text,passwordField.text);
-                    otp=_frontend.generateOtp();
-                    _frontend.sendOTP(email.text,otp);
-                    pageStack.push(Qt.resolvedUrl("Verify_Email.qml"),{otp:otp,firstname:firstname.text,lastname:lastname.text,email:email.text,password:passwordField.text})
+                    var valid = _helper.check_valid_detail(firstname.text,lastname.text,email.text,passwordField.text,verifyPasswordField.text)
+                    if(valid==0){
+                        otp=_frontend.generateOtp();
+                        _frontend.sendOTP(email.text,otp);
+                        pageStack.clear()
+                        pageStack.push(Qt.resolvedUrl("Verify_Email.qml"),{otp:otp,firstname:firstname.text,lastname:lastname.text,email:email.text,password:passwordField.text})
+                    }
+                    else if(valid==1){
+                        snackbar.open("Invalid firstname");
+                    }
+                    else if(valid==2){
+                        snackbar.open("Invalid lastname");
+                    }
+                    else if(valid==3){
+                        snackbar.open("Invalid email");
+                    }
+                    else if(valid==4){
+                        snackbar.open("Password to short");
+                    }
+                    else if(valid==5){
+                        snackbar.open("Password doesn't match");
+                    }
                 }
             }
 
             Button {
-                text: "Back"
+                text: "Cancel"
                 elevation: 1
                 activeFocusOnPress: true
                 backgroundColor: Theme.primaryColor
                 anchors.left: parent.horizontalCenter*1.2
-
                 onClicked: {
-                    pageStack.replace(Qt.resolvedUrl("Login.qml"))
-//                    activated()
+                    pageStack.clear()
+                    pageStack.push(Qt.resolvedUrl("Login.qml"))
                 }
             }
         }
+    }
+
+
+    Snackbar {
+        id: snackbar
     }
 }
