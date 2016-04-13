@@ -4,6 +4,7 @@
 #include "stock.h"
 #include "elliott.h"
 #include <QJsonDocument>
+#include <QFile>
 using namespace std;
 
 
@@ -15,11 +16,28 @@ Backend::Backend(QObject *parent) :
         indlist.append("CCI");
         indlist.append("MA");
         indlist.append("SO");
+
+
+        QFile file("stocklist");               // Enter your own path
+
+        if (!file.open(QIODevice::ReadOnly)) {
+               qDebug() << file.errorString();
+               return;
+        }
+
+        while (!file.atEnd()) {
+               stocklist.append(file.readLine());
+        }
+
+//        for (int i=0;i<stocklist.size();i++)
+//        {
+//            qDebug() << stocklist.at(i);
+//        }
+
 }
 
 
-void Backend::init(){
-    vector<QString> stock_name;
+void Backend::init() {
 
 
 }

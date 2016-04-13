@@ -35,9 +35,14 @@ int main(int argc, char *argv[])
     Frontend frontend;
 
     Database db;
+    db.setUser("user");
     db.run();
 
-    db.getTick(101);
+
+
+    db.getTickInterval(1,10,"APPLE");
+
+
 
     Helper login_helper;
 
