@@ -5,7 +5,7 @@
 #include<vector>
 #include<stdio.h>
 #include <QObject>
-#define MAXLEVEL 10
+#define MAXLEVEL 5
 #define impulseUp 0
 #define impulseDown 1
 #define correctiveUp 2
@@ -30,30 +30,47 @@ Elliott::Elliott(QObject *parent)
 }
 
 
-//void Elliott::init(){
-//     double phi = 1.618;
-//     double ratio = phi;
-//     double cur = ratio;
-//     for(int i=1;i<MAXLEVEL;i++){
-//        minLen[i] = cur;
-//        cur *= ratio;
-//     }
-//     for(int i=0;i< MAXLEVEL-1 ;i++)
-//        maxLen[i] = minLen[i+1];
-//     maxLen[MAXLEVEL-1] = 1e10;
-//     minLen[0] = 0;
-//}
-void Elliott::addPoints(double* price,int size){
+void Elliott::init(){
+     double phi = 1.618;
+     double ratio = phi;
+     double cur = ratio;
+     for(int i=1;i<MAXLEVEL;i++){
+        minLen[i] = cur;
+        cur *= ratio;
+     }
+     for(int i=0;i< MAXLEVEL-1 ;i++)
+        maxLen[i] = minLen[i+1];
+     maxLen[MAXLEVEL-1] = 1e10;
+     minLen[0] = 0;
+}
+void Elliott::addPoints(vector<double> price){
+
     for(int i=0;i<MAXLEVEL;i++){
        wavecount[i].clear();
-       for(int j=0;j<size;j++){
-           wavecount[i].push_back(-1);
-       }
     }
     prices.clear();
-    for(int i=0;i<size;i++)
-       prices.push_back(price[i]);
-    assignWavecount(0,size-1,MAXLEVEL-1);
+    double max = 0;
+    double min = 1e10;
+    for(int i=0;i<price.size();i++){
+        prices.push_back(price[i]);
+        if(max < prices[i])
+            max = prices[i];
+        if(min > prices[i])
+            min = prices[i];
+    }
+    double phi = 1.618;
+    double ratio = phi;
+    double cur = ratio;
+    double len = max - min;
+    cur = len+1;
+    for(int i=MAXLEVEL - 1;i>=0;i--){
+       maxLen[i] = cur;
+       cur /= ratio;
+    }
+    for(int i=0;i< MAXLEVEL-1 ;i++)
+       minLen[i+1] = maxLen[i];
+    minLen[0] = 0;
+    assignWavecount(0,price.size()-1,MAXLEVEL-1);
 }
 
 void Elliott::assignWavecount(int start,int end,int level){
