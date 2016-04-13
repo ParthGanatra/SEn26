@@ -1,7 +1,7 @@
 'use strict';
 var wsUri = "ws://localhost:12345";
 window.onresize = function(){ location.reload(); }
-var indicatorType, currentLevel, stockName;
+var indicatorType = {}, currentLevel = {}, stockName;
 
 window.onload = function() {
     var socket = new WebSocket(wsUri);
@@ -72,6 +72,8 @@ function add_tabs(tabList){
                         <button class=\"btn\" id=\"buttontab" + (numTabs+1) + "\">Reset</button>\
                         </div>"));
         }
+        indicatorType["tab"+numTabs] = "normal";
+        currentLevel["tab"+numTabs] = -1;
         addContent(numTabs+1,tabList.list[numTabs]);
     }
 
@@ -115,16 +117,16 @@ function addContent(index,dataObject){
     "));
 
     $("#normal"+index).click(function() {
-        indicatorType = "normal";
-        currentLevel = -1;
+        indicatorType["tab"+index] = "normal";
+        currentLevel["tab"+index] = -1;
         $("#levels").remove();
         $("#mainName"+index).html("Normal");
         console.log(indicatorType,currentLevel);
     });
 
     $("#elliott"+index).click(function() {
-        indicatorType = "elliott";
-        currentLevel = 1;
+        indicatorType["tab"+index] = "elliott";
+        currentLevel["tab"+index] = 1;
 
         $("#mainName"+index).html("Elliott Wave Count");
         $("#tab" + index).append($("\
@@ -143,7 +145,7 @@ function addContent(index,dataObject){
             "));
 
             $("#level_"+i+"_"+index).click(function(e) {
-                currentLevel = e.target.text.slice(-1);
+                currentLevel["tab"+index] = e.target.text.slice(-1);
                 $("#mainLevel"+index).html("Level " + e.target.text.slice(-1));
                 console.log(indicatorType,currentLevel);
             });
@@ -171,12 +173,15 @@ function value_recieved(displayTab,data){
         .xScale(x)
         .yScale(y);
 
-    var tradearrow = techan.plot.tradearrow()
-            .xScale(x)
-            .yScale(y)
-            .orient(function(d) { return d.type.startsWith("buy") ? "up" : "down"; })
-            .on("mouseenter", enter)
-            .on("mouseout", out);
+    if(indicatorType[displayTab] == "elliott"){
+        console.log("sdf");
+        var tradearrow = techan.plot.tradearrow()
+                .xScale(x)
+                .yScale(y)
+                .orient(function(d) { return d.type.startsWith("buy") ? "up" : "down"; })
+                .on("mouseenter", enter)
+                .on("mouseout", out);
+    }
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -188,14 +193,14 @@ function value_recieved(displayTab,data){
 
     var accessor = candlestick.accessor();
 
+    var tip = d3.select('#' + displayTab).append('div').attr('class', 'tooltip');
+
     data.sort(function(a, b) { return d3.ascending(accessor.d(a), accessor.d(b)); });
 
     var zoom = d3.behavior.zoom()
     .on("zoom", draw);
 
     d3.select("svg").remove();
-
-    console.log(displayTab);
 
     var svg = d3.select("#" + displayTab).append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -213,8 +218,8 @@ function value_recieved(displayTab,data){
             .style("text-anchor", "end")
             .attr("class", "coords")
             .attr("x", width - 5)
-            .attr("y", 15)
-            .text("TEXT");
+            .attr("y", 25)
+            .style("font-size","20px");
 
 
     svg.append("clipPath")
@@ -224,10 +229,6 @@ function value_recieved(displayTab,data){
             .attr("y", y(1))
             .attr("width", width)
             .attr("height", y(0) - y(1));
-    
-    svg.append("g")
-            .attr("class", "tradearrow")
-            .attr("clip-path", "url(#clip)");
 
     svg.append("g")
             .attr("class", "candlestick")
@@ -252,13 +253,20 @@ function value_recieved(displayTab,data){
             .attr("height", height)
             .call(zoom);
 
+    if(indicatorType[displayTab] == "elliott"){
+        svg.append("g")
+            .attr("class", "tradearrow")
+            .attr("clip-path", "url(#clip)");
+    }
+
         // var accessor = candlestick.accessor();
 
     x.domain(data.map(accessor.d));
     y.domain(techan.scale.plot.ohlc(data, accessor).domain());
 
     svg.select("g.candlestick").datum(data);
-    svg.select("g.tradearrow").datum(trades);
+    if(indicatorType[displayTab] == "elliott")
+        svg.select("g.tradearrow").datum(trades);
     draw();
 
     d3.select("#button" + displayTab).on("click", reset);
@@ -267,20 +275,22 @@ function value_recieved(displayTab,data){
 
     function draw() {
         svg.select("g.candlestick").call(candlestick);
-        svg.select("g.tradearrow").call(tradearrow);
+        if(indicatorType[displayTab] == "elliott")
+            svg.select("g.tradearrow").call(tradearrow);
 
         svg.select("g.x.axis").call(xAxis);
         svg.select("g.y.axis").call(yAxis);
     }
 
     function reset() {
-        zoom.scale(1);
-        zoom.translate([0,0]);
-        draw();
+        // var currentTab = "tab" + e.target.href.slice(-1); // get current tab
+        value_recieved(displayTab,data)
+        // zoom.scale(1);
+        // zoom.translate([0,0]);
+        // draw();
     }
 
     function enter(d) {
-        console.log("sdf");
         valueText.style("display", "inline");
         refreshText(d);
     }
