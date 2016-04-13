@@ -29,23 +29,25 @@ int main(int argc, char *argv[])
     engine.addImportPath("qml/StockAnalyser/modules");
     engine.load(QUrl(QStringLiteral("qml/StockAnalyser/main.qml")));
 
-//    Backend backend;
-//    backend.add_popup_data();
+    Backend backend;
+    backend.add_popup_data();
     UserConfig uc;
     Frontend frontend;
 
     Database db;
     db.run();
 
-    db.getTick(10);
+    db.getTick(101);
 
-
-//    Database db;
-//    db.run();
     Helper login_helper;
 
 //    engine.rootContext()->setContextProperty("_backend", &backend);
-    engine.rootContext()->setContextProperty("_frontend", &frontend);
+
+//    Database db;
+//    db.run();
+   // Helper login_helper;
+    engine.rootContext()->setContextProperty("_backend", &backend);
+   engine.rootContext()->setContextProperty("_frontend", &frontend);
 //    engine.rootContext()->setContextProperty("_database", &db);
     engine.rootContext()->setContextProperty("_userconfig", &uc);
     engine.rootContext()->setContextProperty("_helper", &login_helper);

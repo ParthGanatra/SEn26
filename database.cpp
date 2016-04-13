@@ -22,12 +22,15 @@ int dataloaded=-1;
 
 int Database :: storePopup(QString json)
 {
-//mongo::BSONObj temp=mongo::fromjson(json);
+mongo::BSONObj temp= mongo::fromjson(json.toStdString());
 
-//c.insert("Stock.popups",temp);
+c.insert("stock.popup",temp);
 
 
 }
+
+
+
 
 
 
@@ -43,8 +46,9 @@ QString Database:: getTick(int index)
 {
     if(dataloaded==-1)
         return "";
-    mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query("Stocks.APPLE", MONGO_QUERY("index" << index));
-    //qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
+
+    mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query("db.stock", MONGO_QUERY("index" << index));
+    qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
 
     mongo::BSONObj temp=cursor->peekFirst();
 
@@ -77,7 +81,7 @@ void Database::run() {
 
     mongo::BSONObjBuilder b;
 
-    QFile file("/home/harshil/Desktop/SEN/SEn26/Data.csv");               // Enter your own path
+    QFile file("Data.csv");               // Enter your own path
 
     if (!file.open(QIODevice::ReadOnly)) {
            qDebug() << file.errorString();
@@ -99,10 +103,10 @@ void Database::run() {
             b.append("low",line.split(',').value(3).toStdString());
             b.append("close",line.split(',').value(4).toStdString());
             b.append("volume",line.split(',').value(5).toStdString());
-
+            b.append("name","APPLE");
             FieldCount++;
           //  qDebug()<<QString::fromStdString(b.obj().toString());
-            c.insert("Stocks.APPLE",b.obj());
+            c.insert("db.stock",b.obj());
 
 //            i++;
            // b.done();

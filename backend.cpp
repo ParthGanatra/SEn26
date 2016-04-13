@@ -5,6 +5,7 @@
 Backend::Backend(QObject *parent) :
     QObject(parent)
 {
+ //  q.append("RSI");
 }
 
 
@@ -28,7 +29,7 @@ void Backend::add_data(QJsonObject data){
 
 }
 
-void Backend::cahnge_pop_condition(QString stock, bool gret, double thr){
+void Backend::change_pop_condition(QString stock, bool gret, double thr){
 //     condition[get_index(stock)]=gret;
 //     threshold[get_index(stock)]=thr;
 }
@@ -38,17 +39,18 @@ void Backend::get_elliott_count(QString stock, int start, int end, int lev){
     emit get_data();
 
 }
-//void Backend::remove_popup_data(QString stock){
+
+//void Backend::remove_popup_data(QString stock, QString indicator, QString condition){
 
 //}
 
-//void Backend::set_data(QJsonArray data){
+void Backend::set_data(QJsonArray data){
 
-//}
+}
 
-//void Backend::get_index(QString stock){
+int Backend::get_index(QString stock){
 
-//}
+}
 
 void Backend::add_popup_data()
 {
