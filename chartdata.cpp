@@ -13,8 +13,9 @@ Chartdata::Chartdata(QObject *parent)
 Chartdata::~Chartdata()
 {}
 
-void Chartdata::addBackend(Backend temp){
+void Chartdata::addBackend_data(Backend temp, Database temp1){
     backend = temp;
+    datbase = temp1;
 }
 
 QJsonObject Chartdata::getWH() const
