@@ -30,14 +30,19 @@ int main(int argc, char *argv[])
     engine.load(QUrl(QStringLiteral("qml/StockAnalyser/main.qml")));
 
     Backend backend;
-    backend.add_popup_data();
+//    backend.add_popup_data();
     UserConfig uc;
     Frontend frontend;
 
     Database db;
+    db.setUser("user");
     db.run();
 
-    db.getTick(101);
+
+
+    db.getTickInterval(1,10,"APPLE");
+
+
 
     Helper login_helper;
 
@@ -70,7 +75,7 @@ int main(int argc, char *argv[])
 
     // setup the dialog and publish it to the QWebChannel
     Chartdata chartdata;
-    chartdata.addBackend(backend);
+//    chartdata.addBackend(backend);
     channel.registerObject("chartdata", &chartdata);
     engine.rootContext()->setContextProperty("_chartdata", &chartdata);
 

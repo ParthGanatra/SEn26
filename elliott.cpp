@@ -30,19 +30,19 @@ Elliott::Elliott(QObject *parent)
 }
 
 
-//void Elliott::init(){
-//     double phi = 1.618;
-//     double ratio = phi;
-//     double cur = ratio;
-//     for(int i=1;i<MAXLEVEL;i++){
-//        minLen[i] = cur;
-//        cur *= ratio;
-//     }
-//     for(int i=0;i< MAXLEVEL-1 ;i++)
-//        maxLen[i] = minLen[i+1];
-//     maxLen[MAXLEVEL-1] = 1e10;
-//     minLen[0] = 0;
-//}
+void Elliott::init(){
+     double phi = 1.618;
+     double ratio = phi;
+     double cur = ratio;
+     for(int i=1;i<MAXLEVEL;i++){
+        minLen[i] = cur;
+        cur *= ratio;
+     }
+     for(int i=0;i< MAXLEVEL-1 ;i++)
+        maxLen[i] = minLen[i+1];
+     maxLen[MAXLEVEL-1] = 1e10;
+     minLen[0] = 0;
+}
 void Elliott::addPoints(vector<double> price){
 
     for(int i=0;i<MAXLEVEL;i++){
@@ -61,7 +61,7 @@ void Elliott::addPoints(vector<double> price){
     double phi = 1.618;
     double ratio = phi;
     double cur = ratio;
-    len = max - min;
+    double len = max - min;
     cur = len+1;
     for(int i=MAXLEVEL - 1;i>=0;i--){
        maxLen[i] = cur;
@@ -70,7 +70,7 @@ void Elliott::addPoints(vector<double> price){
     for(int i=0;i< MAXLEVEL-1 ;i++)
        minLen[i+1] = maxLen[i];
     minLen[0] = 0;
-    assignWavecount(0,size-1,MAXLEVEL-1);
+    assignWavecount(0,price.size()-1,MAXLEVEL-1);
 }
 
 void Elliott::assignWavecount(int start,int end,int level){

@@ -11,11 +11,20 @@
 #include <mongo/client/dbclientinterface.h>
 #include <QStringList>
 
-#define 	MONGO_QUERY(x)   ::mongo::Query(BSON(x))
+#define 	MONGO_QUERY(x)   mongo::Query(BSON(x))
 
 mongo::DBClientConnection c;
 
 int dataloaded=-1;
+
+
+
+
+void Database::setUser(QString user)
+{
+    this->username=user;
+}
+
 
 
 
@@ -31,6 +40,7 @@ c.insert("stock.popup",temp);
 Database::Database(QObject *parent) :
     QObject(parent)
 {
+    this->username=username;
     c.connect("localhost");
 }
 
@@ -41,8 +51,11 @@ QString Database:: getTick(int index,QString name)
     if(dataloaded==-1)
         return "";
 
+    QString temp2=username+".stock";
 
-    mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query("db.stock", MONGO_QUERY("index" << index << "name" << name));
+
+
+    mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("index" << index << "name" << name.toStdString()));
     //std::auto_ptr<mongo::DBClientCursor> cursor = c.query("Stocks.APPLE", MONGO_QUERY("index" << index));
     qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
 
@@ -75,7 +88,8 @@ int FieldCount=1;
 
 void Database::run() {
 
-    mongo::BSONObjBuilder b;
+
+
 
     QFile file("Data.csv");               // Enter your own path
 
@@ -102,7 +116,9 @@ void Database::run() {
             b.append("name","APPLE");
             FieldCount++;
           //  qDebug()<<QString::fromStdString(b.obj().toString());
-            c.insert("db.stock",b.obj());
+
+            QString temp2=username+".stock";
+            c.insert(temp2.toStdString().c_str(),b.obj());
 
 //            i++;
            // b.done();
@@ -116,7 +132,14 @@ void Database::run() {
 
 
 
+int Database::removePopup(QString name,QString indicator,QString condition,QString threshold)
+{
 
+    QString temp=username+".popup";
+    c.remove(temp.toStdString(),MONGO_QUERY("name" <<name.toStdString() << "indicator" <<indicator.toStdString()  <<  "condition" << condition.toStdString()<<"threshold"<<threshold.toStdString()));
+
+
+}
 
 
 

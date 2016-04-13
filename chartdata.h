@@ -10,6 +10,7 @@ class Chartdata : public QObject
 {
     Q_OBJECT
     int Width, Height;
+
     Backend backend;
     Database datbase;
 

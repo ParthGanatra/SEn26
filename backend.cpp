@@ -4,6 +4,7 @@
 #include "stock.h"
 #include "elliott.h"
 #include <QJsonDocument>
+#include <QFile>
 using namespace std;
 
 
@@ -12,17 +13,30 @@ Backend::Backend(QObject *parent) :
     QObject(parent)
 {
 
-        indlist.append("RSI");
-        indlist.append("CCI");
-        indlist.append("MA");
-        indlist.append("SO");
+//        indlist.append("RSI");
+//        indlist.append("CCI");
+//        indlist.append("MA");
+//        indlist.append("SO");
+
+
+//        QFile file("stocklist");               // Enter your own path
+
+//        if (!file.open(QIODevice::ReadOnly)) {
+//               qDebug() << file.errorString();
+//               return;
+//        }
+
+//        while (!file.atEnd()) {
+//               stocklist.append(file.readLine());
+//        }
+
+//        for (int i=0;i<stocklist.size();i++)
+//        {
+//            qDebug() << stocklist.at(i);
+//        }
+
 }
 
-
-void Backend::init(){
-    vector<QString> stock_name;
-
-}
 
 void Backend::add_data(QStringList data){           // count other indicators and pass it to databse
     for(int i=0;i<data.size();i++){
@@ -165,7 +179,7 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
 //}
 
 void Backend::get_elliott_count(QString stock, int start, int end, int lev){
-    QStringList data = db.getTickInterval(stock,start,end);
+    QStringList data; //= db.getTickInterval(start,end,stock);
     vector<double> price;
     for(int i=0;i<data.size();i++){
         QString str = data.at(i);
@@ -177,9 +191,9 @@ void Backend::get_elliott_count(QString stock, int start, int end, int lev){
         double c = json["close"].toDouble();
         price.push_back(c);
     }
-    e.addPoints(price);
-    vector<int> wc = e.wavecount[lvl-1];
-    emit set_elliott_count(wc);
+//    e.addPoints(price);
+//    vector<int> wc = e.wavecount[lev-1];
+//    emit set_elliott_count(wc);
 }
 void Backend::remove_popup_condition(QString stock,QString indicator,QString condition,QString threashold){
     QJsonObject tmp;
@@ -189,8 +203,9 @@ void Backend::remove_popup_condition(QString stock,QString indicator,QString con
     tmp["threashold"] =  threashold;
 
 }
-void Backend::add_popup_condition(QString data){
-    db.add_popup_condition(data);
+void Backend::add_popup_condition(QString stock,QString indicator,QString condition,QString threashold){
+//    db.add_popup_condition(data);
+    ;
 }
 
 int Backend::get_index(string stock){
