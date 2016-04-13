@@ -19,11 +19,13 @@ public:
 signals:
 
 public slots:
-void run();
-QString getTick(int index);
-QStringList getTickInterval(int start,int end);
 
+void run();
+QString getTick(int index,QString name);
+QStringList getTickInterval(int start,int end,QString name);
 int storePopup(QString json);
+
+
 
 };
 

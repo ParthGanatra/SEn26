@@ -16,8 +16,9 @@ class Backend : public QObject
 
     QJsonArray Popup_data;
 
-  //  QStringList indlist;
+  //
 
+    QStringList indlist;
 
 public:
     explicit Backend(QObject *parent = 0);

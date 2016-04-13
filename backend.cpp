@@ -5,15 +5,23 @@
 #include "elliott.h"
 #include <QJsonDocument>
 using namespace std;
+
+
+
 Backend::Backend(QObject *parent) :
     QObject(parent)
 {
- //  q.append("RSI");
+        indlist.append("RSI");
+        indlist.append("CCI");
+        indlist.append("MA");
+        indlist.append("SO");
 }
 
 
 void Backend::init(){
     vector<QString> stock_name;
+
+
 }
 
 void Backend::add_data(QStringList data){           // count other indicators and pass it to databse
