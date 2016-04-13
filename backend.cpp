@@ -13,7 +13,6 @@ using namespace std;
 Backend::Backend(QObject *parent) :
     QObject(parent)
 {
-
         indlist.append("RSI");
         indlist.append("CCI");
         indlist.append("MA");
@@ -38,19 +37,19 @@ Backend::Backend(QObject *parent) :
 
             stocks[i]=new Stock();
         }
-
 }
 
 Backend::~Backend()
 {}
 
-void Backend::add_data(QStringList data){           // count other indicators and pass it to databse
-    for(int i=0;i<data.size();i++){
-        QString str = data.at(i);
+void Backend::add_data(QStringList data){// count other indicators and pass it to databse
+    int ind = 0;
+    for(int i=0;i<stocklist.size();i++){
+        QString str = db.getTick(ind,stocklist.at(i));
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
         QJsonObject json = doc.object();
         int t = json["index"].toInt();
-        string name = json["name"].toString().toStdString();
+        string name = stocklist.at(i).toStdString();
         string date = json["date"].toString().toStdString();
         double o = json["open"].toDouble();
         double c = json["close"].toDouble();
@@ -63,22 +62,15 @@ void Backend::add_data(QStringList data){           // count other indicators an
 
         checkConditions(sp,name);
 
-        QJsonObject tmp;
-        tmp["index"] = sp.time;
-        tmp["date"] = QString::fromStdString(sp.date);
-        tmp["name"] = QString::fromStdString(name);
-        tmp["rsi"] = sp.rsi;
-        tmp["cci"] = sp.cci;
-        tmp["ma"] = sp.ma;
-        tmp["so"] = sp.soD;
-
-        //      db.storeIndicators(tmp);      // call databse method for storing indicators
+        db.addIndicator(QString::number(sp.time),QString::fromStdString(sp.date),QString::fromStdString(name),QString::number(sp.rsi),QString::number(sp.cci),QString::number(sp.ma),QString::number(sp.soD));
+//        db.storeIndicators(tmp);      // call databse method for storing indicators
     }
 }
 // popup json : name,indicator,condition,threshold
 void Backend::checkConditions(StockPrice & sp,string name){ // check popup conditions and send signal for popup to frontend
     QStringList conditions;
     //    conditions = db.getConditions(name,"rsi");
+    conditions = db.getallpopupscondition(QString::fromStdString(name),QString::fromStdString("rsi"));
     for(int i=0;i<conditions.size();i++){
         QString str = conditions.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
@@ -104,6 +96,7 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         }
     }
     //    conditions = db.getConditions(name,"cci");
+    conditions = db.getallpopupscondition(QString::fromStdString(name),QString::fromStdString("cci"));
     for(int i=0;i<conditions.size();i++){
         QString str = conditions.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
@@ -129,6 +122,7 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         }
     }
     //    conditions = db.getConditions(name,"ma");
+    conditions = db.getallpopupscondition(QString::fromStdString(name),QString::fromStdString("ma"));
     for(int i=0;i<conditions.size();i++){
         QString str = conditions.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
@@ -154,6 +148,7 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         }
     }
     //    conditions = db.getConditions(name,"so");
+    conditions = db.getallpopupscondition(QString::fromStdString(name),QString::fromStdString("so"));
     for(int i=0;i<conditions.size();i++){
         QString str = conditions.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
@@ -180,11 +175,8 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
     }
 }
 
-//void Backend::change_pop_condition(QString stock, bool gret, double thr){
 
-//}
-
-void Backend::get_elliott_count(QString stock, int start, int end, int lev){
+QJsonArray Backend::get_elliott_count(QString stock, int start, int end, int lev){
     QStringList data; //= db.getTickInterval(start,end,stock);
     vector<double> price;
     for(int i=0;i<data.size();i++){
@@ -199,19 +191,18 @@ void Backend::get_elliott_count(QString stock, int start, int end, int lev){
     }
     e.addPoints(price);
     vector<int> wc = e.wavecount[lev-1];
-    emit set_elliott_count(wc);
+    QJsonArray output;
+    for(int i = 0; i<wc.size();i++){
+        QJsonValue val(wc[i]);
+        output.append(val);
+    }
+    return output;
 }
 void Backend::remove_popup_condition(QString stock,QString indicator,QString condition,QString threashold){
-    QJsonObject tmp;
-    tmp["name"] =  stock;
-    tmp["indicator"] =  indicator;
-    tmp["condition"] =  condition;
-    tmp["threashold"] =  threashold;
-
+    db.removePopup(stock,indicator,condition,threashold);
 }
 void Backend::add_popup_condition(QString stock,QString indicator,QString condition,QString threashold){
-//    db.add_popup_condition(data);
-    ;
+    db.addPopup(stock,indicator,condition,threashold);
 }
 
 int Backend::get_index(string stock){
