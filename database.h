@@ -15,6 +15,7 @@ class Database : public QObject
 
 public:
     explicit Database(QObject *parent = 0);
+    virtual ~Database();
 
     QString username;
 

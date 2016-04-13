@@ -20,6 +20,7 @@ class Backend : public QObject
 
 public:
     explicit Backend(QObject *parent = 0);
+    virtual ~Backend();
     int no_of_stocks;
 
 //    Database db;

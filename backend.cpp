@@ -37,6 +37,8 @@ Backend::Backend(QObject *parent) :
 
 }
 
+Backend::~Backend()
+{}
 
 void Backend::add_data(QStringList data){           // count other indicators and pass it to databse
     for(int i=0;i<data.size();i++){

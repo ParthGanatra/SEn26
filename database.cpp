@@ -17,7 +17,8 @@ mongo::DBClientConnection c;
 
 int dataloaded=-1;
 
-
+Database::~Database()
+{}
 
 
 void Database::setUser(QString user)
