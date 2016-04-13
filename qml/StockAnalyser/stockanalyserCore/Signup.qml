@@ -73,8 +73,8 @@ Page{
                     //If not valid donot open verify page
                     console.log("Call to save file")
                     _userconfig.saveConfig(firstname.text,lastname.text,email.text,passwordField.text);
-//                    otp=_frontend.generateOtp();
-//                    _frontend.sendOTP(email.text,otp);
+                    otp=_frontend.generateOtp();
+                    _frontend.sendOTP(email.text,otp);
                     pageStack.push(Qt.resolvedUrl("Verify_Email.qml"),{otp:otp,firstname:firstname.text,lastname:lastname.text,email:email.text,password:passwordField.text})
                 }
             }
