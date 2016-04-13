@@ -17,6 +17,8 @@ class Backend : public QObject
     QJsonArray Popup_data;
 
 
+    QStringList indlist;
+
 public:
     explicit Backend(QObject *parent = 0);
     int no_of_stocks;

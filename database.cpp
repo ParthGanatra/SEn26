@@ -28,11 +28,6 @@ c.insert("stock.popup",temp);
 
 }
 
-
-
-
-
-
 Database::Database(QObject *parent) :
     QObject(parent)
 {
@@ -41,13 +36,13 @@ Database::Database(QObject *parent) :
 
 int tickcount=1;
 
-QString Database:: getTick(int index)
+QString Database:: getTick(int index,QString name)
 {
     if(dataloaded==-1)
         return "";
 
 
-    mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query("db.stock", MONGO_QUERY("index" << index));
+    mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query("db.stock", MONGO_QUERY("index" << index << "name" << name));
     //std::auto_ptr<mongo::DBClientCursor> cursor = c.query("Stocks.APPLE", MONGO_QUERY("index" << index));
     qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
 
@@ -58,7 +53,7 @@ QString Database:: getTick(int index)
 }
 
 
-QStringList Database ::getTickInterval(int start,int end)
+QStringList Database ::getTickInterval(int start,int end,QString name)
 {
     QStringList list;
 
@@ -68,7 +63,7 @@ QStringList Database ::getTickInterval(int start,int end)
 
     for(int i=start;i<=end;i++)
     {
-        list.append(getTick(i));
+        list.append(getTick(i,name));
      }
 
     return list;

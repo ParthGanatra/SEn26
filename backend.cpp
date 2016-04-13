@@ -5,13 +5,22 @@
 #include "elliott.h"
 #include <QJsonDocument>
 using namespace std;
+
+
+
 Backend::Backend(QObject *parent) :
     QObject(parent)
 {
+
+        indlist.append("RSI");
+        indlist.append("CCI");
+        indlist.append("MA");
+        indlist.append("SO");
 }
 
 
 void Backend::init(){
+    vector<QString> stock_name;
 
 }
 
