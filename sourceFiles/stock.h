@@ -30,8 +30,6 @@ private:
     int lookBackTime = 14;
     double rsiAvgGain;
     double rsiAvgLoss;
-    double soHighestHigh;
-    double soLowestLow;
 
     void computeRSI();
     void computeCCI();

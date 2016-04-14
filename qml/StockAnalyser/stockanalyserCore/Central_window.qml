@@ -49,8 +49,20 @@ Page{
             hoverAnimation: true
 
             onTriggered: {
-//                pageStack.clear()
-                pageStack.replace(Qt.resolvedUrl("Login.qml"))
+                pageStack.pop()
+                pageStack.push(Qt.resolvedUrl("Login.qml"))
+            }
+        },
+
+        Action {
+            iconName: "action/power_settings_new"
+            name: "Help"
+            hoverAnimation: true
+
+            onTriggered: {
+                var component = Qt.createComponent("HelpWindow.qml")
+                var window = component.createObject(central_window)
+                window.show()
             }
         }
     ]

@@ -275,7 +275,7 @@ void Backend::add_popup_condition(QString stock,QString indicator,QString condit
     emit allPopupsListChanged();
     qDebug() << "Added new condition for popup";
     //    db.add_popup_condition(data);
-        db->addPopup(stock,indicator,condition,threshold);
+//        db->addPopup(stock,indicator,condition,threshold);
 }
 void Backend::get_all_popup_conditions(){
     for(int i=0;i<stocklist.size();i++){

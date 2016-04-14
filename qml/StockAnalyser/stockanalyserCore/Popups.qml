@@ -44,7 +44,7 @@ Rectangle {
                     isMiniSize: true
                     backgroundColor: "#95a5a6"
                     action: Action {
-                        onTriggered: snackbar.open("Method to show chart of the stock") //Method to show chart in new tab
+                        onTriggered: _chartdata.showTrigPopup(stock)
                     }
                     iconName: "action/delete"
                 }
