@@ -63,7 +63,7 @@ Page {
                 onClicked: {
 //                    console.log("Verify Password")
                     var result = _helper.verify_user_password(username.text, passwordField.text)
-                    console.log(result)
+                    console.log(result);
                     if(result == true){
                         Settings.username = username.text
                         pageStack.replace(Qt.resolvedUrl("Central_window.qml"))

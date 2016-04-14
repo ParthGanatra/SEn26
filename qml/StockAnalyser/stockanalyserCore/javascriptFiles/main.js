@@ -1,67 +1,58 @@
 'use strict';
 var wsUri = "ws://localhost:12345";
-window.onresize = function(){ location.reload(); }
 var indicatorType = {}, currentLevel = {}, stockName, mainData;
+var indexStart = {}, indexEnd = {};
+var activeTab, mainCaller;
+var firstTime = 1;
 
-var stockList = [
-    "stock1",
-    "stock2",
-    "stock3",
-    "stock4",
-    "stock5",
-    "stock6",
-    "stock7",
-    "stock8",
-    "stock9",
-    "stock10"
-];
+var stockList = [];
+var tabList = {
+        list: []
+    };
+
+window.onresize = function(){ 
+    location.reload(); 
+    // $("#mainTabs").html('');
+    // $("#mainTabsContent").html('');
+    // add_tabs(tabList);
+}
 
 window.onload = function() {
-    var socket = new WebSocket(wsUri);
+    if(firstTime==1){
+        firstTime = 0;
+        var socket = new WebSocket(wsUri);
 
-    socket.onclose = function()
-    {
-        console.error("web channel closed");
-    };
-    socket.onerror = function(error)
-    {
-        console.error("web channel error: " + error);
-    };
-    socket.onopen = function()
-    {
-        new QWebChannel(socket, function(channel) {
-            window.chart = channel.objects.chartdata;
+        socket.onclose = function()
+        {
+            console.error("web channel closed");
+        };
+        socket.onerror = function(error)
+        {
+            console.error("web channel error: " + error);
+        };
+        socket.onopen = function()
+        {
+            new QWebChannel(socket, function(channel) {
+                window.chart = channel.objects.chartdata;
 
-            // chart.getWH(function (returnValue){
-            //     value_recieved(chart,returnValue);
-            // });
+                // chart.getWH(function (returnValue){
+                //     value_recieved(chart,returnValue);
+                // });
 
-            chart.getStockList(function (returnValue){
-                add_tabs(returnValue);
+                chart.getStockList(function (returnValue){
+                    for(var i=0;i<returnValue.list.length;i++)
+                        stockList.push(returnValue.list[i].name.slice(0, -1));
+                    tabList.list.push({
+                        name: stockList[0],
+                        maxlevels: 5
+                    });
+                    mainCaller = chart;
+                    add_tabs(tabList);
+                });
             });
-        });
+        }
+        // add_tabs(tabList);
     }
-    var tabList = {
-        list: [
-            {
-                name: "stock1",
-                maxlevels: 5
-            },
-            {
-                name: "stock2",
-                maxlevels: 5
-            },
-            {
-                name: "stock3",
-                maxlevels: 5
-            },
-            {
-                name: "stock4",
-                maxlevels: 5
-            }
-        ]
-    };
-    add_tabs(tabList);
 }
 
 function add_tabs(tabList){
@@ -87,6 +78,10 @@ function add_tabs(tabList){
         }
         indicatorType["tab"+numTabs] = "normal";
         currentLevel["tab"+numTabs] = -1;
+
+        indexStart[tabList.list[numTabs].name] = 1;
+        indexEnd[tabList.list[numTabs].name] = 100;
+
         addContent(numTabs+1,tabList.list[numTabs]);
     }
 
@@ -124,22 +119,42 @@ function add_tabs(tabList){
 
     registerClickEvent()
     
-    d3.csv("data.csv", function(error, data) {
+    activeTab = tabList.list[0].name;
+    indexStart[activeTab] = 1;
+    indexEnd[activeTab] = 100;
+    mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
+        mainData = [];
         var parseDate = d3.time.format("%d-%b-%y").parse;
 
-        data = data.slice(0, 200).map(function(d) {
-            return {
-                date: parseDate(d.Date),
-                open: +d.Open,
-                high: +d.High,
-                low: +d.Low,
-                close: +d.Close,
-                volume: +d.Volume
-            };
-        });
-        mainData = data;
+        for(var i=1;i<returnValue.list.length;i++){
+            mainData.push({
+                date: parseDate(returnValue.list[i].date),
+                open: +returnValue.list[i].open,
+                high: +returnValue.list[i].high,
+                low: +returnValue.list[i].low,
+                close: +returnValue.list[i].close,
+                volume: +returnValue.list[i].volume,
+            });
+        }
+
         value_recieved("tab1",mainData);
     });
+    // d3.csv("data.csv", function(error, data) {
+    //     var parseDate = d3.time.format("%d-%b-%y").parse;
+
+    //     data = data.slice(0, 200).map(function(d) {
+    //         return {
+    //             date: parseDate(d.Date),
+    //             open: +d.Open,
+    //             high: +d.High,
+    //             low: +d.Low,
+    //             close: +d.Close,
+    //             volume: +d.Volume
+    //         };
+    //     });
+    //     mainData = data;
+    //     value_recieved("tab1",mainData);
+    // });
 }
 
 function addNewTab(index){
@@ -163,7 +178,29 @@ function addNewTab(index){
 
             $("#tab"+index).append($("<button class=\"btn\" id=\"buttontab" + index + "\">Reset</button>"));
             addContent(index,{"name":stockList[e.target.id.slice(-1)],"maxlevels":5});
-            value_recieved("tab"+index,mainData);
+            // value_recieved("tab"+index,mainData);
+
+            activeTab = stockList[e.target.id.slice(-1)];
+            indexStart[activeTab] = 1;
+            indexEnd[activeTab] = 100;
+            mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
+                mainData = [];
+                var parseDate = d3.time.format("%d-%b-%y").parse;
+
+                for(var i=1;i<returnValue.list.length;i++){
+                    mainData.push({
+                        date: parseDate(returnValue.list[i].date),
+                        open: +returnValue.list[i].open,
+                        high: +returnValue.list[i].high,
+                        low: +returnValue.list[i].low,
+                        close: +returnValue.list[i].close,
+                        volume: +returnValue.list[i].volume,
+                    });
+                }
+
+                value_recieved("tab"+index,mainData);
+            });
+
             registerClickEvent()
         });
     }
@@ -173,7 +210,28 @@ function registerClickEvent(){
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         var currentTab = "tab" + e.target.href.slice(-1); // get current tab
         stockName = e.target.text;
-        value_recieved(currentTab,mainData);
+        
+        activeTab = stockName;
+        mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
+            mainData = [];
+            var parseDate = d3.time.format("%d-%b-%y").parse;
+
+            for(var i=1;i<returnValue.list.length;i++){
+                mainData.push({
+                    date: parseDate(returnValue.list[i].date),
+                    open: +returnValue.list[i].open,
+                    high: +returnValue.list[i].high,
+                    low: +returnValue.list[i].low,
+                    close: +returnValue.list[i].close,
+                    volume: +returnValue.list[i].volume,
+                });
+            }
+
+            value_recieved(currentTab,mainData);
+        });
+
+        // value_recieved(currentTab,mainData);
+        activeTab = stockName;
     });
 }
 
@@ -201,8 +259,8 @@ function addContent(index,dataObject){
     $("#elliott"+index).click(function() {
         indicatorType["tab"+index] = "elliott";
         currentLevel["tab"+index] = 1;
-
         $("#mainName"+index).html("Elliott Wave Count");
+        
         $("#tab" + index).append($("\
             <div id=\"levels\" style=\"position: absolute; left: 50%; top: 12%\" class=\"btn-group\">\
                 <a class=\"btn dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">\
@@ -213,6 +271,13 @@ function addContent(index,dataObject){
                 </ul>\
             </div>\
         "));
+
+        $("#mainLevel"+index).html("Level 1");
+
+        // mainCaller.getEllietteCount(activeTab, indexEnd[activeTab], indexStart[activeTab], currentLevel["tab"+index], function(returnValue){
+
+        // });
+
         for(var i=0;i<dataObject.maxlevels;i++){
             $("#levelDrop" + index).append($("\
                 <li><a id=\"level_"+i+"_"+index+"\" tabindex=\"-1\" href=\"#\">Level " + (i+1) + "</a></li>\
@@ -281,8 +346,8 @@ function value_recieved(displayTab,data){
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var trades = [
-            { date: data[100].date, type: "buy", price: data[100].low, quantity: 1000 },
-            { date: data[150].date, type: "sell", price: data[150].high, quantity: 200 },
+            { date: data[10].date, type: "buy", price: data[10].low, quantity: 1000 },
+            { date: data[20].date, type: "sell", price: data[20].high, quantity: 200 },
             { date: data[70].date, type: "buy", price: data[70].open, quantity: 500 },
         ];
 
