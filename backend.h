@@ -25,7 +25,7 @@ public:
     virtual ~Backend();
     int no_of_stocks = 0;
 
-    Database db;
+    Database *db;
 
     QStringList indlist;
     QStringList stocklist;
@@ -48,6 +48,7 @@ signals:
 
 public slots:
 //    void init();
+    void addDatabse(Database *temp);
     void add_data(QStringList data);  //notification as data came.
 //    void set_data(QJsonArray data);  //set data for elliott.
 //    void change_pop_condition(QString stock, bool gret, double thr); // data consisting the change of thresold.

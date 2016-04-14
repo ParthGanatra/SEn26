@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     db.setUser("user");
     db.run();
 
-
+    backend.addDatabse(&db);
 
     db.getTickInterval(1,10,"APPLE");
 

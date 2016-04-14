@@ -22,7 +22,6 @@ void Chartdata::addBackend_data(Backend *temp, Database *temp1){
 
 QJsonObject Chartdata::getWH() const
 {
-    qDebug()<<"asdasd";
     QJsonObject temp;
     temp["width"] = Width;
     temp["height"] = Height;
@@ -45,9 +44,9 @@ void Chartdata::setWH(int width, int height){
  *  add_data(start_index)
 */
 
-QJsonArray Chartdata::getEllietteCount(QString stock, int start, int end, int lev){
-    backend->get_elliott_count(stock,start,end,lev);
-    QJsonArray temp;
+QJsonObject Chartdata::getEllietteCount(QString stock, int start, int end, int lev){
+    QJsonObject temp;
+    temp["list"] = backend->get_elliott_count("APPLE",start,end,lev);
     return temp;
 }
 
