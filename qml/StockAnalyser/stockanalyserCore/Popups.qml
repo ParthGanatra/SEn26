@@ -15,7 +15,7 @@ Rectangle {
         ListView {
             id: popup_list
             anchors.fill: parent
-            model: trig_model
+            model: _backend.trigpopupsmodel
             delegate: popupDelegate
         }
 
@@ -29,27 +29,47 @@ Rectangle {
             color: "#ecf0f1"
             height: 60
             width: Settings.screenWidth*0.2
-            ActionButton {
-                isMiniSize: true
-                backgroundColor: "#95a5a6"
-                anchors {
-                    right: parent.right
-                    verticalCenter: parent.verticalCenter
-                }
-                action: Action {
-                    id: removeContent
-                    onTriggered: _backend.remove_Popup_data(index)
-                }
-                iconName: "action/delete"
-            }
+            Row {
+                Column {
+                    anchors.top: parent.top
+                    anchors.topMargin: 10
 
-            Column {
-                anchors.top: parent.top
-                anchors.topMargin: 10
+                    Text { text: stock}
+                    Text { text: indicator}
+                    Text { text: condition + threshold}
+                }
 
-                Text { text: "stock"}
-                Text { text: "indicator"}
-                Text { text: "condition"}
+                ActionButton {
+                    id:showchartbutton
+                    isMiniSize: true
+                    backgroundColor: "#95a5a6"
+                    action: Action {
+                        onTriggered: snackbar.open("Method to show chart of the stock") //Method to show chart in new tab
+                    }
+                    iconName: "action/delete"
+                }
+
+                ActionButton {
+                    id:modifypopupbutton
+                    isMiniSize: true
+                    backgroundColor: "#95a5a6"
+                    action: Action {
+                        //                    id: removeContent
+                        onTriggered: snackbar.open("Method to modify popup")
+                    }
+                    iconName: "action/delete"
+                }
+
+                ActionButton {
+                    id:deletepopupbutton
+                    isMiniSize: true
+                    backgroundColor: "#95a5a6"
+                    action: Action {
+                        //                    id: removeContent
+                        onTriggered: _backend.remove_popup_trigger(stock,indicator,condition,threshold)
+                    }
+                    iconName: "action/delete"
+                }
             }
         }
     }
@@ -57,42 +77,8 @@ Rectangle {
     Scrollbar {
         flickableItem: flickable
     }
+
+    Snackbar {
+        id: snackbar
+    }
 }
-//        Column{
-//            id: main_popup
-//            spacing: Units.dp(12)
-//            anchors.fill: parent
-
-
-//            Repeater{
-//                model: _backend.get_Popup_data()
-
-//                delegate: Rectangle{
-//                    id: rect
-//                    color: "#ecf0f1"
-//                    height: 60
-//                    width: Settings.screenWidth*0.2
-//                    ActionButton {
-//                        isMiniSize: true
-//                        backgroundColor: "#95a5a6"
-//                        anchors {
-//                            right: parent.right
-//                            verticalCenter: parent.verticalCenter
-//                        }
-//                        action: Action {
-//                            id: removeContent
-//                            onTriggered: _backend.remove_Popup_data(index)
-//                        }
-//                        iconName: "action/delete"
-//                    }
-
-//                    Column {
-//                        anchors.top: parent.top
-//                        anchors.topMargin: 10
-
-//                        Text { text: modelData["stock"]}
-//                        Text { text: modelData["indicator"]}
-//                        Text { text: modelData["condition"]}
-//                    }
-//                }
-//            }

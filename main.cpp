@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     db.database_test();
 
 
-//    db.getTickInterval(1,10,"APPLE");
+    db.getTickInterval(1,10,"APPLE");
 
 
 
@@ -55,8 +55,6 @@ int main(int argc, char *argv[])
 
 //    engine.rootContext()->setContextProperty("_backend", &backend);
 
-//    Database db;
-//    db.run();
    // Helper login_helper;
     engine.rootContext()->setContextProperty("_backend", &backend);
    engine.rootContext()->setContextProperty("_frontend", &frontend);
@@ -88,12 +86,15 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("_chartdata", &chartdata);
 
     QList<QObject*> all_popups_list;
-    all_popups_list.append(new All_Popups_Model("Stock1","Indicator1",">","50"));
-    all_popups_list.append(new All_Popups_Model("Stock2","Indicator6",">","70"));
+//    all_popups_list.append(new All_Popups_Model("Stock1","Indicator1",">","50"));
+//    all_popups_list.append(new All_Popups_Model("Stock2","Indicator3",">","70"));
 //    QDeclarativeContext *ctxt all_popups_list= engine.rootContext();
     backend.addPopupList(&all_popups_list);
-    engine.rootContext()->setContextProperty("all_popup_model",QVariant::fromValue(all_popups_list));
 
+    QList<QObject*> trig_popups_list;
+    backend.trigPopupList(&trig_popups_list);
+//    engine.rootContext()->setContextProperty("all_popup_model",QVariant::fromValue(all_popups_list));
+    backend.get_all_popup_conditions();
 
     return app.exec();
 }

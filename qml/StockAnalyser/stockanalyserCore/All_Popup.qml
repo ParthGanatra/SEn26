@@ -36,28 +36,36 @@ Window {
                     Label {
                         id: popups_list_indicator
                         style: "title"
-                        text: modelData["indicator"]
+                        text: indicator
                     }
 
 
                     Label {
                         id: popups_list_condition
                         style: "title"
-                        text: modelData["condition"]
+                        text: condition
+                    }
+
+                    Label {
+                        id: popups_list_threshold
+                        style: "title"
+                        text: threshold
                     }
 
                     Button {
                         id: popups_modify
                         text: "Modify"
                         elevation: 1
-                        onClicked: snackbar.open("Method to modify popup")
+                        onClicked: {
+                            pageStack.push(Qt.resolvedUrl("popup_select_condition.qml"),{selected_stock: stock,selected_indicator: indicator})
+                        }
                     }
 
                     Button {
                         id: popups_dismiss
                         text: "Dismiss"
                         elevation: 1
-                        onClicked: snackbar.open("Method to dismiss popup")
+                        onClicked: _backend.remove_popup_condition(stock,indicator,condition,threshold)
                     }
                 }
             }
@@ -94,28 +102,9 @@ Window {
         id: popups_list
         anchors.fill: parent
         header: popups_list_header
-        model: all_popup_model
+        model: _backend.allpopupsmodel
         delegate: popupsDelegate
     }
-
-    //    Button {        //Temporary
-    //        anchors {
-    //            bottom: parent.bottom
-    //            left: parent.left
-    //            margins: Units.dp(10)
-    //        }
-
-    //        textColor: "white"
-    //        backgroundColor: Theme.primaryColor
-    //        elevation: 1
-    //        text: "Add Random Pop-up"
-
-    //        onClicked: {
-    //            var num = popups_model.count + 1
-    //            popups_model.append({"popups_stock": "stock" + num , "popups_indicator":"indicator" + num , "popups_condition":"condition" + num})
-
-    //        }
-    //    }
 
     Button {
         id: add_popup_button

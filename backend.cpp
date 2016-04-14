@@ -15,30 +15,30 @@ using namespace std;
 Backend::Backend(QObject *parent) :
     QObject(parent)
 {
-        indlist.append("RSI");
-        indlist.append("CCI");
-        indlist.append("MA");
-        indlist.append("SO");
+    indlist.append("RSI");
+    indlist.append("CCI");
+    indlist.append("MA");
+    indlist.append("SO");
 
 
-        QFile file("stocklist");               // Enter your own path
+    QFile file("stocklist");               // Enter your own path
 
-        if (!file.open(QIODevice::ReadOnly)) {
-               qDebug() << file.errorString();
-               return;
-        }
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << file.errorString();
+        return;
+    }
 
-        while (!file.atEnd()) {
-               stocklist.append(file.readLine());
-        }
+    while (!file.atEnd()) {
+        stocklist.append(file.readLine());
+    }
 
-        for (int i=0;i<stocklist.size();i++)
-        {
-//            qDebug() << stocklist.at(i);
-            hmap[stocklist.at(i).toStdString()] = i;
+    for (int i=0;i<stocklist.size();i++)
+    {
+        //            qDebug() << stocklist.at(i);
+        hmap[stocklist.at(i).toStdString()] = i;
 
-            stocks[i]=new Stock();
-        }
+        stocks[i]=new Stock();
+    }
 }
 
 Backend::~Backend()
@@ -49,6 +49,10 @@ void Backend::addPopupList(QList<QObject*> *popups_list)
     all_popups_list = popups_list;
 }
 
+void Backend::trigPopupList(QList<QObject*> *popups_list)
+{
+    trig_popups_list = popups_list;
+}
 //void Backend::add_data(QStringList data){           // count other indicators and pass it to databse
 //    for(int i=0;i<data.size();i++){
 //        QString str = data.at(i);
@@ -78,7 +82,7 @@ void Backend::add_data(QStringList data){// count other indicators and pass it t
         checkConditions(sp,name);
 
         db->addIndicator(QString::number(sp.time),QString::fromStdString(sp.date),QString::fromStdString(name),QString::number(sp.rsi),QString::number(sp.cci),QString::number(sp.ma),QString::number(sp.soD));
-//        db->storeIndicators(tmp);      // call databse method for storing indicators
+        //        db->storeIndicators(tmp);      // call databse method for storing indicators
     }
 }
 // popup json : name,indicator,condition,threshold
@@ -90,23 +94,27 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         QString str = conditions.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
         QJsonObject json = doc.object();
-        double threashold = json["threashold"].toDouble();
+        double threshold = json["threshold"].toDouble();
         if(json["condition"].toString().compare(">")==0){
-            if(sp.rsi>threashold){
+            if(sp.rsi>threshold){
                 QJsonObject tmp;
                 tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "rsi";
                 tmp["value"] = sp.rsi;
-                emit pop_satisfied(tmp);
+
+                trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("rsi"),json["condition"].toString(),json["threshold"].toString()));
+                emit trigPopupsListChanged();
             }
         }
         else{
-            if(sp.rsi<threashold){
+            if(sp.rsi<threshold){
                 QJsonObject tmp;
                 tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "rsi";
                 tmp["value"] = sp.rsi;
-                emit pop_satisfied(tmp);
+
+                trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("rsi"),json["condition"].toString(),json["threshold"].toString()));
+                emit trigPopupsListChanged();
             }
         }
     }
@@ -116,23 +124,25 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         QString str = conditions.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
         QJsonObject json = doc.object();
-        double threashold = json["threashold"].toDouble();
+        double threshold = json["threshold"].toDouble();
         if(json["condition"].toString().compare(">")==0){
-            if(sp.cci>threashold){
+            if(sp.cci>threshold){
                 QJsonObject tmp;
                 tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "cci";
                 tmp["value"] = sp.cci;
-                emit pop_satisfied(tmp);
+                trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("cci"),json["condition"].toString(),json["threshold"].toString()));
+                emit trigPopupsListChanged();
             }
         }
         else{
-            if(sp.cci<threashold){
+            if(sp.cci<threshold){
                 QJsonObject tmp;
                 tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "cci";
                 tmp["value"] = sp.cci;
-                emit pop_satisfied(tmp);
+                trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("cci"),json["condition"].toString(),json["threshold"].toString()));
+                emit trigPopupsListChanged();
             }
         }
     }
@@ -142,23 +152,25 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         QString str = conditions.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
         QJsonObject json = doc.object();
-        double threashold = json["threashold"].toDouble();
+        double threshold = json["threshold"].toDouble();
         if(json["condition"].toString().compare(">")==0){
-            if(sp.ma>threashold){
+            if(sp.ma>threshold){
                 QJsonObject tmp;
                 tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "ma";
                 tmp["value"] = sp.ma;
-                emit pop_satisfied(tmp);
+                trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("ma"),json["condition"].toString(),json["threshold"].toString()));
+                emit trigPopupsListChanged();
             }
         }
         else{
-            if(sp.ma<threashold){
+            if(sp.ma<threshold){
                 QJsonObject tmp;
                 tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "ma";
                 tmp["value"] = sp.ma;
-                emit pop_satisfied(tmp);
+                trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("ma"),json["condition"].toString(),json["threshold"].toString()));
+                emit trigPopupsListChanged();
             }
         }
     }
@@ -168,23 +180,26 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
         QString str = conditions.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
         QJsonObject json = doc.object();
-        double threashold = json["threashold"].toDouble();
+        double threshold = json["threshold"].toDouble();
         if(json["condition"].toString().compare(">")==0){
-            if(sp.soD>threashold){
+            if(sp.soD>threshold){
                 QJsonObject tmp;
                 tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "so";
                 tmp["value"] = sp.soD;
-                emit pop_satisfied(tmp);
+                trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("so"),json["condition"].toString(),json["threshold"].toString()));
+                emit trigPopupsListChanged();
             }
         }
         else{
-            if(sp.soD<threashold){
+            if(sp.soD<threshold){
                 QJsonObject tmp;
                 tmp["name"] = QString::fromStdString(name);
                 tmp["indicator"] = "so";
                 tmp["value"] = sp.soD;
-                emit pop_satisfied(tmp);
+
+                trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("so"),json["condition"].toString(),json["threshold"].toString()));
+                emit trigPopupsListChanged();
             }
         }
     }
@@ -217,17 +232,89 @@ QJsonArray Backend::get_elliott_count(QString stock, int start, int end, int lev
     }
     return output;
 }
-void Backend::remove_popup_condition(QString stock,QString indicator,QString condition,QString threashold){
-    db->removePopup(stock,indicator,condition,threashold);
+void Backend::remove_popup_condition(QString stock,QString indicator,QString condition,QString threshold){
+    qDebug() << "Removing popup condition";
+    //    all_popups_list->removeAt(2);
+    for(int i= 0; i < all_popups_list->size();i++){
+        All_Popups_Model* popup = (All_Popups_Model *)(all_popups_list->at(i));
+        if(popup->stock() == stock && popup->indicator()==indicator && popup->condition()==condition && popup->threshold()==threshold){
+            all_popups_list->removeAt(i);
+            i--;
+        }
+    }
+
+
+    emit allPopupsListChanged();
+        db->removePopup(stock,indicator,condition,threshold);
 }
-void Backend::add_popup_condition(QString stock,QString indicator,QString condition,QString threashold){
-    all_popups_list->append(new All_Popups_Model(stock,indicator,condition,threashold));
+void Backend::remove_popup_trigger(QString stock,QString indicator,QString condition,QString threshold){
+    qDebug() << "Removing popup condition";
+    //    all_popups_list->removeAt(2);
+    for(int i= 0; i < trig_popups_list->size();i++){
+        All_Popups_Model* popup = (All_Popups_Model *)(trig_popups_list->at(i));
+        if(popup->stock() == stock && popup->indicator()==indicator && popup->condition()==condition && popup->threshold()==threshold){
+            trig_popups_list->removeAt(i);
+            i--;
+            qDebug() << stock;
+        }
+    }
+
+
+    emit trigPopupsListChanged();
+//        db->removePopup(stock,indicator,condition,threshold);
+}
+void Backend::add_popup_condition(QString stock,QString indicator,QString condition,QString threshold){
+    trig_popups_list->append(new All_Popups_Model(stock,indicator,condition,threshold));
+    emit trigPopupsListChanged();
+    all_popups_list->append(new All_Popups_Model(stock,indicator,condition,threshold));
+    emit allPopupsListChanged();
     qDebug() << "Added new condition for popup";
-//    db.add_popup_condition(data);
-    db->addPopup(stock,indicator,condition,threashold);
+    //    db.add_popup_condition(data);
+        db->addPopup(stock,indicator,condition,threshold);
+}
+void Backend::get_all_popup_conditions(){
+    for(int i=0;i<stocklist.size();i++){
+        QString stock = stocklist.at(i);
+        QStringList conditions= db->getallpopupscondition(stock,QString::fromStdString("rsi"));
+        for(int i=0;i<conditions.size();i++){
+            QString str = conditions.at(i);
+            QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
+            QJsonObject json = doc.object();
+            all_popups_list->append(new All_Popups_Model(json["name"].toString(),json["indicator"].toString(),json["condition"].toString(),json["threshold"].toString()));
+        }
+        conditions= db->getallpopupscondition(stock,QString::fromStdString("cci"));
+        for(int i=0;i<conditions.size();i++){
+            QString str = conditions.at(i);
+            QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
+            QJsonObject json = doc.object();
+            all_popups_list->append(new All_Popups_Model(json["name"].toString(),json["indicator"].toString(),json["condition"].toString(),json["threshold"].toString()));
+        }
+        conditions= db->getallpopupscondition(stock,QString::fromStdString("ma"));
+        for(int i=0;i<conditions.size();i++){
+            QString str = conditions.at(i);
+            QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
+            QJsonObject json = doc.object();
+            all_popups_list->append(new All_Popups_Model(json["name"].toString(),json["indicator"].toString(),json["condition"].toString(),json["threshold"].toString()));
+        }
+        conditions= db->getallpopupscondition(stock,QString::fromStdString("so"));
+        for(int i=0;i<conditions.size();i++){
+            QString str = conditions.at(i);
+            QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
+            QJsonObject json = doc.object();
+            all_popups_list->append(new All_Popups_Model(json["name"].toString(),json["indicator"].toString(),json["condition"].toString(),json["threshold"].toString()));
+        }
+    }
+    emit allPopupsListChanged();
 }
 
 int Backend::get_index(string stock){
     return hmap[stock] ;
 }
 
+QQmlListProperty<QObject> Backend::getAllPopups(){
+    return QQmlListProperty<QObject>(this, *all_popups_list);
+}
+
+QQmlListProperty<QObject> Backend::getTrigPopups(){
+    return QQmlListProperty<QObject>(this, *trig_popups_list);
+}

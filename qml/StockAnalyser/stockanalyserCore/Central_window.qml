@@ -51,11 +51,11 @@ Page{
         }
     ]
 
-    Charts {
-        id: chart_window
-        width: central_window.width*0.8
-        height: central_window.height*0.8
-    }
+//    Charts {
+//        id: chart_window
+//        width: central_window.width*0.8
+//        height: central_window.height*0.8
+//    }
     Newsfeeds {
         anchors.top: chart_window.bottom
         width: central_window.width*0.8
