@@ -36,11 +36,14 @@ int main(int argc, char *argv[])
 
     Database db;
     db.setUser("user");
+    db.stocklist=backend.stocklist;
     db.run();
 
+    db.database_test();
 
 
-    db.getTickInterval(1,10,"APPLE");
+
+//    db.getTickInterval(1,10,"APPLE");
 
 
 
