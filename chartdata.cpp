@@ -22,7 +22,6 @@ void Chartdata::addBackend_data(Backend *temp, Database *temp1){
 
 QJsonObject Chartdata::getWH() const
 {
-    qDebug()<<"asdasd";
     QJsonObject temp;
     temp["width"] = Width;
     temp["height"] = Height;
@@ -45,15 +44,37 @@ void Chartdata::setWH(int width, int height){
  *  add_data(start_index)
 */
 
+QJsonObject Chartdata::getEllietteCount(QString stock, int start, int end, int lev){
+    QJsonObject temp;
+    temp["list"] = backend->get_elliott_count(stock,start,end,lev);
+    return temp;
+}
+
+QJsonObject Chartdata::getstockPriceData(QString stockName, int start, int end){
+    QStringList str = database->getTickInterval(start,end,stockName);
+    QJsonArray arr;
+    for(int i=0;i<str.length();i++){
+        QJsonObject temp;
+
+        QJsonDocument doc = QJsonDocument::fromJson(str.at(i).toUtf8());
+        temp = doc.object();
+
+        arr.append(temp);
+    }
+    QJsonObject list1;
+    list1["list"] = arr;
+
+    return list1;
+}
+
 
 QJsonObject Chartdata::getStockList(){
     QJsonArray arr;
-    for(int i=0;i<7;i++){
+    for(int i=0;i<backend->stocklist.length();i++){
         QJsonObject temp;
 
-        QString printable = QStringLiteral("Stock %1").arg(i+1);
-        temp["name"] = printable;
-        temp["maxlevels"] = 4;
+        temp["name"] = backend->stocklist.at(i);
+        temp["maxlevels"] = 5;
 
         arr.append(temp);
     }

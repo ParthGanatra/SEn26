@@ -38,10 +38,13 @@ int main(int argc, char *argv[])
     UserConfig uc;
     Frontend frontend;
 
-//    Database db;
-//    db.setUser("user");
-//    db.run();
+    Database db;
+    db.setUser("user");
+    db.stocklist=backend.stocklist;
+    db.run();
 
+    backend.addDatabse(&db);
+    db.database_test();
 
 
 //    db.getTickInterval(1,10,"APPLE");

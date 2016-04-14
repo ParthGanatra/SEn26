@@ -22,6 +22,8 @@ QString Helper::compute_hash(std::string p)
 
 bool Helper::verify_user_password(QString u, QString p)
 {
+    if(u.isNull() || p.isNull())
+        return false;
     qDebug() << "verifying password" << endl;
     QString stored_hash;
     QFile file;

@@ -23,9 +23,9 @@ class Backend : public QObject
 public:
     explicit Backend(QObject *parent = 0);
     virtual ~Backend();
-    int no_of_stocks;
+    int no_of_stocks = 0;
 
-    Database db;
+    Database *db;
 
     QStringList indlist;
     QStringList stocklist;
@@ -51,6 +51,7 @@ signals:
 public slots:
     void addPopupList(QList<QObject*> *popups_list);
 //    void init();
+    void addDatabse(Database *temp);
     void add_data(QStringList data);  //notification as data came.
 //    void set_data(QJsonArray data);  //set data for elliott.
 //    void change_pop_condition(QString stock, bool gret, double thr); // data consisting the change of thresold.
@@ -59,7 +60,7 @@ public slots:
     void add_popup_condition(QString stock,QString indicator,QString condition,QString threashold);
 //    void add_popup_data();
 //    void remove_popup_data(QString stock,QString ind);
-    void get_elliott_count(QString stock, int start, int end, int lev);
+    QJsonArray get_elliott_count(QString stock, int start, int end, int lev);
 //  QJsonArray get_Popup_data();
 //  int get_Popup_size();
     int get_index(string stock);
