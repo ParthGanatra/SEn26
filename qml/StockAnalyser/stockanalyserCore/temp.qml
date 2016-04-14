@@ -13,22 +13,25 @@ Page {
         }
     ]
 
-    Button {
-        anchors.centerIn: parent
-        text: "Sub page"
-        onClicked: pageStack.push(Qt.resolvedUrl("SubPage.qml"))
-    }
+    Rectangle{
+        anchors.fill: parent
 
-    rightSidebar: PageSidebar {
-        title: "Sidebar"
 
-        width: Units.dp(320)
-
-        actions: [
-            Action {
-                iconName: "action/delete"
-                text: "Delete"
+        Button {
+            text: "Next >>"
+            anchors.right: parent.right
+            anchors.rightMargin: 6
+            anchors.verticalCenter: parent.verticalCenter
+            elevation: 1
+            activeFocusOnPress: true
+            backgroundColor: Theme.primaryColor
+            onClicked: {
+                pageStack.replace(Qt.resolvedUrl("temp2.qml"));
             }
-        ]
+        }
+//        Component.onCompleted: {
+//            pageStack.replace(Qt.resolvedUrl("Login.qml"));
+//        }
+
     }
 }

@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     db.database_test();
 
 
-    db.getTickInterval(1,10,"APPLE");
+    db.getTick(10,"apple");
 
 
 

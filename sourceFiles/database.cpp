@@ -118,23 +118,31 @@ QString Database:: getTick(int index,QString name)
 QStringList Database ::getTickInterval(int start,int end,QString name)
 {
     QStringList list;
+    QString temp2=username+".stock";
+    mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("name"<<name.toStdString()));
+    mongo::BSONObj temp;
+    int i=0;
+    while(cursor->more()){
+        if(end<i)
+            break;
+        if(start<=i){
+            temp = cursor->next();
+            list.append(QString::fromStdString(temp.jsonString()));
+        }
+        i++;
+    }
 
-    if(dataloaded==-1)
-        return list;
+//    if(dataloaded==-1)
+//        return list;
 
 
-    for(int i=start;i<=end;i++)
-    {
-        list.append(getTick(i,name));
-     }
+//    for(int i=start;i<=end;i++)
+//    {
+//        list.append(getTick(i,name));
+//     }
 
     return list;
 }
-
-
-
-
-
 
 int Database::removePopup(QString name,QString indicator,QString condition,QString threshold)
 {

@@ -27,6 +27,7 @@ class Chartdata : public QObject
         Q_INVOKABLE void addBackend_data(Backend *temp, Database *temp1);
         Q_INVOKABLE QJsonObject getstockPriceData(QString stockName, int start, int end);
         Q_INVOKABLE QJsonObject getEllietteCount(QString stock, int start, int end, int lev);
+        Q_INVOKABLE QJsonObject getstockPriceDataIndex(QString stockName, int index);
 };
 
 #endif // CHARTDATA_H
