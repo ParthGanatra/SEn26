@@ -5,7 +5,7 @@
 #include<vector>
 #include<stdio.h>
 #include <QObject>
-#define MAXLEVEL 5
+#define MAXLEVEL 6
 #define impulseUp 0
 #define impulseDown 1
 #define correctiveUp 2
@@ -65,6 +65,9 @@ void Elliott::addPoints(vector<double> price){
     double cur = ratio;
     double len = max - min;
     cur = len+1;
+    cur/=ratio;
+    cur/=ratio;
+    qDebug()<< len;
     for(int i=MAXLEVEL - 1;i>=0;i--){
        maxLen[i] = cur;
        cur /= ratio;
@@ -72,6 +75,7 @@ void Elliott::addPoints(vector<double> price){
     for(int i=0;i< MAXLEVEL-1 ;i++)
        minLen[i+1] = maxLen[i];
     minLen[0] = 0;
+    maxLen[MAXLEVEL-1] = 1e10;
     assignWavecount(0,price.size()-1,MAXLEVEL-1);
 }
 
@@ -96,6 +100,7 @@ void Elliott::assignWavecount(int start,int end,int level){
 //		  if(!increasing && -prices[min] + prices[x]>=minLen[level] && -prices[min] + prices[x] <= maxLen[level]){
               if(ind < 5)
               {
+                  qDebug() << "Assigned " << level << min;
                  wavecount[level][min] = ind ;
                  ind++;
               }
@@ -117,6 +122,7 @@ void Elliott::assignWavecount(int start,int end,int level){
 //		  if(increasing && prices[max] - prices[x]>=minLen[level] && prices[max] - prices[x] <= maxLen[level]){
               if(ind < 5)
               {
+                  qDebug() << "Assigned " << level << max;
                  wavecount[level][max] = ind ;
                  ind++;
               }
@@ -142,7 +148,7 @@ void Elliott::assignWavecount(int start,int end,int level){
 
    }
 //   if(increasing && prices[end] - prices[x]>=minLen[level] && prices[end] - prices[x] <= maxLen[level])
-    if(x!=start)
+//    if(x!=start)
       wavecount[level][end] = ind ;
 //   if(!increasing && -prices[end] + prices[x]>=minLen[level] && -prices[end] + prices[x] <= maxLen[level])
 //      wavecount[level][end] = ind ;

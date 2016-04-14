@@ -73,6 +73,7 @@ QJsonObject Chartdata::getstockPriceData(QString stockName, int start, int end){
 
 QJsonObject Chartdata::getStockList(){
     QJsonArray arr;
+
     for(int i=0;i<backend->stocklist.length();i++){
         QJsonObject temp;
 

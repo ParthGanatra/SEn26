@@ -27,7 +27,11 @@ Page{
             name: "Accounts"
 
             onTriggered: {
-                pageStack.push(Qt.resolvedUrl("Account.qml"))
+//                pageStack.push(Qt.resolvedUrl("Account.qml"))
+                var component = Qt.createComponent("Account.qml");
+                var window = component.createObject(central_window);
+                window.show();
+
 //                Loader = {
 //                    asynchronous: true,
 //                    visible: true,
@@ -45,17 +49,17 @@ Page{
             hoverAnimation: true
 
             onTriggered: {
-                pageStack.clear()
-                pageStack.push(Qt.resolvedUrl("Login.qml"))
+//                pageStack.clear()
+                pageStack.replace(Qt.resolvedUrl("Login.qml"))
             }
         }
     ]
 
-//    Charts {
-//        id: chart_window
-//        width: central_window.width*0.8
-//        height: central_window.height*0.8
-//    }
+    Charts {
+        id: chart_window
+        width: central_window.width*0.8
+        height: central_window.height*0.8
+    }
     Newsfeeds {
         anchors.top: chart_window.bottom
         width: central_window.width*0.8

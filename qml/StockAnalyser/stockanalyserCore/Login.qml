@@ -63,7 +63,6 @@ Page {
                 anchors.left: parent.horizontalCenter
                 anchors.leftMargin: 15
                 onClicked: {
-//                    console.log("Verify Password")
                     var result = _helper.verify_user_password(username.text, passwordField.text)
                     console.log(result);
                     if(result == true){

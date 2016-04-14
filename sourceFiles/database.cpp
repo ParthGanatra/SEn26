@@ -160,7 +160,7 @@ QString Database:: getTickIndicator(int index,QString name,QString rsi,QString c
 //    std::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("index" << index << "name" << name.toStdString()));
     mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("index" << index << "name" << name.toStdString()<<"rsi"<<rsi.toStdString()<<"cci"<<cci.toStdString()<<"ma"<<ma.toStdString()<<"so"<<so.toStdString()));
     //std::auto_ptr<mongo::DBClientCursor> cursor = c.query("Stocks.APPLE", MONGO_QUERY("index" << index));
-    qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
+//    qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
 
     mongo::BSONObj temp=cursor->peekFirst();
 
@@ -210,7 +210,7 @@ QStringList Database::getallpopupscondition(QString name,QString indicator)
 
     mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp.toStdString(), MONGO_QUERY("name" << name.toStdString() << "indicator" << indicator.toStdString() ));
     //std::auto_ptr<mongo::DBClientCursor> cursor = c.query("Stocks.APPLE", MONGO_QUERY("index" << index));
-    qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
+//    qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
 
     QStringList list;
 
@@ -278,22 +278,22 @@ this->addPopup("A","MA","<","12");
 
     temp=this->getallpopupscondition("A","RSI");
 
-for(int i=0;i<temp.size();i++)
-{
-     qDebug() <<temp.at(i);
-}
+//for(int i=0;i<temp.size();i++)
+//{
+//     qDebug() <<temp.at(i);
+//}
 
 
 //int removePopup(QString name,QString indicator,QString condition,QString threshold);
 this->removePopup("A","RSI",">","25");
 
-qDebug()<<"After Removing";
+//qDebug()<<"After Removing";
 
 temp=this->getallpopupscondition("A","RSI");
 
-for(int i=0;i<temp.size();i++)
-{
- qDebug() <<temp.at(i);
-}
+//for(int i=0;i<temp.size();i++)
+//{
+// qDebug() <<temp.at(i);
+//}
 
 }
