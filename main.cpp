@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
     Database db;
     db.setUser("user");
-    db.stocklist=backend.stocklist;
+    db.stocklist = backend.stocklist;
     db.run();
 
     backend.addDatabse(&db);

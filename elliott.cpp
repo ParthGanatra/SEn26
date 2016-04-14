@@ -47,6 +47,8 @@ void Elliott::addPoints(vector<double> price){
 
     for(int i=0;i<MAXLEVEL;i++){
        wavecount[i].clear();
+       for(int j = 0; j< price.size();j++)
+           wavecount[i].push_back(-1);
     }
     prices.clear();
     double max = 0;
@@ -75,7 +77,7 @@ void Elliott::addPoints(vector<double> price){
 
 void Elliott::assignWavecount(int start,int end,int level){
 
-   if(level<0 || start>=end || end>prices.size() || start<0)
+   if(level<0 || start>=end || end>prices.size() || start<0 || level >= MAXLEVEL)
       return;
    int max,min;
    max = start;
@@ -89,7 +91,8 @@ void Elliott::assignWavecount(int start,int end,int level){
 
    for(int i=start ; i<=end;i++){
        if(!increasing && prices[i] - prices[min] >= minLen[level]){
-//          printf("----- %d %d %d\n",i,min,x);
+//          qDebug()<< i <<" " << level << " " <<min << ind ;
+//          qDebug() << wavecount[level].size();
 //		  if(!increasing && -prices[min] + prices[x]>=minLen[level] && -prices[min] + prices[x] <= maxLen[level]){
               if(ind < 5)
               {

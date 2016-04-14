@@ -72,8 +72,9 @@ Page{
                     if(valid==0){
                         otp=_frontend.generateOtp();
                         _frontend.sendOTP(email.text,otp);
-                        pageStack.clear()
-                        pageStack.push(Qt.resolvedUrl("Verify_Email.qml"),{otp:otp,firstname:firstname.text,lastname:lastname.text,email:email.text,password:passwordField.text})
+//                        pageStack.clear();
+                        pageStack.pop();
+                        pageStack.replace(Qt.resolvedUrl("Verify_Email.qml"),{otp:otp,firstname:firstname.text,lastname:lastname.text,email:email.text,password:passwordField.text})
                     }
                     else if(valid==1){
                         snackbar.open("Invalid firstname");
@@ -100,8 +101,8 @@ Page{
                 backgroundColor: Theme.primaryColor
                 anchors.left: parent.horizontalCenter*1.2
                 onClicked: {
-                    pageStack.clear()
-                    pageStack.push(Qt.resolvedUrl("Login.qml"))
+                    pageStack.clear();
+                    pageStack.push(Qt.resolvedUrl("Login.qml"));
                 }
             }
         }

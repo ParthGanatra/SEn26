@@ -21,7 +21,7 @@ Backend::Backend(QObject *parent) :
     indlist.append("SO");
 
 
-    QFile file("stocklist");               // Enter your own path
+    QFile file("To_Dump/stocklist");               // Enter your own path
 
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() << file.errorString();
@@ -227,9 +227,11 @@ QJsonArray Backend::get_elliott_count(QString stock, int start, int end, int lev
     QJsonArray output;
     for(int i = 0; i<wc.size();i++){
         QJsonObject temp;
+
         temp["value"] = wc[i];
         output.append(temp);
     }
+
     return output;
 }
 void Backend::remove_popup_condition(QString stock,QString indicator,QString condition,QString threshold){

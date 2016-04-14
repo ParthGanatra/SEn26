@@ -124,7 +124,7 @@ function add_tabs(tabList){
     indexEnd[activeTab] = 100;
     mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
         mainData = [];
-        var parseDate = d3.time.format("%d-%b-%y").parse;
+        var parseDate = d3.time.format("%Y-%m-%d").parse;
 
         for(var i=1;i<returnValue.list.length;i++){
             mainData.push({
@@ -185,7 +185,7 @@ function addNewTab(index){
             indexEnd[activeTab] = 100;
             mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
                 mainData = [];
-                var parseDate = d3.time.format("%d-%b-%y").parse;
+                var parseDate = d3.time.format("%Y-%m-%d").parse;
 
                 for(var i=1;i<returnValue.list.length;i++){
                     mainData.push({
@@ -214,7 +214,7 @@ function registerClickEvent(){
         activeTab = stockName;
         mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
             mainData = [];
-            var parseDate = d3.time.format("%d-%b-%y").parse;
+            var parseDate = d3.time.format("%Y-%m-%d").parse;
 
             for(var i=1;i<returnValue.list.length;i++){
                 mainData.push({
@@ -303,7 +303,7 @@ function value_recieved(displayTab,data){
         width = window.innerWidth - margin.left - margin.right,
         height = window.innerHeight - margin.top - margin.bottom;
 
-    var dateFormat = d3.time.format("%d-%b-%y"),
+    var dateFormat = d3.time.format("%Y-%m-%d"),
         parseDate = dateFormat.parse,
         valueFormat = d3.format(',.2fs');
 
@@ -359,8 +359,9 @@ function value_recieved(displayTab,data){
 
     if(indicatorType[displayTab] == "elliott"){
         var trades = [];
-        for(var i=1;i<elliottCount.list.length;i++){
-            trades.push({ date: data[i].date, value:  elliottCount.list[i].value, type: "buy", price: data[i].low, quantity: 1000 });
+        for(var i=0;i<elliottCount.list.length-1;i++){
+            if(parseInt(elliottCount.list[i].value)>0)
+                trades.push({ date: data[i+1].date, value:  elliottCount.list[i].value, type: "buy", price: data[i+1].low, quantity: 1000 });
         }
     }
 
