@@ -1,28 +1,23 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QtWebEngine/qtwebengineglobal.h>
-
 #include <QUrl>
 #include <QDebug>
-
 #include <QtWebChannel>
 #include <QtWebSockets/QWebSocketServer>
-//#include <QtDeclarative/QDeclarativeContext>
 #include <QObject>
 #include <QList>
+#include <qqmlcontext.h>
 
 #include "shared/websocketclientwrapper.h"
 #include "shared/websockettransport.h"
-#include "chartdata.h"
-
-
-#include <qqmlcontext.h>
-#include "backend.h"
-#include "frontend.h"
-#include "database.h"
-#include "userconfig.h"
-#include "helper.h"
-#include "all_popups_model.h"
+#include "sourceFiles/chartdata.h"
+#include "sourceFiles/backend.h"
+#include "sourceFiles/frontend.h"
+#include "sourceFiles/database.h"
+#include "sourceFiles/userconfig.h"
+#include "sourceFiles/helper.h"
+#include "sourceFiles/all_popups_model.h"
 
 int main(int argc, char *argv[])
 {

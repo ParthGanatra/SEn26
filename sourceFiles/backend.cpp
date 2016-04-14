@@ -21,7 +21,7 @@ Backend::Backend(QObject *parent) :
     indlist.append("SO");
 
 
-    QFile file("To_Dump/stocklist");               // Enter your own path
+    QFile file("qml/StockAnalyser/To_Dump/stocklist");               // Enter your own path
 
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() << file.errorString();

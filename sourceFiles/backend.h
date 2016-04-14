@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QJsonArray>
 #include <QString>
-#include <stock.h>
+#include "stock.h"
 #include <vector>
 #include <QList>
 #include "elliott.h"

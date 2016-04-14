@@ -26,7 +26,7 @@ void Database::run() {
     for (int i=1;i<=stocklist.size();i++)
     {
 
-        QFile file("To_Dump/" + QString::number(i));               // Enter your own path
+        QFile file("qml/StockAnalyser/To_Dump/" + QString::number(i));               // Enter your own path
 
         if (!file.open(QIODevice::ReadOnly)) {
                qDebug() << file.errorString();
