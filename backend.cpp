@@ -6,6 +6,8 @@
 #include "elliott.h"
 #include <QJsonDocument>
 #include <QFile>
+#include "all_popups_model.h"
+
 using namespace std;
 
 
@@ -43,6 +45,11 @@ Backend::Backend(QObject *parent) :
 
 Backend::~Backend()
 {}
+
+void Backend::addPopupList(QList<QObject*> *popups_list)
+{
+    all_popups_list = popups_list;
+}
 
 void Backend::add_data(QStringList data){           // count other indicators and pass it to databse
     for(int i=0;i<data.size();i++){
@@ -210,8 +217,9 @@ void Backend::remove_popup_condition(QString stock,QString indicator,QString con
 
 }
 void Backend::add_popup_condition(QString stock,QString indicator,QString condition,QString threashold){
+    all_popups_list->append(new All_Popups_Model(stock,indicator,condition,threashold));
+    qDebug() << "Added new condition for popup";
 //    db.add_popup_condition(data);
-    ;
 }
 
 int Backend::get_index(string stock){

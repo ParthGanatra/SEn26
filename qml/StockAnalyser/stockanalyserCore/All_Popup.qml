@@ -12,29 +12,6 @@ Window {
     width: 600
     height: 700
 
-    //    ListModel {         // Need to replace with database
-    //        id: popups_model
-    //        ListElement {
-    //            popups_id: "1"
-    //            popups_stock: "stock1"
-    //            popups_indicator: "indicator1"
-    //            popups_condition: "condition1"
-    //        }
-    //        ListElement {
-    //            popups_id: "2"
-    //            popups_stock: "stock2"
-    //            popups_indicator: "indicator2"
-    //            popups_condition: "condition2"
-    //        }
-    //        ListElement {
-    //            popups_id: "3"
-    //            popups_stock: "stock3"
-    //            popups_indicator: "indicator3"
-    //            popups_condition: "condition3"
-    //        }
-
-    //    }
-
     Component {
         id: popupsDelegate
         Item {
@@ -52,7 +29,7 @@ Window {
                     Label {
                         id: popups_list_stock
                         style: "title"
-                        text: modelData["stock"]
+                        text: stock
                     }
 
 
@@ -117,7 +94,7 @@ Window {
         id: popups_list
         anchors.fill: parent
         header: popups_list_header
-        model: _backend.get_Popup_data()
+        model: all_popup_model
         delegate: popupsDelegate
     }
 

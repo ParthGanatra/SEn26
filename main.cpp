@@ -7,6 +7,9 @@
 
 #include <QtWebChannel>
 #include <QtWebSockets/QWebSocketServer>
+//#include <QtDeclarative/QDeclarativeContext>
+#include <QObject>
+#include <QList>
 
 #include "shared/websocketclientwrapper.h"
 #include "shared/websockettransport.h"
@@ -19,6 +22,7 @@
 #include "database.h"
 #include "userconfig.h"
 #include "helper.h"
+#include "all_popups_model.h"
 
 int main(int argc, char *argv[])
 {
@@ -34,13 +38,13 @@ int main(int argc, char *argv[])
     UserConfig uc;
     Frontend frontend;
 
-    Database db;
-    db.setUser("user");
-    db.run();
+//    Database db;
+//    db.setUser("user");
+//    db.run();
 
 
 
-    db.getTickInterval(1,10,"APPLE");
+//    db.getTickInterval(1,10,"APPLE");
 
 
 
@@ -56,6 +60,7 @@ int main(int argc, char *argv[])
 //    engine.rootContext()->setContextProperty("_database", &db);
     engine.rootContext()->setContextProperty("_userconfig", &uc);
     engine.rootContext()->setContextProperty("_helper", &login_helper);
+
 
     QWebSocketServer server(QStringLiteral("QWebChannel Standalone Example Server"),
                                 QWebSocketServer::NonSecureMode);
@@ -75,9 +80,17 @@ int main(int argc, char *argv[])
 
     // setup the dialog and publish it to the QWebChannel
     Chartdata chartdata;
-    chartdata.addBackend_data(&backend,&db);
+//    chartdata.addBackend_data(&backend,&db);
     channel.registerObject("chartdata", &chartdata);
     engine.rootContext()->setContextProperty("_chartdata", &chartdata);
+
+    QList<QObject*> all_popups_list;
+    all_popups_list.append(new All_Popups_Model("Stock1","Indicator1",">","50"));
+    all_popups_list.append(new All_Popups_Model("Stock2","Indicator6",">","70"));
+//    QDeclarativeContext *ctxt all_popups_list= engine.rootContext();
+    backend.addPopupList(&all_popups_list);
+    engine.rootContext()->setContextProperty("all_popup_model",QVariant::fromValue(all_popups_list));
+
 
     return app.exec();
 }

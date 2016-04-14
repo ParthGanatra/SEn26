@@ -30,6 +30,8 @@ public:
     QStringList indlist;
     QStringList stocklist;
 
+    QList<QObject*> *all_popups_list;
+
 
     Elliott e;
     Stock * stocks[100];
@@ -47,6 +49,7 @@ signals:
     void set_elliott_count(vector<int> count);
 
 public slots:
+    void addPopupList(QList<QObject*> *popups_list);
 //    void init();
     void add_data(QStringList data);  //notification as data came.
 //    void set_data(QJsonArray data);  //set data for elliott.

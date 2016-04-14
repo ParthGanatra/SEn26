@@ -38,8 +38,6 @@ Page {
                 backgroundColor: Theme.primaryColor
                 onClicked: {
                     var selected_indicator = select_indicator.selectedText
-//                    console.log("Stock:" + stock)
-//                    console.log("indicator: " + indicator)
                     pageStack.push(Qt.resolvedUrl("popup_select_condition.qml"),{selected_stock: selected_stock,selected_indicator: selected_indicator})
                 }
             }
@@ -49,7 +47,7 @@ Page {
             id: select_indicator
             anchors.centerIn: parent
             width: 150
-            model: ["RSI", "Simple_MA", "MACD", "exp_MA", "CCI", "ADX"]
+            model: ["RSI", "MA", "CCI", "SO"]
         }
     }
 }
