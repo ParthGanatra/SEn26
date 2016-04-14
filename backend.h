@@ -10,15 +10,17 @@
 #include <QList>
 #include "elliott.h"
 #include "database.h"
+#include <QQmlListProperty>
+#include <QObject>
+#include "all_popups_model.h"
 
 
 class Backend : public QObject
 {
     Q_OBJECT
-
+    Q_PROPERTY(QQmlListProperty<QObject> allpopupsmodel READ getAllPopups NOTIFY allPopupsListChanged)
+    Q_PROPERTY(QQmlListProperty<QObject> trigpopupsmodel READ getTrigPopups NOTIFY trigPopupsListChanged)
     QJsonArray Popup_data;
-
-
 
 public:
     explicit Backend(QObject *parent = 0);
@@ -30,6 +32,10 @@ public:
     QStringList indlist;
     QStringList stocklist;
 
+    QList<QObject*> *all_popups_list;
+    QList<QObject*> *trig_popups_list;
+    QQmlListProperty<QObject> getAllPopups();
+    QQmlListProperty<QObject> getTrigPopups();
 
     Elliott e;
     Stock * stocks[100];
@@ -45,16 +51,22 @@ signals:
     void add_indicator_data(QJsonArray indicator_data);  //json array containing the indiactor data.
     void get_data();
     void set_elliott_count(vector<int> count);
+    void allPopupsListChanged();
+    void trigPopupsListChanged();
 
 public slots:
+    void addPopupList(QList<QObject*> *popups_list);
+    void trigPopupList(QList<QObject*> *trig_popups_list);
+    void get_all_popup_conditions();
 //    void init();
     void addDatabse(Database *temp);
     void add_data(QStringList data);  //notification as data came.
 //    void set_data(QJsonArray data);  //set data for elliott.
 //    void change_pop_condition(QString stock, bool gret, double thr); // data consisting the change of thresold.
 //    void add_popup_data(QString s, QString i, QString c);
-    void remove_popup_condition(QString stock,QString indicator,QString condition,QString threashold);
-    void add_popup_condition(QString stock,QString indicator,QString condition,QString threashold);
+    void remove_popup_condition(QString stock,QString indicator,QString condition,QString threshold);
+    void remove_popup_trigger(QString stock,QString indicator,QString condition,QString threshold);
+    void add_popup_condition(QString stock,QString indicator,QString condition,QString threshold);
 //    void add_popup_data();
 //    void remove_popup_data(QString stock,QString ind);
     QJsonArray get_elliott_count(QString stock, int start, int end, int lev);

@@ -49,17 +49,17 @@ ApplicationWindow {
                     activeFocusOnPress: true
                     backgroundColor: Theme.primaryColor
                     onClicked: {
-                        var stockname = select_stock.text
-//                        console.log("Stock" + stockname)
+                        var stockname = select_stock.selectedText
                         pageStack.push(Qt.resolvedUrl("popup_select_indicator.qml"),{selected_stock: stockname})
                     }
                 }
             }
 
-            TextField {
+            MenuField {
                 id: select_stock
-                placeholderText: "Stock Name"
                 anchors.centerIn: parent
+                width: 150
+                model: ["Stock1", "Stock2", "Stock3", "Stock4"]
             }
         }
     }

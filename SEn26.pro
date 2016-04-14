@@ -49,7 +49,9 @@ HEADERS += \
     stock.h \
     database.h \
     backend.h \
-    chartdata.h
+    chartdata.h \
+    trigmodel.h \
+    all_popups_model.h
 
 SOURCES += main.cpp \
     SMTP/emailaddress.cpp \
@@ -86,7 +88,9 @@ SOURCES += main.cpp \
     elliott.cpp \
     database.cpp \
     backend.cpp \
-    chartdata.cpp
+    chartdata.cpp \
+    trigmodel.cpp \
+    all_popups_model.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 desktopInstallPrefix = D:\Qt\StockAnalyser

@@ -156,6 +156,8 @@ QString Database:: getTickIndicator(int index,QString name,QString rsi,QString c
 
 
 
+
+//    std::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("index" << index << "name" << name.toStdString()));
     mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("index" << index << "name" << name.toStdString()<<"rsi"<<rsi.toStdString()<<"cci"<<cci.toStdString()<<"ma"<<ma.toStdString()<<"so"<<so.toStdString()));
     //std::auto_ptr<mongo::DBClientCursor> cursor = c.query("Stocks.APPLE", MONGO_QUERY("index" << index));
     qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
