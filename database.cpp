@@ -1,5 +1,4 @@
 #include "database.h"
-
 #include <mongo/client/dbclient.h>
 #include <mongo/bson/bsonobjbuilder.h>
 #include <mongo/bson/bsonobj.h>
@@ -21,12 +20,71 @@ Database::~Database()
 {}
 
 
+
+
+
+
+void Database::run() {
+
+
+
+    for (int i=1;i<=stocklist.size();i++)
+    {
+
+        QFile file(QString::number(i));               // Enter your own path
+
+        if (!file.open(QIODevice::ReadOnly)) {
+               qDebug() << file.errorString();
+               return;
+        }
+        int FieldCount=1;
+
+        while (!file.atEnd()) {
+               QString line = file.readLine();
+
+
+               mongo::BSONObjBuilder b;
+
+               //qDebug() << line.split(',').value(1);
+
+                b.append("index",FieldCount);
+                b.append("date",line.split(',').value(0).toStdString());
+                b.append("open",line.split(',').value(1).toStdString());
+                b.append("high",line.split(',').value(2).toStdString());
+                b.append("low",line.split(',').value(3).toStdString());
+                b.append("close",line.split(',').value(4).toStdString());
+                b.append("volume",line.split(',').value(5).toStdString());
+                b.append("name",(stocklist.at(i-1).left(stocklist.at(i-1).length()-1)).toStdString());
+                FieldCount++;
+
+              //  qDebug() <<QString::fromStdString((stocklist.at(i-1).left(stocklist.at(i-1).length()-1)).toStdString());
+                mongo::BSONObj t=b.obj();
+
+                QString temp2=username+".stock";
+                //if(!c.query(temp2.toStdString(),t)->more())
+                c.insert(temp2.toStdString(),t);
+
+    //            i++;
+               // b.done();
+
+        }
+
+
+
+    }
+
+
+    dataloaded=1;
+
+}
+
+
+
+
 void Database::setUser(QString user)
 {
     this->username=user;
 }
-
-
 
 
 
@@ -39,19 +97,22 @@ Database::Database(QObject *parent) :
 
 int tickcount=1;
 
+
 QString Database:: getTick(int index,QString name)
 {
-    if(dataloaded==-1)
-        return "";
+    //if(dataloaded==-1)
+       // return "";
+
 
     QString temp2=username+".stock";
 
 
-
-    mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("index" << index << "name" << name.toStdString()));
+    mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("index" << index<<"name"<<name.toStdString()));
     //std::auto_ptr<mongo::DBClientCursor> cursor = c.query("Stocks.APPLE", MONGO_QUERY("index" << index));
-//    qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
+  // qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
 
+
+   // qDebug() << cursor->more();
     mongo::BSONObj temp=cursor->peekFirst();
 
 
@@ -76,51 +137,6 @@ QStringList Database ::getTickInterval(int start,int end,QString name)
 }
 
 
-
-int FieldCount=1;
-
-void Database::run() {
-
-
-
-
-    QFile file("Data.csv");               // Enter your own path
-
-    if (!file.open(QIODevice::ReadOnly)) {
-           qDebug() << file.errorString();
-           return;
-    }
-
-    while (!file.atEnd()) {
-           QString line = file.readLine();
-
-
-           mongo::BSONObjBuilder b;
-
-           //qDebug() << line.split(',').value(1);
-
-            b.append("index",FieldCount);
-            b.append("date",line.split(',').value(0).toStdString());
-            b.append("open",line.split(',').value(1).toStdString());
-            b.append("high",line.split(',').value(2).toStdString());
-            b.append("low",line.split(',').value(3).toStdString());
-            b.append("close",line.split(',').value(4).toStdString());
-            b.append("volume",line.split(',').value(5).toStdString());
-            b.append("name","APPLE");
-            FieldCount++;
-          //  qDebug()<<QString::fromStdString(b.obj().toString());
-
-            QString temp2=username+".stock";
-            c.insert(temp2.toStdString().c_str(),b.obj());
-
-//            i++;
-           // b.done();
-
-    }
-
-    dataloaded=1;
-
-}
 
 
 
@@ -182,9 +198,12 @@ void Database::addPopup(QString name,QString indicator,QString condition,QString
     b.append("condition",condition.toStdString());
     b.append("threshold",threshold.toStdString());
 
+    mongo::BSONObj t=b.obj();
+
     QString temp2=username+".popup";
 
-    c.insert(temp2.toStdString(),b.obj());
+    if(!c.query(temp2.toStdString(),t)->more())
+    c.insert(temp2.toStdString(),t);
 
 }
 
@@ -223,10 +242,61 @@ void Database::addIndicator(QString index,QString date,QString name,QString rsi,
     b.append("ma",ma.toStdString());
     b.append("so",so.toStdString());
 
+    mongo::BSONObj t=b.obj();
+
     QString temp2=username+".indicator";
 
-    c.insert(temp2.toStdString(),b.obj());
+   if(!c.query(temp2.toStdString(),t)->more())
+    c.insert(temp2.toStdString(),t);
 
 
+
+}
+
+
+
+void Database::database_test()
+{
+/*    getTickInterval                test               status :Completed.
+QStringList temp;
+
+temp=this->getTickInterval(1,2,"A");
+
+for(int i=0;i<temp.size();i++)
+{
+    qDebug() <<temp.at(i);
+}
+*/
+
+
+ // test 2 and 3                   status : passed.
+
+QStringList temp;
+this->addPopup("A","RSI",">","25");
+this->addPopup("A","RSI","<","15");
+this->addPopup("A","RSI","<","7");
+this->addPopup("A","so",">","25");
+this->addPopup("A","MA",">","25");
+this->addPopup("A","MA","<","12");
+
+    temp=this->getallpopupscondition("A","RSI");
+
+for(int i=0;i<temp.size();i++)
+{
+     qDebug() <<temp.at(i);
+}
+
+
+//int removePopup(QString name,QString indicator,QString condition,QString threshold);
+this->removePopup("A","RSI",">","25");
+
+qDebug()<<"After Removing";
+
+temp=this->getallpopupscondition("A","RSI");
+
+for(int i=0;i<temp.size();i++)
+{
+ qDebug() <<temp.at(i);
+}
 
 }

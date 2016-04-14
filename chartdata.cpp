@@ -46,12 +46,12 @@ void Chartdata::setWH(int width, int height){
 
 QJsonObject Chartdata::getEllietteCount(QString stock, int start, int end, int lev){
     QJsonObject temp;
-    temp["list"] = backend->get_elliott_count("APPLE",start,end,lev);
+    temp["list"] = backend->get_elliott_count(stock,start,end,lev);
     return temp;
 }
 
 QJsonObject Chartdata::getstockPriceData(QString stockName, int start, int end){
-    QStringList str = database->getTickInterval(start,end,"APPLE");
+    QStringList str = database->getTickInterval(start,end,stockName);
     QJsonArray arr;
     for(int i=0;i<str.length();i++){
         QJsonObject temp;
