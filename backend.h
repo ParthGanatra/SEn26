@@ -23,7 +23,7 @@ class Backend : public QObject
 public:
     explicit Backend(QObject *parent = 0);
     virtual ~Backend();
-    int no_of_stocks;
+    int no_of_stocks = 0;
 
     Database db;
 
@@ -56,7 +56,7 @@ public slots:
     void add_popup_condition(QString stock,QString indicator,QString condition,QString threashold);
 //    void add_popup_data();
 //    void remove_popup_data(QString stock,QString ind);
-    void get_elliott_count(QString stock, int start, int end, int lev);
+    QJsonArray get_elliott_count(QString stock, int start, int end, int lev);
 //  QJsonArray get_Popup_data();
 //  int get_Popup_size();
     int get_index(string stock);
