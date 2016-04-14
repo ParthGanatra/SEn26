@@ -8,7 +8,7 @@ import "../stockanalyserCore"
 
 ApplicationWindow {
     id: mainWindow
-    title: "StockAnalyser"
+    title: Settings.windowTitle
     visible: true
     width: 500
     height: 500

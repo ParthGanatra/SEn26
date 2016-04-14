@@ -58,8 +58,8 @@ Page{
             {
                 _helper.change_password(forgot_pass_name.text,new_password.text);
                 dialogSnackBar.open("Password Changed")
-                pageStack.clear()
-                pageStack.push(Qt.resolvedUrl("Login.qml"))
+//                pageStack.clear();
+                pageStack.pop();
             }
             else
             {
@@ -107,8 +107,8 @@ Page{
                     text: "Cancel"
                     textColor: Theme.accentColor
                     onClicked: {
-                        pageStack.clear()
-                        pageStack.push(Qt.resolvedUrl("Login.qml"))
+//                        pageStack.clear()
+                        pageStack.pop();
                     }
                 }
 

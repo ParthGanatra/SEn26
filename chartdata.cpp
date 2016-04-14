@@ -53,14 +53,17 @@ QJsonObject Chartdata::getEllietteCount(QString stock, int start, int end, int l
 QJsonObject Chartdata::getstockPriceData(QString stockName, int start, int end){
     QStringList str = database->getTickInterval(start,end,stockName);
     QJsonArray arr;
-    for(int i=0;i<str.length();i++){
-        QJsonObject temp;
+    QJsonObject temp;
 
+    for(int i=1;i<str.length();i++){
         QJsonDocument doc = QJsonDocument::fromJson(str.at(i).toUtf8());
         temp = doc.object();
 
         arr.append(temp);
     }
+    arr.append(temp);
+    arr.append(temp);
+
     QJsonObject list1;
     list1["list"] = arr;
 

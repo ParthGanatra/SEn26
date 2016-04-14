@@ -19,11 +19,6 @@ int dataloaded=-1;
 Database::~Database()
 {}
 
-
-
-
-
-
 void Database::run() {
 
 
@@ -31,7 +26,7 @@ void Database::run() {
     for (int i=1;i<=stocklist.size();i++)
     {
 
-        QFile file(QString::number(i));               // Enter your own path
+        QFile file("To_Dump/" + QString::number(i));               // Enter your own path
 
         if (!file.open(QIODevice::ReadOnly)) {
                qDebug() << file.errorString();
@@ -109,7 +104,7 @@ QString Database:: getTick(int index,QString name)
 
     mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("index" << index<<"name"<<name.toStdString()));
     //std::auto_ptr<mongo::DBClientCursor> cursor = c.query("Stocks.APPLE", MONGO_QUERY("index" << index));
-  // qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
+//   qDebug()<<QString::fromStdString(cursor->peekFirst().toString());
 
 
    // qDebug() << cursor->more();

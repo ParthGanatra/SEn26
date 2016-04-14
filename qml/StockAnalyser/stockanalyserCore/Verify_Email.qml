@@ -48,8 +48,8 @@ Page {
                     {
                         console.log("saving details to file")
                         _userconfig.saveConfig(firstname,lastname,email,password);
-                        pageStack.clear()
-                        pageStack.push(Qt.resolvedUrl("Login.qml"));
+//                        pageStack.clear();
+                        pageStack.replace(Qt.resolvedUrl("Login.qml"));
                     }
                     else
                     {
@@ -65,8 +65,8 @@ Page {
                 backgroundColor: Theme.primaryColor
                 anchors.left: parent.horizontalCenter*1.2
                 onClicked: {
-                    pageStack.clear()
-                    pageStack.push(Qt.resolvedUrl("Login.qml"));
+//                    pageStack.clear();
+                    pageStack.replace(Qt.resolvedUrl("Login.qml"));
                 }
             }
         }

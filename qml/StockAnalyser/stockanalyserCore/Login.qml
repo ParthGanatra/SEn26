@@ -6,6 +6,8 @@ import "../stockanalyserCore"
 
 Page {
     id: login_page
+    title: Settings.windowTitle
+
 //    signal activated
     property string account_username: "value"
     ColumnLayout {
