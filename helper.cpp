@@ -190,7 +190,6 @@ void Helper::change_details(QString old_user, QString nu, QString l, QString ema
     QString old_pass;
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)){
         QTextStream in(&file);
-        QTextStream out(&file);
         old_pass = in.readLine();
         old_pass = in.readLine();
         old_pass = in.readLine();

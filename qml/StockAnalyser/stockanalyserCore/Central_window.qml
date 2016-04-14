@@ -45,7 +45,7 @@ Page{
             hoverAnimation: true
 
             onTriggered: {
-                pageStack.clear()
+                pageStack.pop()
                 pageStack.push(Qt.resolvedUrl("Login.qml"))
             }
         }

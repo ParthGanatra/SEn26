@@ -61,9 +61,15 @@ void Stock::computeMA(){
 }
 void Stock::computeSO(){
     StockPrice st = prices[prices.size()-1];
-    soHighestHigh = max(soHighestHigh , st.high);
-    soLowestLow = max(soLowestLow , st.low);
-    st.soK =  (st.close - soLowestLow)/(soHighestHigh - soLowestLow);
+    double max = 0;
+    double min = 1e10;
+    for(int i = 0;i < prices.size();i++){
+        if(max<prices[i].close)
+            max = prices[i].close;
+        if(min>prices[i].close)
+            min = prices[i].close;
+    }
+    st.soK =  (st.close - min)/(max - min);
     if(prices.size()>3){
        st.soD = prices[prices.size()-1].soK + prices[prices.size()-2].soK +prices[prices.size()-3].soK;
        st.soD /= 3;
