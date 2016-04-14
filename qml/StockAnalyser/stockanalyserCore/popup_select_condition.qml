@@ -45,21 +45,21 @@ Page {
                     popup_select_stock.close()
                 }
             }
-
-            Row {
-                anchors.centerIn: parent
-                MenuField {
-                    id: select_condition
-                    width: 30
-                    model: [">", "<"]
-                }
-
-                TextField {
-                    id: select_threshold
-                    placeholderText: "Threshold"
-                }
-
+        }
+        Row {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            MenuField {
+                id: select_condition
+                width: 30
+                model: [">", "<"]
             }
+
+            TextField {
+                id: select_threshold
+                placeholderText: "Threshold"
+            }
+
         }
     }
 }

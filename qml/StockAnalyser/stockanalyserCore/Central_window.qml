@@ -28,13 +28,6 @@ Page{
 
             onTriggered: {
                 pageStack.push(Qt.resolvedUrl("Account.qml"))
-//                Loader = {
-//                    asynchronous: true,
-//                    visible: true,
-
-//                    //  For testing your component change the login below to the name of your file.
-//                    source: Qt.resolvedUrl(Settings.qml_files + "/Account.qml")
-//                };
             }
         },
 
@@ -47,6 +40,18 @@ Page{
             onTriggered: {
                 pageStack.pop()
                 pageStack.push(Qt.resolvedUrl("Login.qml"))
+            }
+        },
+
+        Action {
+            iconName: "action/power_settings_new"
+            name: "Help"
+            hoverAnimation: true
+
+            onTriggered: {
+                var component = Qt.createComponent("HelpWindow.qml")
+                var window = component.createObject(central_window)
+                window.show()
             }
         }
     ]
