@@ -28,6 +28,11 @@ QJsonObject Chartdata::getWH() const
     return temp;
 }
 
+QJsonObject Chartdata::timeUpdate(QString stockName, int start, int end){
+//    backend->add_data();
+    return getstockPriceData(stockName,start,end);
+}
+
 void Chartdata::setWH(int width, int height){
     Width = width;
     Height = height;
@@ -45,15 +50,14 @@ void Chartdata::setWH(int width, int height){
 */
 
 QJsonObject Chartdata::getEllietteCount(QString stock, int start, int end, int lev){
-    qDebug()<<"Sfdds";
+
     QJsonObject temp;
     temp["list"] = backend->get_elliott_count(stock,start,end,lev);
-    qDebug()<<"Sfdds";
+
     return temp;
 }
 
 QJsonObject Chartdata::getstockPriceData(QString stockName, int start, int end){
-    qDebug()<<"Sfdds";
     QStringList str = database->getTickInterval(start,end,stockName);
     QJsonArray arr;
     QJsonObject temp;
@@ -69,12 +73,12 @@ QJsonObject Chartdata::getstockPriceData(QString stockName, int start, int end){
 
     QJsonObject list1;
     list1["list"] = arr;
-    qDebug()<<"Sfdds";
+
     return list1;
 }
 
 QJsonObject Chartdata::getstockPriceDataIndex(QString stockName, int index){
-    qDebug()<<"Sfdds";
+
     QString str = database->getTick(index,stockName);
     QJsonObject temp;
     QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
@@ -87,7 +91,7 @@ QJsonObject Chartdata::getstockPriceDataIndex(QString stockName, int index){
 
 QJsonObject Chartdata::getStockList(){
     QJsonArray arr;
-qDebug()<<"Sfdds";
+
     for(int i=0;i<backend->stocklist.length();i++){
         QJsonObject temp;
 
@@ -98,6 +102,6 @@ qDebug()<<"Sfdds";
     }
     QJsonObject list1;
     list1["list"] = arr;
-qDebug()<<"Sfdds";
+
     return list1;
 }

@@ -17,9 +17,35 @@ window.onresize = function(){
     // add_tabs(tabList);
 }
 
+function myLoop () {
+    setTimeout(function () {
+        indexStart[activeTab]++;
+        indexEnd[activeTab]++;
+        mainCaller.timeUpdate(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
+            mainData = [];
+            var parseDate = d3.time.format("%Y-%m-%d").parse;
+
+            for(var i=1;i<returnValue.list.length;i++){
+                mainData.push({
+                    date: parseDate(returnValue.list[i].date),
+                    open: +returnValue.list[i].open,
+                    high: +returnValue.list[i].high,
+                    low: +returnValue.list[i].low,
+                    close: +returnValue.list[i].close,
+                    volume: +returnValue.list[i].volume,
+                });
+            }
+            myLoop();
+            value_recieved("tab1",mainData);
+        });
+    }, 6000);
+}
+
 window.onload = function() {
     if(firstTime==1){
         firstTime = 0;
+        myLoop();
+
         var socket = new WebSocket(wsUri);
 
         socket.onclose = function()
@@ -38,6 +64,20 @@ window.onload = function() {
                 // chart.getWH(function (returnValue){
                 //     value_recieved(chart,returnValue);
                 // });
+
+                chart.showTrigPopup.connect(function(stockName) {
+                    stockName = stockName.slice(0,-1);
+                    var id = $(".nav-tabs").children().length;
+                    $('.add-contact').closest('li').before("<li>\
+                                            <a href=\"#tab" + (id) + "\" data-toggle=\"tab\">" + stockName + "</a>\
+                                            </li>");
+                    $("#mainTabsContent").append($("<div class=\"tab-pane\" id=\"tab" + (id) + "\">\
+                                    <button class=\"btn\" id=\"buttontab" + (id) + "\">Reset</button>\
+                                    </div>"));
+
+                    $('.nav-tabs li:nth-child(' + id + ') a').click();
+                    newstockTab(id,stockName);
+                });
 
                 chart.getStockList(function (returnValue){
                     for(var i=0;i<returnValue.list.length;i++)
@@ -155,6 +195,37 @@ function add_tabs(tabList){
     //     mainData = data;
     //     value_recieved("tab1",mainData);
     // });
+}
+
+function newstockTab(index,stockName){
+    indicatorType["tab"+index] = "normal";
+    currentLevel["tab"+index] = -1;
+
+    addContent(index,{"name":stockName,"maxlevels":5});
+    // value_recieved("tab"+index,mainData);
+
+    activeTab = stockName;
+    indexStart[activeTab] = 1;
+    indexEnd[activeTab] = 100;
+    mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
+        mainData = [];
+        var parseDate = d3.time.format("%Y-%m-%d").parse;
+
+        for(var i=1;i<returnValue.list.length;i++){
+            mainData.push({
+                date: parseDate(returnValue.list[i].date),
+                open: +returnValue.list[i].open,
+                high: +returnValue.list[i].high,
+                low: +returnValue.list[i].low,
+                close: +returnValue.list[i].close,
+                volume: +returnValue.list[i].volume,
+            });
+        }
+
+        value_recieved("tab"+index,mainData);
+    });
+
+    registerClickEvent()
 }
 
 function addNewTab(index){

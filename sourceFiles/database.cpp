@@ -9,6 +9,8 @@
 #include <QList>
 #include <mongo/client/dbclientinterface.h>
 #include <QStringList>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 #define 	MONGO_QUERY(x)   mongo::Query(BSON(x))
 
@@ -148,12 +150,16 @@ QStringList Database ::getTickInterval(int start,int end,QString name)
     QString temp2=username+".stock";
     mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("name"<<name.toStdString()));
     mongo::BSONObj temp;
+    QJsonObject temp1;
     int i=0;
+
     while(cursor->more()){
-        if(end<i)
+        temp = cursor->next();
+        QJsonDocument doc = QJsonDocument::fromJson(QString::fromStdString(temp.jsonString()).toUtf8());
+        temp1 = doc.object();
+        if(end<temp1["index"].toInt())
             break;
-        if(start<=i){
-            temp = cursor->next();
+        if(start<=temp1["index"].toInt()){
             list.append(QString::fromStdString(temp.jsonString()));
         }
         i++;

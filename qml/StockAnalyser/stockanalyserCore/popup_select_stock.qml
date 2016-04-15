@@ -9,6 +9,10 @@ Page {
     id: popup_select_stock_page
     title: "Add Notification"
 
+    ListModel{
+        id: listmodel
+    }
+
     Rectangle {
         id: main_rect
         anchors.fill: parent
@@ -37,7 +41,7 @@ Page {
                 backgroundColor: Theme.primaryColor
                 onClicked: {
                     var stockname = select_stock.selectedText
-                    pageStack.push(Qt.resolvedUrl("popup_select_indicator.qml"),{selected_stock: stockname})
+                    pageStack.replace(Qt.resolvedUrl("popup_select_indicator.qml"),{selected_stock: stockname})
                 }
             }
         }
@@ -46,7 +50,7 @@ Page {
             id: select_stock
             anchors.centerIn: parent
             width: 150
-            model: ["Stock1", "Stock2", "Stock3", "Stock4"]
+            model: myModel
         }
     }
 }

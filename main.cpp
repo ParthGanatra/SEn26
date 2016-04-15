@@ -50,6 +50,8 @@ int main(int argc, char *argv[])
 
 //    engine.rootContext()->setContextProperty("_backend", &backend);
 
+        engine.rootContext()->setContextProperty("myModel", QVariant::fromValue(backend.stocklist));
+
    // Helper login_helper;
     engine.rootContext()->setContextProperty("_backend", &backend);
    engine.rootContext()->setContextProperty("_frontend", &frontend);

@@ -38,7 +38,7 @@ Page {
                 backgroundColor: Theme.primaryColor
                 onClicked: {
                     var selected_indicator = select_indicator.selectedText
-                    pageStack.push(Qt.resolvedUrl("popup_select_condition.qml"),{selected_stock: selected_stock,selected_indicator: selected_indicator})
+                    pageStack.replace(Qt.resolvedUrl("popup_select_condition.qml"),{selected_stock: selected_stock,selected_indicator: selected_indicator})
                 }
             }
         }
