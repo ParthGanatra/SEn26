@@ -269,8 +269,8 @@ void Backend::remove_popup_trigger(QString stock,QString indicator,QString condi
 //        db->removePopup(stock,indicator,condition,threshold);
 }
 void Backend::add_popup_condition(QString stock,QString indicator,QString condition,QString threshold){
-    trig_popups_list->append(new All_Popups_Model(stock,indicator,condition,threshold));
-    emit trigPopupsListChanged();
+//    trig_popups_list->append(new All_Popups_Model(stock,indicator,condition,threshold));
+//    emit trigPopupsListChanged();
     all_popups_list->append(new All_Popups_Model(stock,indicator,condition,threshold));
     emit allPopupsListChanged();
     qDebug() << "Added new condition for popup";
