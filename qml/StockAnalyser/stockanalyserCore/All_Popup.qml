@@ -12,29 +12,6 @@ Window {
     width: 600
     height: 700
 
-    //    ListModel {         // Need to replace with database
-    //        id: popups_model
-    //        ListElement {
-    //            popups_id: "1"
-    //            popups_stock: "stock1"
-    //            popups_indicator: "indicator1"
-    //            popups_condition: "condition1"
-    //        }
-    //        ListElement {
-    //            popups_id: "2"
-    //            popups_stock: "stock2"
-    //            popups_indicator: "indicator2"
-    //            popups_condition: "condition2"
-    //        }
-    //        ListElement {
-    //            popups_id: "3"
-    //            popups_stock: "stock3"
-    //            popups_indicator: "indicator3"
-    //            popups_condition: "condition3"
-    //        }
-
-    //    }
-
     Component {
         id: popupsDelegate
         Item {
@@ -52,35 +29,34 @@ Window {
                     Label {
                         id: popups_list_stock
                         style: "title"
-                        text: modelData["stock"]
+                        text: stock
                     }
 
 
                     Label {
                         id: popups_list_indicator
                         style: "title"
-                        text: modelData["indicator"]
+                        text: indicator
                     }
 
 
                     Label {
                         id: popups_list_condition
                         style: "title"
-                        text: modelData["condition"]
+                        text: condition
                     }
 
-                    Button {
-                        id: popups_modify
-                        text: "Modify"
-                        elevation: 1
-                        onClicked: snackbar.open("Method to modify popup")
+                    Label {
+                        id: popups_list_threshold
+                        style: "title"
+                        text: threshold
                     }
 
                     Button {
                         id: popups_dismiss
                         text: "Dismiss"
                         elevation: 1
-                        onClicked: snackbar.open("Method to dismiss popup")
+                        onClicked: _backend.remove_popup_condition(stock,indicator,condition,threshold)
                     }
                 }
             }
@@ -117,28 +93,9 @@ Window {
         id: popups_list
         anchors.fill: parent
         header: popups_list_header
-        model: _backend.get_Popup_data()
+        model: _backend.allpopupsmodel
         delegate: popupsDelegate
     }
-
-    //    Button {        //Temporary
-    //        anchors {
-    //            bottom: parent.bottom
-    //            left: parent.left
-    //            margins: Units.dp(10)
-    //        }
-
-    //        textColor: "white"
-    //        backgroundColor: Theme.primaryColor
-    //        elevation: 1
-    //        text: "Add Random Pop-up"
-
-    //        onClicked: {
-    //            var num = popups_model.count + 1
-    //            popups_model.append({"popups_stock": "stock" + num , "popups_indicator":"indicator" + num , "popups_condition":"condition" + num})
-
-    //        }
-    //    }
 
     Button {
         id: add_popup_button
@@ -154,7 +111,8 @@ Window {
         text: "Add Pop-up"
 
         onClicked: {
-            var component = Qt.createComponent("popup_select_stock.qml")
+            Settings.calledby = "popup_select_stock.qml"
+            var component = Qt.createComponent("temp2.qml")
             var window = component.createObject(all_popups_window)
             window.show()
         }

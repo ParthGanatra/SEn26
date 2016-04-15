@@ -9,44 +9,55 @@ Rectangle {
     Flickable {
         id: flickable
         anchors.fill: parent
-        contentHeight: _backend.get_Popup_size()*(Units.dp(12) + 60)
+        contentHeight: 500 //_backend.get_Popup_size()*(Units.dp(12) + 60)
 
-        Column{
-            id: main_popup
-            spacing: Units.dp(12)
+
+        ListView {
+            id: popup_list
             anchors.fill: parent
+            model: _backend.trigpopupsmodel
+            delegate: popupDelegate
+        }
 
-            Repeater{
-                model: _backend.get_Popup_data()
 
-                delegate: Rectangle{
-                    id: rect
-                    color: "#ecf0f1"
-                    height: 60
-//                    Layout.fillWidth: true
-                    width: Settings.screenWidth*0.2
-                    ActionButton {
-                        isMiniSize: true
-                        backgroundColor: "#95a5a6"
-                        anchors {
-                            right: parent.right
-                            verticalCenter: parent.verticalCenter
-                        }
-                        action: Action {
-                            id: removeContent
-                            onTriggered: _backend.remove_Popup_data(index)
-                        }
-                        iconName: "action/delete"
+    }
+
+    Component {
+        id: popupDelegate
+        Rectangle{
+            id: rect
+            color: "#ecf0f1"
+            height: 60
+            width: Settings.screenWidth*0.2
+            Row {
+                Column {
+                    anchors.top: parent.top
+                    anchors.topMargin: 10
+
+                    Text { text: stock}
+                    Text { text: indicator}
+                    Text { text: condition + threshold}
+                }
+
+                ActionButton {
+                    id:showchartbutton
+                    isMiniSize: true
+                    backgroundColor: "#95a5a6"
+                    action: Action {
+                        onTriggered: _chartdata.showTrigPopup(stock)
                     }
+                    iconName: "action/delete"
+                }
 
-                    Column {
-                        anchors.top: parent.top
-                        anchors.topMargin: 10
-
-                        Text { text: modelData["stock"]}
-                        Text { text: modelData["indicator"]}
-                        Text { text: modelData["condition"]}
+                ActionButton {
+                    id:deletepopupbutton
+                    isMiniSize: true
+                    backgroundColor: "#95a5a6"
+                    action: Action {
+                        //                    id: removeContent
+                        onTriggered: _backend.remove_popup_trigger(stock,indicator,condition,threshold)
                     }
+                    iconName: "action/delete"
                 }
             }
         }
@@ -56,8 +67,7 @@ Rectangle {
         flickableItem: flickable
     }
 
-//    Text {
-//        anchors.centerIn: parent
-//        text: qsTr("Pop-up Area")
-//    }
+    Snackbar {
+        id: snackbar
+    }
 }

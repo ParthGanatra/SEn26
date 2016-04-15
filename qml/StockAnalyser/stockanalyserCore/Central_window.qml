@@ -27,7 +27,12 @@ Page{
             name: "Accounts"
 
             onTriggered: {
-                pageStack.push(Qt.resolvedUrl("Account.qml"))
+//                pageStack.push(Qt.resolvedUrl("Account.qml"))
+                Settings.calledby = "Account.qml"
+                var component = Qt.createComponent("temp2.qml");
+                var window = component.createObject(central_window);
+                window.show();
+
 //                Loader = {
 //                    asynchronous: true,
 //                    visible: true,
@@ -40,13 +45,25 @@ Page{
 
 
         Action {
+            iconName: "action/help"
+            name: "Help"
+            hoverAnimation: true
+
+            onTriggered: {
+                var component = Qt.createComponent("HelpWindow.qml")
+                var window = component.createObject(central_window)
+                window.show()
+            }
+        },
+
+        Action {
             iconName: "action/power_settings_new"
             name: "Logout"
             hoverAnimation: true
 
             onTriggered: {
-                pageStack.clear()
-                pageStack.push(Qt.resolvedUrl("Login.qml"))
+                pageStack.pop()
+                pageStack.replace(Qt.resolvedUrl("Login.qml"))
             }
         }
     ]

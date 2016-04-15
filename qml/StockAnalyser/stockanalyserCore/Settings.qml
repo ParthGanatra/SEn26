@@ -10,4 +10,5 @@ QtObject {
     property string algorithm_files: "stockanalyserCore"
     property string database_files: "stockanalyserCore"
     property string username: ""
+    property string calledby: "default"
 }

@@ -32,7 +32,7 @@ HEADERS += \
     SMTP/quotedprintable.h \
     SMTP/smtpclient.h \
     SMTP/smtpexports.h \
-    frontend.h \
+    sourceFiles/frontend.h \
 #    ElliottWaveCount/rules_check.h \
 #    ElliottWaveCount/util.h \
 #    ElliottWaveCount/wave_description.h \
@@ -43,13 +43,15 @@ HEADERS += \
 #    ElliottWaveCount/wavecount.h \
     shared/websocketclientwrapper.h \
     shared/websockettransport.h \
-    userconfig.h \
-    helper.h \
-    elliott.h \
-    stock.h \
-    database.h \
-    backend.h \
-    chartdata.h
+    sourceFiles/userconfig.h \
+    sourceFiles/helper.h \
+    sourceFiles/elliott.h \
+    sourceFiles/stock.h \
+    sourceFiles/database.h \
+    sourceFiles/backend.h \
+    sourceFiles/chartdata.h \
+    sourceFiles/trigmodel.h \
+    sourceFiles/all_popups_model.h
 
 SOURCES += main.cpp \
     SMTP/emailaddress.cpp \
@@ -64,7 +66,7 @@ SOURCES += main.cpp \
     SMTP/mimetext.cpp \
     SMTP/quotedprintable.cpp \
     SMTP/smtpclient.cpp \
-    frontend.cpp \
+    sourceFiles/frontend.cpp \
 #    ElliottWaveCount/main.cpp \
 #    ElliottWaveCount/rules_check.cpp \
 #    ElliottWaveCount/util.cpp \
@@ -80,13 +82,15 @@ SOURCES += main.cpp \
     shared/websocketclientwrapper.cpp \
     shared/websockettransport.cpp \
 #    Queries_in_mongoDB.cpp \
-    userconfig.cpp \
-    helper.cpp \
-    stock.cpp \
-    elliott.cpp \
-    database.cpp \
-    backend.cpp \
-    chartdata.cpp
+    sourceFiles/userconfig.cpp \
+    sourceFiles/helper.cpp \
+    sourceFiles/stock.cpp \
+    sourceFiles/elliott.cpp \
+    sourceFiles/database.cpp \
+    sourceFiles/backend.cpp \
+    sourceFiles/chartdata.cpp \
+    sourceFiles/trigmodel.cpp \
+    sourceFiles/all_popups_model.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 desktopInstallPrefix = D:\Qt\StockAnalyser

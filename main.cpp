@@ -1,24 +1,23 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QtWebEngine/qtwebengineglobal.h>
-
 #include <QUrl>
 #include <QDebug>
-
 #include <QtWebChannel>
 #include <QtWebSockets/QWebSocketServer>
+#include <QObject>
+#include <QList>
+#include <qqmlcontext.h>
 
 #include "shared/websocketclientwrapper.h"
 #include "shared/websockettransport.h"
-#include "chartdata.h"
-
-
-#include <qqmlcontext.h>
-#include "backend.h"
-#include "frontend.h"
-#include "database.h"
-#include "userconfig.h"
-#include "helper.h"
+#include "sourceFiles/chartdata.h"
+#include "sourceFiles/backend.h"
+#include "sourceFiles/frontend.h"
+#include "sourceFiles/database.h"
+#include "sourceFiles/userconfig.h"
+#include "sourceFiles/helper.h"
+#include "sourceFiles/all_popups_model.h"
 
 int main(int argc, char *argv[])
 {
@@ -36,14 +35,14 @@ int main(int argc, char *argv[])
 
     Database db;
     db.setUser("user");
-    db.stocklist=backend.stocklist;
+    db.stocklist = backend.stocklist;
     db.run();
 
+    backend.addDatabse(&db);
     db.database_test();
 
 
-
-//    db.getTickInterval(1,10,"APPLE");
+    db.getTick(10,"apple");
 
 
 
@@ -51,14 +50,15 @@ int main(int argc, char *argv[])
 
 //    engine.rootContext()->setContextProperty("_backend", &backend);
 
-//    Database db;
-//    db.run();
+        engine.rootContext()->setContextProperty("myModel", QVariant::fromValue(backend.stocklist));
+
    // Helper login_helper;
     engine.rootContext()->setContextProperty("_backend", &backend);
    engine.rootContext()->setContextProperty("_frontend", &frontend);
 //    engine.rootContext()->setContextProperty("_database", &db);
     engine.rootContext()->setContextProperty("_userconfig", &uc);
     engine.rootContext()->setContextProperty("_helper", &login_helper);
+
 
     QWebSocketServer server(QStringLiteral("QWebChannel Standalone Example Server"),
                                 QWebSocketServer::NonSecureMode);
@@ -81,6 +81,17 @@ int main(int argc, char *argv[])
     chartdata.addBackend_data(&backend,&db);
     channel.registerObject("chartdata", &chartdata);
     engine.rootContext()->setContextProperty("_chartdata", &chartdata);
+
+    QList<QObject*> all_popups_list;
+//    all_popups_list.append(new All_Popups_Model("Stock1","Indicator1",">","50"));
+//    all_popups_list.append(new All_Popups_Model("Stock2","Indicator3",">","70"));
+//    QDeclarativeContext *ctxt all_popups_list= engine.rootContext();
+    backend.addPopupList(&all_popups_list);
+
+    QList<QObject*> trig_popups_list;
+    backend.trigPopupList(&trig_popups_list);
+//    engine.rootContext()->setContextProperty("all_popup_model",QVariant::fromValue(all_popups_list));
+    backend.get_all_popup_conditions();
 
     return app.exec();
 }

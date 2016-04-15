@@ -1,6 +1,6 @@
 'use strict';
 var wsUri = "ws://localhost:12345";
-var indicatorType = {}, currentLevel = {}, stockName, mainData;
+var indicatorType = {}, currentLevel = {}, stockName, mainData, elliottCount;
 var indexStart = {}, indexEnd = {};
 var activeTab, mainCaller;
 var firstTime = 1;
@@ -17,9 +17,35 @@ window.onresize = function(){
     // add_tabs(tabList);
 }
 
+function myLoop () {
+    setTimeout(function () {
+        indexStart[activeTab]++;
+        indexEnd[activeTab]++;
+        mainCaller.timeUpdate(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
+            mainData = [];
+            var parseDate = d3.time.format("%Y-%m-%d").parse;
+
+            for(var i=1;i<returnValue.list.length;i++){
+                mainData.push({
+                    date: parseDate(returnValue.list[i].date),
+                    open: +returnValue.list[i].open,
+                    high: +returnValue.list[i].high,
+                    low: +returnValue.list[i].low,
+                    close: +returnValue.list[i].close,
+                    volume: +returnValue.list[i].volume,
+                });
+            }
+            myLoop();
+            value_recieved("tab1",mainData);
+        });
+    }, 6000);
+}
+
 window.onload = function() {
     if(firstTime==1){
         firstTime = 0;
+        myLoop();
+
         var socket = new WebSocket(wsUri);
 
         socket.onclose = function()
@@ -38,6 +64,20 @@ window.onload = function() {
                 // chart.getWH(function (returnValue){
                 //     value_recieved(chart,returnValue);
                 // });
+
+                chart.showTrigPopup.connect(function(stockName) {
+                    stockName = stockName.slice(0,-1);
+                    var id = $(".nav-tabs").children().length;
+                    $('.add-contact').closest('li').before("<li>\
+                                            <a href=\"#tab" + (id) + "\" data-toggle=\"tab\">" + stockName + "</a>\
+                                            </li>");
+                    $("#mainTabsContent").append($("<div class=\"tab-pane\" id=\"tab" + (id) + "\">\
+                                    <button class=\"btn\" id=\"buttontab" + (id) + "\">Reset</button>\
+                                    </div>"));
+
+                    $('.nav-tabs li:nth-child(' + id + ') a').click();
+                    newstockTab(id,stockName);
+                });
 
                 chart.getStockList(function (returnValue){
                     for(var i=0;i<returnValue.list.length;i++)
@@ -124,7 +164,7 @@ function add_tabs(tabList){
     indexEnd[activeTab] = 100;
     mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
         mainData = [];
-        var parseDate = d3.time.format("%d-%b-%y").parse;
+        var parseDate = d3.time.format("%Y-%m-%d").parse;
 
         for(var i=1;i<returnValue.list.length;i++){
             mainData.push({
@@ -157,6 +197,37 @@ function add_tabs(tabList){
     // });
 }
 
+function newstockTab(index,stockName){
+    indicatorType["tab"+index] = "normal";
+    currentLevel["tab"+index] = -1;
+
+    addContent(index,{"name":stockName,"maxlevels":5});
+    // value_recieved("tab"+index,mainData);
+
+    activeTab = stockName;
+    indexStart[activeTab] = 1;
+    indexEnd[activeTab] = 100;
+    mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
+        mainData = [];
+        var parseDate = d3.time.format("%Y-%m-%d").parse;
+
+        for(var i=1;i<returnValue.list.length;i++){
+            mainData.push({
+                date: parseDate(returnValue.list[i].date),
+                open: +returnValue.list[i].open,
+                high: +returnValue.list[i].high,
+                low: +returnValue.list[i].low,
+                close: +returnValue.list[i].close,
+                volume: +returnValue.list[i].volume,
+            });
+        }
+
+        value_recieved("tab"+index,mainData);
+    });
+
+    registerClickEvent()
+}
+
 function addNewTab(index){
     var str = "<div id=addTab" + index + " style=\"position: absolute; left: 50%; top: 25%;\" class=\"btn-group\">\
             <a class=\"btn dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">\
@@ -185,7 +256,7 @@ function addNewTab(index){
             indexEnd[activeTab] = 100;
             mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
                 mainData = [];
-                var parseDate = d3.time.format("%d-%b-%y").parse;
+                var parseDate = d3.time.format("%Y-%m-%d").parse;
 
                 for(var i=1;i<returnValue.list.length;i++){
                     mainData.push({
@@ -214,7 +285,7 @@ function registerClickEvent(){
         activeTab = stockName;
         mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
             mainData = [];
-            var parseDate = d3.time.format("%d-%b-%y").parse;
+            var parseDate = d3.time.format("%Y-%m-%d").parse;
 
             for(var i=1;i<returnValue.list.length;i++){
                 mainData.push({
@@ -274,9 +345,10 @@ function addContent(index,dataObject){
 
         $("#mainLevel"+index).html("Level 1");
 
-        // mainCaller.getEllietteCount(activeTab, indexEnd[activeTab], indexStart[activeTab], currentLevel["tab"+index], function(returnValue){
-
-        // });
+        mainCaller.getEllietteCount(activeTab, indexStart[activeTab], indexEnd[activeTab], currentLevel["tab"+index], function(returnValue){
+            elliottCount = returnValue;
+            value_recieved("tab" + index,mainData)
+        });
 
         for(var i=0;i<dataObject.maxlevels;i++){
             $("#levelDrop" + index).append($("\
@@ -286,6 +358,11 @@ function addContent(index,dataObject){
             $("#level_"+i+"_"+index).click(function(e) {
                 currentLevel["tab"+index] = e.target.text.slice(-1);
                 $("#mainLevel"+index).html("Level " + e.target.text.slice(-1));
+
+                mainCaller.getEllietteCount(activeTab, indexStart[activeTab], indexEnd[activeTab], currentLevel["tab"+index], function(returnValue){
+                    elliottCount = returnValue;
+                    value_recieved("tab" + index,mainData)
+                });
             });
         }
         // <li><a tabindex=\"-1\" href=\"#\">Level 1</a></li>\
@@ -297,7 +374,7 @@ function value_recieved(displayTab,data){
         width = window.innerWidth - margin.left - margin.right,
         height = window.innerHeight - margin.top - margin.bottom;
 
-    var dateFormat = d3.time.format("%d-%b-%y"),
+    var dateFormat = d3.time.format("%Y-%m-%d"),
         parseDate = dateFormat.parse,
         valueFormat = d3.format(',.2fs');
 
@@ -315,7 +392,7 @@ function value_recieved(displayTab,data){
         var tradearrow = techan.plot.tradearrow()
                 .xScale(x)
                 .yScale(y)
-                .orient(function(d) { return d.type.startsWith("buy") ? "up" : "down"; })
+                .orient("up")
                 .on("mouseenter", enter)
                 .on("mouseout", out);
     }
@@ -345,11 +422,19 @@ function value_recieved(displayTab,data){
         .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var trades = [
-            { date: data[10].date, type: "buy", price: data[10].low, quantity: 1000 },
-            { date: data[20].date, type: "sell", price: data[20].high, quantity: 200 },
-            { date: data[70].date, type: "buy", price: data[70].open, quantity: 500 },
-        ];
+    // var trades = [
+    //         { date: data[10].date, type: "buy", price: data[10].low, quantity: 1000 },
+    //         { date: data[20].date, type: "sell", price: data[20].high, quantity: 200 },
+    //         { date: data[70].date, type: "buy", price: data[70].open, quantity: 500 },
+    //     ];
+
+    if(indicatorType[displayTab] == "elliott"){
+        var trades = [];
+        for(var i=0;i<elliottCount.list.length-1;i++){
+            if(parseInt(elliottCount.list[i].value)>0)
+                trades.push({ date: data[i+1].date, value:  elliottCount.list[i].value, type: "buy", price: data[i+1].low, quantity: 1000 });
+        }
+    }
 
     var valueText = svg.append('text')
             .style("text-anchor", "end")
@@ -437,6 +522,6 @@ function value_recieved(displayTab,data){
     }
 
     function refreshText(d) {
-        valueText.text("Trade: " + dateFormat(d.date) + ", " + d.type + ", " + valueFormat(d.price));
+        valueText.text("For " + dateFormat(d.date) + ", Count: " + d.value);
     }
 }

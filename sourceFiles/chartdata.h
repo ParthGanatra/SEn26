@@ -20,13 +20,18 @@ class Chartdata : public QObject
         explicit Chartdata(QObject *parent = 0);
         virtual ~Chartdata();
 
+    signals:
+        void showTrigPopup(QString stockName);
+
     public:
         Q_INVOKABLE QJsonObject getWH() const;
         Q_INVOKABLE QJsonObject getStockList();
         Q_INVOKABLE void setWH(int width, int height);
         Q_INVOKABLE void addBackend_data(Backend *temp, Database *temp1);
         Q_INVOKABLE QJsonObject getstockPriceData(QString stockName, int start, int end);
-        Q_INVOKABLE QJsonArray getEllietteCount(QString stock, int start, int end, int lev);
+        Q_INVOKABLE QJsonObject getEllietteCount(QString stock, int start, int end, int lev);
+        Q_INVOKABLE QJsonObject getstockPriceDataIndex(QString stockName, int index);
+        Q_INVOKABLE QJsonObject timeUpdate(QString stockName, int start, int end);
 };
 
 #endif // CHARTDATA_H

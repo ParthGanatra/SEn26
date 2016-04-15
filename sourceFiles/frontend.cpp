@@ -65,8 +65,6 @@ int Frontend::SaveConfiguration()
 
 }
 
-
-
 QString Frontend::generateOtp()
 {
 
@@ -93,5 +91,3 @@ QString Frontend::generateOtp()
 
     return str;
 }
-
-

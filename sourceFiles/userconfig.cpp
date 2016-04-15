@@ -5,7 +5,7 @@
 #include<QString>
 #include<QObject>
 #include<QDir>
-#include<helper.h>
+#include "helper.h"
 
 UserConfig::UserConfig(QObject *parent) :
     QObject(parent)

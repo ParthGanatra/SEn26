@@ -10,7 +10,7 @@
 #include<QJsonObject>
 using namespace std;
 
-#define MAXLEVEL 10
+#define MAXLEVEL 6
 
 class Elliott : public QObject
 {
