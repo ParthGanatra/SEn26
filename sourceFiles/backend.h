@@ -60,7 +60,7 @@ public slots:
     void get_all_popup_conditions();
 //    void init();
     void addDatabse(Database *temp);
-    void add_data(QStringList data);  //notification as data came.
+    void add_data(int );  //notification as data came.
 //    void set_data(QJsonArray data);  //set data for elliott.
 //    void change_pop_condition(QString stock, bool gret, double thr); // data consisting the change of thresold.
 //    void add_popup_data(QString s, QString i, QString c);

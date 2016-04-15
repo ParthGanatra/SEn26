@@ -29,8 +29,9 @@ QJsonObject Chartdata::getWH() const
 }
 
 QJsonObject Chartdata::timeUpdate(QString stockName, int start, int end){
-//    backend->add_data();
+
     return getstockPriceData(stockName,start,end);
+    backend->add_data(start);
 }
 
 void Chartdata::setWH(int width, int height){

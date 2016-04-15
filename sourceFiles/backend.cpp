@@ -61,8 +61,9 @@ void Backend::addDatabse(Database *temp){
     db = temp;
 }
 
-void Backend::add_data(QStringList data){// count other indicators and pass it to databse
-    int ind = 0;
+void Backend::add_data(int ind){// count other indicators and pass it to databse
+    qDebug()<<ind;
+//    int ind = 0;
     for(int i=0;i<stocklist.size();i++){
         QString str = db->getTick(ind,stocklist.at(i));
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());

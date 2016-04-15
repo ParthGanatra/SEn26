@@ -3,7 +3,7 @@ var wsUri = "ws://localhost:12345";
 var indicatorType = {}, currentLevel = {}, stockName, mainData, elliottCount;
 var indexStart = {}, indexEnd = {};
 var activeTab, mainCaller;
-var firstTime = 1;
+var firstTime = 1, indexID;
 
 var stockList = [];
 var tabList = {
@@ -19,26 +19,28 @@ window.onresize = function(){
 
 function myLoop () {
     setTimeout(function () {
-        indexStart[activeTab]++;
-        indexEnd[activeTab]++;
-        mainCaller.timeUpdate(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
-            mainData = [];
-            var parseDate = d3.time.format("%Y-%m-%d").parse;
+        if (!($("."+indexID+" addTab"+indexID.slice(-1)).length)) {
+            indexStart[activeTab]++;
+            indexEnd[activeTab]++;
+            mainCaller.timeUpdate(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
+                mainData = [];
+                var parseDate = d3.time.format("%Y-%m-%d").parse;
 
-            for(var i=1;i<returnValue.list.length;i++){
-                mainData.push({
-                    date: parseDate(returnValue.list[i].date),
-                    open: +returnValue.list[i].open,
-                    high: +returnValue.list[i].high,
-                    low: +returnValue.list[i].low,
-                    close: +returnValue.list[i].close,
-                    volume: +returnValue.list[i].volume,
-                });
-            }
-            myLoop();
-            value_recieved("tab1",mainData);
-        });
-    }, 6000);
+                for(var i=1;i<returnValue.list.length;i++){
+                    mainData.push({
+                        date: parseDate(returnValue.list[i].date),
+                        open: +returnValue.list[i].open,
+                        high: +returnValue.list[i].high,
+                        low: +returnValue.list[i].low,
+                        close: +returnValue.list[i].close,
+                        volume: +returnValue.list[i].volume,
+                    });
+                }
+                myLoop();
+                value_recieved(indexID,mainData);
+            });
+        }
+    }, 2000);
 }
 
 window.onload = function() {
@@ -68,6 +70,7 @@ window.onload = function() {
                 chart.showTrigPopup.connect(function(stockName) {
                     stockName = stockName.slice(0,-1);
                     var id = $(".nav-tabs").children().length;
+                    indexID = "tab"+id;
                     $('.add-contact').closest('li').before("<li>\
                                             <a href=\"#tab" + (id) + "\" data-toggle=\"tab\">" + stockName + "</a>\
                                             </li>");
@@ -160,6 +163,7 @@ function add_tabs(tabList){
     registerClickEvent()
     
     activeTab = tabList.list[0].name;
+    indexID = "tab1";
     indexStart[activeTab] = 1;
     indexEnd[activeTab] = 100;
     mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
@@ -200,6 +204,7 @@ function add_tabs(tabList){
 function newstockTab(index,stockName){
     indicatorType["tab"+index] = "normal";
     currentLevel["tab"+index] = -1;
+    indexID = "tab"+index;
 
     addContent(index,{"name":stockName,"maxlevels":5});
     // value_recieved("tab"+index,mainData);
@@ -244,6 +249,7 @@ function addNewTab(index){
         $("#"+stockList[i] + "_" + index + "_" + i).click(function(e) {
             indicatorType["tab"+index] = "normal";
             currentLevel["tab"+index] = -1;
+            indexID = "tab"+index;
             $("#addTab" + index).remove();
             $('#mainTabs li:eq(' + (e.target.id.slice(-3,-2)-1) + ') a').html(stockList[e.target.id.slice(-1)])
 
@@ -281,6 +287,7 @@ function registerClickEvent(){
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         var currentTab = "tab" + e.target.href.slice(-1); // get current tab
         stockName = e.target.text;
+        indexID = currentTab;
         
         activeTab = stockName;
         mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
