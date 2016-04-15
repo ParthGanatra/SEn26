@@ -45,18 +45,7 @@ Page{
 
 
         Action {
-            iconName: "action/power_settings_new"
-            name: "Logout"
-            hoverAnimation: true
-
-            onTriggered: {
-                pageStack.pop()
-                pageStack.push(Qt.resolvedUrl("Login.qml"))
-            }
-        },
-
-        Action {
-            iconName: "action/power_settings_new"
+            iconName: "action/help"
             name: "Help"
             hoverAnimation: true
 
@@ -64,6 +53,17 @@ Page{
                 var component = Qt.createComponent("HelpWindow.qml")
                 var window = component.createObject(central_window)
                 window.show()
+            }
+        },
+
+        Action {
+            iconName: "action/power_settings_new"
+            name: "Logout"
+            hoverAnimation: true
+
+            onTriggered: {
+                pageStack.pop()
+                pageStack.replace(Qt.resolvedUrl("Login.qml"))
             }
         }
     ]
