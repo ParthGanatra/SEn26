@@ -53,15 +53,6 @@ Window {
                     }
 
                     Button {
-                        id: popups_modify
-                        text: "Modify"
-                        elevation: 1
-                        onClicked: {
-                            pageStack.push(Qt.resolvedUrl("popup_select_condition.qml"),{selected_stock: stock,selected_indicator: indicator})
-                        }
-                    }
-
-                    Button {
                         id: popups_dismiss
                         text: "Dismiss"
                         elevation: 1
@@ -120,7 +111,8 @@ Window {
         text: "Add Pop-up"
 
         onClicked: {
-            var component = Qt.createComponent("popup_select_stock.qml")
+            Settings.calledby = "popup_select_stock.qml"
+            var component = Qt.createComponent("temp2.qml")
             var window = component.createObject(all_popups_window)
             window.show()
         }

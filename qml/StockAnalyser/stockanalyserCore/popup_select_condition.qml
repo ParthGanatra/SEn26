@@ -42,7 +42,8 @@ Page {
 //                    console.log(select_condition.selectedText)
 //                    console.log(select_threshold.text)
                     _backend.add_popup_condition(selected_stock,selected_indicator,select_condition.selectedText,select_threshold.text);
-                    popup_select_stock.close()
+                    temp2_window.close()
+
                 }
             }
         }

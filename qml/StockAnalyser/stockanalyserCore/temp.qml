@@ -1,11 +1,11 @@
 import QtQuick 2.4
 import Material 0.2
 import Material.ListItems 0.1 as ListItem
+import "../stockanalyserCore"
 
 Page {
-    id: page
+    id: temp_page
     title: "Page with right sidebar"
-
     actions: [
         Action {
             iconName: "action/search"
@@ -19,14 +19,13 @@ Page {
 
         Button {
             text: "Next >>"
-            anchors.right: parent.right
             anchors.rightMargin: 6
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.centerIn: parent
             elevation: 1
             activeFocusOnPress: true
             backgroundColor: Theme.primaryColor
             onClicked: {
-                pageStack.replace(Qt.resolvedUrl("temp2.qml"));
+                pageStack.replace(Qt.resolvedUrl(Settings.calledby));
             }
         }
 //        Component.onCompleted: {

@@ -28,7 +28,8 @@ Page{
 
             onTriggered: {
 //                pageStack.push(Qt.resolvedUrl("Account.qml"))
-                var component = Qt.createComponent("Account.qml");
+                Settings.calledby = "Account.qml"
+                var component = Qt.createComponent("temp2.qml");
                 var window = component.createObject(central_window);
                 window.show();
 

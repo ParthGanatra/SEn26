@@ -19,20 +19,45 @@ int dataloaded=-1;
 Database::~Database()
 {}
 
+
 void Database::run() {
 
+     QString temp2=username+".stock";
 
+     mongo::BSONObjBuilder tokenbuild;
+    mongo::BSONObj token;
+     tokenbuild.append("index",-1);
+     tokenbuild.append("date","token");
+     tokenbuild.append("open","token");
+     tokenbuild.append("high","token");
+    tokenbuild.append("low","token");
+    tokenbuild.append("close","token");
+    tokenbuild.append("volume","token");
+    tokenbuild.append("name","token");
+
+    token=tokenbuild.obj();
+     if((c.query(temp2.toStdString(),token)->more()))
+      {
+         dataloaded=1;
+        return ;
+       }
+     else
+     {
+            c.insert(temp2.toStdString(),token);
+
+     }
 
     for (int i=1;i<=stocklist.size();i++)
     {
 
-        QFile file("qml/StockAnalyser/To_Dump/" + QString::number(i));               // Enter your own path
+        QFile file(QString::number(i));               // Enter your own path
 
         if (!file.open(QIODevice::ReadOnly)) {
                qDebug() << file.errorString();
                return;
         }
         int FieldCount=1;
+
 
         while (!file.atEnd()) {
                QString line = file.readLine();
@@ -53,14 +78,16 @@ void Database::run() {
                 FieldCount++;
 
               //  qDebug() <<QString::fromStdString((stocklist.at(i-1).left(stocklist.at(i-1).length()-1)).toStdString());
-                mongo::BSONObj t=b.obj();
+                   mongo::BSONObj t=b.obj();
 
-                QString temp2=username+".stock";
-                //if(!c.query(temp2.toStdString(),t)->more())
+
+//                if(!(c.query(temp2.toStdString(),t)->more()))
                 c.insert(temp2.toStdString(),t);
 
     //            i++;
                // b.done();
+
+
 
         }
 

@@ -50,17 +50,6 @@ Rectangle {
                 }
 
                 ActionButton {
-                    id:modifypopupbutton
-                    isMiniSize: true
-                    backgroundColor: "#95a5a6"
-                    action: Action {
-                        //                    id: removeContent
-                        onTriggered: snackbar.open("Method to modify popup")
-                    }
-                    iconName: "action/delete"
-                }
-
-                ActionButton {
                     id:deletepopupbutton
                     isMiniSize: true
                     backgroundColor: "#95a5a6"
