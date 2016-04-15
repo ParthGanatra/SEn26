@@ -154,6 +154,8 @@ QStringList Database ::getTickInterval(int start,int end,QString name)
     int i=0;
 
     while(cursor->more()){
+
+//        cursor->peek(temp,i);
         temp = cursor->next();
         QJsonDocument doc = QJsonDocument::fromJson(QString::fromStdString(temp.jsonString()).toUtf8());
         temp1 = doc.object();
@@ -161,9 +163,11 @@ QStringList Database ::getTickInterval(int start,int end,QString name)
             break;
         if(start<=temp1["index"].toInt()){
             list.append(QString::fromStdString(temp.jsonString()));
+//            qDebug()<<list.at(i);
         }
         i++;
     }
+
 
 //    if(dataloaded==-1)
 //        return list;

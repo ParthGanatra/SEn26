@@ -32,7 +32,7 @@ Page {
         }
 
         onAccepted: {
-            if((!new_password.text.localeCompare(new_password_verify.text)) && new_password.text > 7)
+            if((!new_password.text.localeCompare(new_password_verify.text)) && new_password.text.length > 7)
             {
                 _helper.change_password(Settings.username,new_password.text);
                 dialogSnackBar.open("Password Changed")

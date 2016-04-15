@@ -49,10 +49,13 @@ public:
 signals:
     void pop_satisfied(QJsonObject popup);  //add data to give to popup.
     void add_indicator_data(QJsonArray indicator_data);  //json array containing the indiactor data.
-    void get_data();
+//    void get_data();
     void set_elliott_count(vector<int> count);
     void allPopupsListChanged();
     void trigPopupsListChanged();
+
+public slots:
+    void add_data(int );  //notification as data came.
 
 public slots:
     void addPopupList(QList<QObject*> *popups_list);
@@ -60,7 +63,7 @@ public slots:
     void get_all_popup_conditions();
 //    void init();
     void addDatabse(Database *temp);
-    void add_data(int );  //notification as data came.
+
 //    void set_data(QJsonArray data);  //set data for elliott.
 //    void change_pop_condition(QString stock, bool gret, double thr); // data consisting the change of thresold.
 //    void add_popup_data(QString s, QString i, QString c);

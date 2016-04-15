@@ -64,11 +64,12 @@ void Backend::addDatabse(Database *temp){
 void Backend::add_data(int ind){// count other indicators and pass it to databse
     qDebug()<<ind;
 //    int ind = 0;
+
     for(int i=0;i<stocklist.size();i++){
-        QString str = db->getTick(ind,stocklist.at(i));
+        QString str = db->getTick(ind,stocklist.at(i).left(stocklist.at(i).length()-1));
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
         QJsonObject json = doc.object();
-        int t = json["index"].toString().toInt();
+        int t = json["index"].toInt();
         string name = stocklist.at(i).toStdString();
         string date = json["date"].toString().toStdString();
         double o = json["open"].toString().toDouble();
@@ -77,13 +78,14 @@ void Backend::add_data(int ind){// count other indicators and pass it to databse
         double l = json["low"].toString().toDouble();
         double v = json["volume"].toString().toDouble();
         int index = get_index(name);
+        qDebug()<<"index" <<index;
+        qDebug() << o<<c<<h<<l<<t;
         StockPrice sp(o,c,h,l,t,date,v);
         stocks[index]->addData(sp);
-
+        qDebug() <<"SP :"<< sp.time <<sp.rsi << sp.cci << sp.ma << sp.soD;
         checkConditions(sp,name);
 
         db->addIndicator(QString::number(sp.time),QString::fromStdString(sp.date),QString::fromStdString(name),QString::number(sp.rsi),QString::number(sp.cci),QString::number(sp.ma),QString::number(sp.soD));
-        //        db->storeIndicators(tmp);      // call databse method for storing indicators
     }
 }
 // popup json : name,indicator,condition,threshold
@@ -270,8 +272,8 @@ void Backend::remove_popup_trigger(QString stock,QString indicator,QString condi
 //        db->removePopup(stock,indicator,condition,threshold);
 }
 void Backend::add_popup_condition(QString stock,QString indicator,QString condition,QString threshold){
-//    trig_popups_list->append(new All_Popups_Model(stock,indicator,condition,threshold));
-//    emit trigPopupsListChanged();
+    trig_popups_list->append(new All_Popups_Model(stock,indicator,condition,threshold));
+    emit trigPopupsListChanged();
     all_popups_list->append(new All_Popups_Model(stock,indicator,condition,threshold));
     emit allPopupsListChanged();
     qDebug() << "Added new condition for popup";

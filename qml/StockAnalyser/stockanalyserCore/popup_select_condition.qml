@@ -41,8 +41,15 @@ Page {
                 onClicked: {
 //                    console.log(select_condition.selectedText)
 //                    console.log(select_threshold.text)
-                    _backend.add_popup_condition(selected_stock,selected_indicator,select_condition.selectedText,select_threshold.text);
-                    temp2_window.close()
+                    if(select_threshold.text.length > 0)
+                    {
+                        _backend.add_popup_condition(selected_stock,selected_indicator,select_condition.selectedText,select_threshold.text);
+                        temp2_window.close()
+                     }
+                    else
+                    {
+                        snackbar.open("Please input threshold");
+                    }
 
                 }
             }
@@ -62,5 +69,9 @@ Page {
             }
 
         }
+    }
+
+    Snackbar {
+        id: snackbar
     }
 }

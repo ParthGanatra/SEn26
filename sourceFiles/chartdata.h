@@ -22,6 +22,7 @@ class Chartdata : public QObject
 
     signals:
         void showTrigPopup(QString stockName);
+        void addData(int index);
 
     public:
         Q_INVOKABLE QJsonObject getWH() const;
