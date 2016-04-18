@@ -5,7 +5,7 @@ Rectangle {
     property bool selected: ListView.isCurrentItem
     property real itemSize
     width: itemSize
-    height: 40
+    height: 35
 
     Text {
         id: titleText
@@ -13,6 +13,7 @@ Rectangle {
             left: delegate.left; leftMargin: 20
             right: delegate.right; rightMargin: 20
             top: delegate.top; topMargin: 2
+            centerIn: parent
         }
         width: itemSize - 25
         font { pixelSize: 15; bold: true }
@@ -21,6 +22,12 @@ Rectangle {
         scale: selected ? 1.15 : 1.0
         Behavior on color { ColorAnimation { duration: 150 } }
         Behavior on scale { PropertyAnimation { duration: 300 } }
+    }
+
+    Rectangle {
+        height: 1
+        width: itemSize
+        color: "black"
     }
 
     BusyIndicator {

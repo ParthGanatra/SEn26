@@ -85,8 +85,8 @@ bool Helper::isValidEmailAddress(std::string email)
     const char* EmailAddress = email.c_str();
     if(!EmailAddress) // If cannot read the Email Address...
         return 0;
-//    if(!isCharacter(EmailAddress[0])) // If the First character is not A-Z, a-z
-//        return 0;
+    //    if(!isCharacter(EmailAddress[0])) // If the First character is not A-Z, a-z
+    //        return 0;
     int AtOffset = -1;
     int DotOffset = -1;
     unsigned int Length = strlen(EmailAddress); // Length = StringLength (strlen) of EmailAddress

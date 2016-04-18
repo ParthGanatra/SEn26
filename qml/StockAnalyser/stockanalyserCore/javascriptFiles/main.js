@@ -3,19 +3,20 @@ var wsUri = "ws://localhost:12345";
 var indicatorType = {}, currentLevel = {}, stockName, mainData, elliottCount;
 var indexStart = {}, indexEnd = {};
 var activeTab, mainCaller;
-var firstTime = 1, indexID;
+var firstTime = 1,indexID;
 
 var stockList = [];
 var tabList = {
         list: []
     };
 
-window.onresize = function(){ 
-    location.reload(); 
-    // $("#mainTabs").html('');
-    // $("#mainTabsContent").html('');
-    // add_tabs(tabList);
-}
+// window.onresize = function(){
+//     activeTab.width = window.width;
+//     // location.reload(); 
+//     // $("#mainTabs").html('');
+//     // $("#mainTabsContent").html('');
+//     // add_tabs(tabList);
+// }
 
 function myLoop () {
     setTimeout(function () {
@@ -44,8 +45,9 @@ function myLoop () {
 }
 
 window.onload = function() {
-    if(firstTime==1){
-        firstTime = 0;
+    if(firstTime==1)
+    {
+        window.firstTime = 0;
         myLoop();
 
         var socket = new WebSocket(wsUri);
@@ -83,8 +85,10 @@ window.onload = function() {
                 });
 
                 chart.getStockList(function (returnValue){
-                    for(var i=0;i<returnValue.list.length;i++)
+                    for(var i=0;i<returnValue.list.length;i++){
                         stockList.push(returnValue.list[i].name.slice(0, -1));
+                        
+                    }
                     tabList.list.push({
                         name: stockList[0],
                         maxlevels: 5
@@ -165,7 +169,7 @@ function add_tabs(tabList){
     activeTab = tabList.list[0].name;
     indexID = "tab1";
     indexStart[activeTab] = 1;
-    indexEnd[activeTab] = 100;
+    indexEnd[activeTab] = 50;
     mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
         mainData = [];
         var parseDate = d3.time.format("%Y-%m-%d").parse;
@@ -211,7 +215,7 @@ function newstockTab(index,stockName){
 
     activeTab = stockName;
     indexStart[activeTab] = 1;
-    indexEnd[activeTab] = 100;
+    indexEnd[activeTab] = 50;
     mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
         mainData = [];
         var parseDate = d3.time.format("%Y-%m-%d").parse;
@@ -259,7 +263,7 @@ function addNewTab(index){
 
             activeTab = stockList[e.target.id.slice(-1)];
             indexStart[activeTab] = 1;
-            indexEnd[activeTab] = 100;
+            indexEnd[activeTab] = 50;
             mainCaller.getstockPriceData(activeTab, indexStart[activeTab], indexEnd[activeTab], function(returnValue) {
                 mainData = [];
                 var parseDate = d3.time.format("%Y-%m-%d").parse;

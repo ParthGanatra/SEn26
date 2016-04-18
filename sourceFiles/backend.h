@@ -39,8 +39,8 @@ public:
 
     Elliott e;
     Stock * stocks[100];
-//    vector<bool> condition;
-//    vector<double> threshold;
+    //    vector<bool> condition;
+    //    vector<double> threshold;
 
 
     void checkConditions(StockPrice & sp,string name);
@@ -49,7 +49,7 @@ public:
 signals:
     void pop_satisfied(QJsonObject popup);  //add data to give to popup.
     void add_indicator_data(QJsonArray indicator_data);  //json array containing the indiactor data.
-//    void get_data();
+    //    void get_data();
     void set_elliott_count(vector<int> count);
     void allPopupsListChanged();
     void trigPopupsListChanged();
@@ -61,20 +61,20 @@ public slots:
     void addPopupList(QList<QObject*> *popups_list);
     void trigPopupList(QList<QObject*> *trig_popups_list);
     void get_all_popup_conditions();
-//    void init();
+    //    void init();
     void addDatabse(Database *temp);
 
-//    void set_data(QJsonArray data);  //set data for elliott.
-//    void change_pop_condition(QString stock, bool gret, double thr); // data consisting the change of thresold.
-//    void add_popup_data(QString s, QString i, QString c);
+    //    void set_data(QJsonArray data);  //set data for elliott.
+    //    void change_pop_condition(QString stock, bool gret, double thr); // data consisting the change of thresold.
+    //    void add_popup_data(QString s, QString i, QString c);
     void remove_popup_condition(QString stock,QString indicator,QString condition,QString threshold);
     void remove_popup_trigger(QString stock,QString indicator,QString condition,QString threshold);
     void add_popup_condition(QString stock,QString indicator,QString condition,QString threshold);
-//    void add_popup_data();
-//    void remove_popup_data(QString stock,QString ind);
+    //    void add_popup_data();
+    //    void remove_popup_data(QString stock,QString ind);
     QJsonArray get_elliott_count(QString stock, int start, int end, int lev);
-//  QJsonArray get_Popup_data();
-//  int get_Popup_size();
+    //  QJsonArray get_Popup_data();
+    //  int get_Popup_size();
     int get_index(string stock);
 };
 

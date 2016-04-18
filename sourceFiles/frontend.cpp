@@ -1,6 +1,7 @@
 #include "frontend.h"
 #include <QJsonObject>
 #include "../SMTP/SmtpMime"
+#include "string.h"
 #include "QTime"
 #include "QtGlobal"
 #include <stdio.h>
@@ -14,15 +15,16 @@ Frontend::Frontend(QObject *parent) :
 }
 
 
-void Frontend::sendOTP(QString email,QString otp)
+int Frontend::sendOTP(QString email,QString otp)
 {
 
-        SmtpClient smtp("smtp.gmail.com", 465, SmtpClient::SslConnection);
-        smtp.setUser("group26.sen@gmail.com");
-        smtp.setPassword("Group26 SEn.");
-        qDebug() << "connect" << smtp.connectToHost();
+    SmtpClient smtp("smtp.gmail.com", 465, SmtpClient::SslConnection);
+    smtp.setUser("group26.sen@gmail.com");
+    smtp.setPassword("Group26 SEn.");
+    if(smtp.connectToHost()){
+//        qDebug() << "connect" << connection;
         qDebug() << "Login" << smtp.login();
-        
+
         MimeMessage message;
 
         message.setSender(new EmailAddress("group26sen@gmail.com", "Group 26"));
@@ -32,7 +34,7 @@ void Frontend::sendOTP(QString email,QString otp)
         MimeText text;
 
         qDebug() << "To: " << email;
-        
+
         text.setText("Your confirmaion key = "+otp+"");
 
 
@@ -40,8 +42,9 @@ void Frontend::sendOTP(QString email,QString otp)
 
         qDebug() << smtp.sendMail(message);
         smtp.quit();
-
-
+        return 1;
+    }
+    return 0;
 }
 
 
@@ -58,10 +61,10 @@ int Frontend::SaveConfiguration()
     QFile file("user.conf");
 
     QTextStream in(&file);
-      while (!in.atEnd()) {
-          QString line = in.readLine();
-         // process_line(line);
-      }
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        // process_line(line);
+    }
 
 }
 

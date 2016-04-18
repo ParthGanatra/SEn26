@@ -12,7 +12,7 @@ Page{
 
     Dialog {
         id: forgot_verify_otp
-        title: "OTP send to" + email
+        title: "OTP send to " + email
         hasActions: true
 
         TextField {

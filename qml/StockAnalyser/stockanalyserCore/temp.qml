@@ -16,11 +16,29 @@ Page {
     Rectangle{
         anchors.fill: parent
 
+        Label {
+            id: text
+            font.family: "Roboto"
+            font.weight: Font.bold
+            text: "Click to proceed"
+            font.pixelSize: Units.dp(24)
+
+            anchors {
+                verticalCenter: parent.verticalCenter
+                horizontalCenter: parent.horizontalCenter
+                bottomMargin: 20
+            }
+        }
+
 
         Button {
             text: "Next >>"
-            anchors.rightMargin: 6
-            anchors.centerIn: parent
+            anchors{
+                top: text.bottom
+                topMargin: 10
+                horizontalCenter: parent.horizontalCenter
+            }
+
             elevation: 1
             activeFocusOnPress: true
             backgroundColor: Theme.primaryColor

@@ -15,7 +15,7 @@ Rectangle {
         if (feedModel.status == XmlListModel.Ready)
             list.positionViewAtBeginning()
     }
-    property int itemWidth: 150
+    property int itemWidth: 250
     RssFeeds { id: rssFeeds }
 
     XmlListModel {
@@ -33,11 +33,11 @@ Rectangle {
     ListView {
         id: categories
         width: itemWidth
-        height: window.height
+        height: parent.height
         anchors.top: parent.top
+        anchors.bottomMargin: 15
         model: rssFeeds
         delegate: CategoryDelegate { itemSize: itemWidth}
-        spacing: 2
     }
 
     ScrollBar {
@@ -51,7 +51,7 @@ Rectangle {
     ListView {
         id: list
         width: window.width - itemWidth
-        height: window.height
+        height: parent.height
         anchors.left: categories.right
         anchors.top: window.top
         anchors.bottom: window.bottom

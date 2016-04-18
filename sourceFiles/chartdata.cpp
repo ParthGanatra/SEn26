@@ -29,9 +29,15 @@ QJsonObject Chartdata::getWH() const
 }
 
 QJsonObject Chartdata::timeUpdate(QString stockName, int start, int end){
-//    backend->add_data(start);
-//    emit addData(start);
+//            backend->add_data(start);
+    qDebug()<<"ASF";
+    emit addData(start);
+    qDebug()<<"ASF4656";
     return getstockPriceData(stockName,start,end);
+}
+
+void Chartdata::print(QString str){
+    qDebug()<<str;
 }
 
 void Chartdata::setWH(int width, int height){
@@ -64,10 +70,12 @@ QJsonObject Chartdata::getstockPriceData(QString stockName, int start, int end){
     QJsonObject temp;
 
     for(int i=1;i<str.length();i++){
+        //        qDebug()<<str.at(i);
         QJsonDocument doc = QJsonDocument::fromJson(str.at(i).toUtf8());
         temp = doc.object();
 
         arr.append(temp);
+        //        qDebug()<<temp["high"].toString();
     }
     arr.append(temp);
     arr.append(temp);
@@ -86,9 +94,6 @@ QJsonObject Chartdata::getstockPriceDataIndex(QString stockName, int index){
     temp = doc.object();
     return temp;
 }
-
-
-
 
 QJsonObject Chartdata::getStockList(){
     QJsonArray arr;

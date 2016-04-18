@@ -64,6 +64,7 @@ Page{
 
             Button {
                 property string otp: ""
+                property string temp: ""
                 text: "Next"
                 elevation: 1
                 anchors.right: parent.horizontalCenter*0.8
@@ -71,10 +72,16 @@ Page{
                     var valid = _helper.check_valid_detail(firstname.text,lastname.text,email.text,passwordField.text,verifyPasswordField.text)
                     if(valid==0){
                         otp=_frontend.generateOtp();
-                        _frontend.sendOTP(email.text,otp);
-//                        pageStack.clear();
-                        pageStack.pop();
-                        pageStack.replace(Qt.resolvedUrl("Verify_Email.qml"),{otp:otp,firstname:firstname.text,lastname:lastname.text,email:email.text,password:passwordField.text})
+                        temp = _frontend.sendOTP(email.text,otp);
+                        if(temp==0){
+                            snackbar.open("No Internet Connection");
+                            pageStack.pop();
+                        }
+                        else{
+                            //                        pageStack.clear();
+                            pageStack.pop();
+                            pageStack.replace(Qt.resolvedUrl("Verify_Email.qml"),{otp:otp,firstname:firstname.text,lastname:lastname.text,email:email.text,password:passwordField.text})
+                        }
                     }
                     else if(valid==1){
                         snackbar.open("Invalid firstname");

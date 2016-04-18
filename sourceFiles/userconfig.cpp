@@ -30,7 +30,7 @@ void UserConfig ::saveConfig(QString f, QString l, QString e, QString p)
     out << f <<"\n";
     out << l <<"\n";
     out << e <<"\n";
-//    std::string utf8_text = p.toUtf8().constData()
+    //    std::string utf8_text = p.toUtf8().constData()
     out << userconfig_helper.compute_hash(p.toStdString()) <<"\n";
     qDebug() << "saved file";
     file.close();

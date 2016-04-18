@@ -8,6 +8,9 @@ DEPLOYMENTFOLDERS = folder_01
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH = [qml/StockAnalyser/modules]
+QT_SELECT="default"
+QTTOOLDIR="/usr/lib/x86_64-linux-gnu/qt5/bin"
+QTLIBDIR="/usr/lib/x86_64-linux-gnu"
 
 # If your application uses the Qt Mobility libraries, uncomment the following
 # lines and add the respective components to the MOBILITY variable.
