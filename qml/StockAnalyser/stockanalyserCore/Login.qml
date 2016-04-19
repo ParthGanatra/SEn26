@@ -67,6 +67,7 @@ Page {
                     console.log(result);
                     if(result == true){
                         Settings.username = username.text
+                        _chartdata.onLogin();
                         pageStack.replace(Qt.resolvedUrl("Central_window.qml"))
                     }
                     else

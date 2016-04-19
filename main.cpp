@@ -9,6 +9,7 @@
 #include <QList>
 #include <qqmlcontext.h>
 
+
 #include "shared/websocketclientwrapper.h"
 #include "shared/websockettransport.h"
 #include "sourceFiles/chartdata.h"

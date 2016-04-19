@@ -145,9 +145,6 @@ void Database::run() {
             // b.done();
 
         }
-
-
-
     }
 
 
@@ -170,6 +167,22 @@ Database::Database(QObject *parent) :
 }
 
 int tickcount=1;
+
+QStringList Database::getIndex(int index){
+    QString temp2=username+".stock";
+
+    mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("index" << index));
+
+    mongo::BSONObj temp;
+    QStringList list;
+
+    for (int i=1;i<=stocklist.size();i++){
+        temp = cursor->next();
+        list.append(QString::fromStdString(temp.jsonString()));
+//        qDebug()<<list.at(i-1);
+    }
+    return list;
+}
 
 
 QString Database:: getTick(int index,QString name)

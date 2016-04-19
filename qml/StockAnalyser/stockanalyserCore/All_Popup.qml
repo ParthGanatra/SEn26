@@ -29,7 +29,7 @@ Window {
                     Label {
                         id: popups_list_stock
                         style: "title"
-                        text: stock
+                        text: stock.slice(0,-1)
                     }
 
 

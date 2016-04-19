@@ -39,7 +39,7 @@ public slots:
     void addPopup(QString name,QString indicator,QString condition,QString threshold);
     QStringList getallpopupscondition(QString stockname,QString indicator);
     void addIndicator(QString index,QString date,QString name,QString rsi,QString cci,QString ma,QString so);
-
+    QStringList getIndex(int index);
     //for testing purposes
     void database_test();
 

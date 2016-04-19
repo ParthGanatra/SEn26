@@ -30,9 +30,9 @@ QJsonObject Chartdata::getWH() const
 
 QJsonObject Chartdata::timeUpdate(QString stockName, int start, int end){
 //            backend->add_data(start);
-    qDebug()<<"ASF";
+//    qDebug()<<"ASF";
     emit addData(start);
-    qDebug()<<"ASF4656";
+//    qDebug()<<"ASF4656";
     return getstockPriceData(stockName,start,end);
 }
 
@@ -110,4 +110,10 @@ QJsonObject Chartdata::getStockList(){
     list1["list"] = arr;
 
     return list1;
+}
+
+int Chartdata::onLogin(){
+    qDebug()<<"DFS";
+
+    return 1;
 }

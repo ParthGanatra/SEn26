@@ -21,10 +21,10 @@ void Stock::addData(StockPrice & val){
 
 }
 double Stock::computeCCI(){
-    qDebug() << "CCI in";
+//    qDebug() << "CCI in";
     if(prices.size()<lookBackTime)
         return -1000;
-    qDebug() << "CCI 22";
+//    qDebug() << "CCI 22";
     double avg = 0;
     double deviation = 0;
     int last = prices.size()-1;
@@ -34,7 +34,7 @@ double Stock::computeCCI(){
     for(int i = 0; i < prices.size() ; i++)
         deviation += abs(avg - ((prices[i].high + prices[i].low + prices[i].close)/3));
     prices[last].cci = ((prices[last].high + prices[last].low + prices[last].close)/3 - avg) / (0.15 * deviation);
-    qDebug() << "CCI "<< prices[last].cci;
+//    qDebug() << "CCI "<< prices[last].cci;
     return prices[last].cci;
 }
 

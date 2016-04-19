@@ -25,6 +25,7 @@ signals:
     void addData(int index);
 
 public:
+    Q_INVOKABLE int onLogin();
     Q_INVOKABLE QJsonObject getWH() const;
     Q_INVOKABLE QJsonObject getStockList();
     Q_INVOKABLE void setWH(int width, int height);
