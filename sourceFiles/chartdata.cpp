@@ -8,16 +8,17 @@
 Chartdata::Chartdata(QObject *parent)
     : QObject(parent)
 {
-    Backend * backend = new Backend();
-    Database * datbase = new Database();
+//    Backend * backend = new Backend();
+//    Database * datbase = new Database();
 }
 
 Chartdata::~Chartdata()
 {}
 
-void Chartdata::addBackend_data(Backend *temp, Database *temp1){
-    backend = temp;
-    database = temp1;
+void Chartdata::addBackend_data(QQmlApplicationEngine *engin){//Backend *temp, Database *temp1){
+//    backend = temp;
+//    database = temp1;
+    engine = engin;
 }
 
 QJsonObject Chartdata::getWH() const
@@ -29,7 +30,7 @@ QJsonObject Chartdata::getWH() const
 }
 
 QJsonObject Chartdata::timeUpdate(QString stockName, int start, int end){
-//            backend->add_data(start);
+//            backend.add_data(start);
 //    qDebug()<<"ASF";
     emit addData(start);
 //    qDebug()<<"ASF4656";
@@ -59,13 +60,13 @@ void Chartdata::setWH(int width, int height){
 QJsonObject Chartdata::getEllietteCount(QString stock, int start, int end, int lev){
 
     QJsonObject temp;
-    temp["list"] = backend->get_elliott_count(stock,start,end,lev);
+    temp["list"] = backend.get_elliott_count(stock,start,end,lev);
 
     return temp;
 }
 
 QJsonObject Chartdata::getstockPriceData(QString stockName, int start, int end){
-    QStringList str = database->getTickInterval(start,end,stockName);
+    QStringList str = database.getTickInterval(start,end,stockName);
     QJsonArray arr;
     QJsonObject temp;
 
@@ -88,7 +89,7 @@ QJsonObject Chartdata::getstockPriceData(QString stockName, int start, int end){
 
 QJsonObject Chartdata::getstockPriceDataIndex(QString stockName, int index){
 
-    QString str = database->getTick(index,stockName);
+    QString str = database.getTick(index,stockName);
     QJsonObject temp;
     QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
     temp = doc.object();
@@ -98,10 +99,10 @@ QJsonObject Chartdata::getstockPriceDataIndex(QString stockName, int index){
 QJsonObject Chartdata::getStockList(){
     QJsonArray arr;
 
-    for(int i=0;i<backend->stocklist.length();i++){
+    for(int i=0;i<backend.stocklist.length();i++){
         QJsonObject temp;
 
-        temp["name"] = backend->stocklist.at(i);
+        temp["name"] = backend.stocklist.at(i);
         temp["maxlevels"] = 5;
 
         arr.append(temp);
@@ -112,8 +113,21 @@ QJsonObject Chartdata::getStockList(){
     return list1;
 }
 
-int Chartdata::onLogin(){
-    qDebug()<<"DFS";
+Backend * Chartdata::getdata(){
+    return &backend;
+}
 
+int Chartdata::onLogin(QString user){
+    qDebug()<<user;
+
+    database.setUser(user);
+    database.stocklist = backend.stocklist;
+    database.run();
+    backend.addDatabse(&database);
+    QObject::connect(this,SIGNAL(addData(int)), &backend,SLOT(add_data(int)));
+    backend.addPopupList(&all_popups_list);
+
+    backend.trigPopupList(&trig_popups_list);
+    backend.get_all_popup_conditions();
     return 1;
 }

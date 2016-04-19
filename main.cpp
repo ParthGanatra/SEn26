@@ -13,9 +13,9 @@
 #include "shared/websocketclientwrapper.h"
 #include "shared/websockettransport.h"
 #include "sourceFiles/chartdata.h"
-#include "sourceFiles/backend.h"
+//#include "sourceFiles/backend.h"
 #include "sourceFiles/frontend.h"
-#include "sourceFiles/database.h"
+//#include "sourceFiles/database.h"
 #include "sourceFiles/userconfig.h"
 #include "sourceFiles/helper.h"
 #include "sourceFiles/all_popups_model.h"
@@ -29,21 +29,12 @@ int main(int argc, char *argv[])
     engine.addImportPath("qml/StockAnalyser/modules");
     engine.load(QUrl(QStringLiteral("qml/StockAnalyser/main.qml")));
 
-    Backend backend;
     UserConfig uc;
     Frontend frontend;
 
-    Database db;
-    db.setUser("user");
-    db.stocklist = backend.stocklist;
-    db.run();
-
-    backend.addDatabse(&db);
-
     Helper login_helper;
 
-    engine.rootContext()->setContextProperty("myModel", QVariant::fromValue(backend.stocklist));
-    engine.rootContext()->setContextProperty("_backend", &backend);
+
     engine.rootContext()->setContextProperty("_frontend", &frontend);
     //    engine.rootContext()->setContextProperty("_database", &db);
     engine.rootContext()->setContextProperty("_userconfig", &uc);
@@ -63,18 +54,15 @@ int main(int argc, char *argv[])
                      &channel, &QWebChannel::connectTo);
 
     Chartdata chartdata;
-    chartdata.addBackend_data(&backend,&db);
+//    chartdata.addBackend_data(&backend,&db);
+    Backend *backend = new Backend();
+    backend = chartdata.getdata();
+    engine.rootContext()->setContextProperty("_backend", chartdata.getdata());
+    engine.rootContext()->setContextProperty("myModel", QVariant::fromValue(backend->stocklist));
 
-    QObject::connect(&chartdata,SIGNAL(addData(int)), &backend,SLOT(add_data(int)));
+//    chartdata.addBackend_data(&engine);
     channel.registerObject("chartdata", &chartdata);
     engine.rootContext()->setContextProperty("_chartdata", &chartdata);
-
-    QList<QObject*> all_popups_list;
-    backend.addPopupList(&all_popups_list);
-
-    QList<QObject*> trig_popups_list;
-    backend.trigPopupList(&trig_popups_list);
-    backend.get_all_popup_conditions();
 
     return app.exec();
 }
