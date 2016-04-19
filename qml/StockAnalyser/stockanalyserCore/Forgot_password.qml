@@ -9,6 +9,7 @@ Page{
     title: Settings.windowTitle
     property string email: "default"
     property int otp: 000
+    property int temp: 000
 
     Dialog {
         id: forgot_verify_otp
@@ -24,6 +25,7 @@ Page{
         onAccepted: {
             if(otp.toString().match(otp_field.text) && (otp.toString().length===otp_field.text.length))
             {
+                otp_field.text = "";
                 new_password_dialog.show()
             }
             else
@@ -54,9 +56,11 @@ Page{
         }
 
         onAccepted: {
-            if(!new_password.text.localeCompare(new_password_verify.text))
+            if(!new_password.text.localeCompare(new_password_verify.text) && new_password.text.length > 7)
             {
                 _helper.change_password(forgot_pass_name.text,new_password.text);
+                new_password.text = "";
+                new_password_verify.text = "";
                 dialogSnackBar.open("Password Changed")
 //                pageStack.clear();
                 pageStack.pop();
@@ -93,7 +97,6 @@ Page{
             }
 
             Row {
-
                 Button {
                     text: "Send OTP"
                     textColor: Theme.accentColor
@@ -106,8 +109,15 @@ Page{
                         else
                         {
                             otp = _frontend.generateOtp();
-                            _frontend.sendOTP(email,otp);
-                            forgot_verify_otp.show()
+                            temp = _frontend.sendOTP(email,otp);
+                            if(temp==0){
+                                dialogSnackBar.open("No Internet Connection");
+//                                pageStack.pop();
+                            }
+                            else{
+                                forgot_pass_name.text = "";
+                                forgot_verify_otp.show()
+                            }
                         }
                     }
                 }

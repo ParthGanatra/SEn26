@@ -35,6 +35,8 @@ Page {
             if((!new_password.text.localeCompare(new_password_verify.text)) && new_password.text.length > 7)
             {
                 _helper.change_password(Settings.username,new_password.text);
+                new_password.text = "";
+                new_password_verify.text = "";
                 dialogSnackBar.open("Password Changed")
             }
             else
@@ -45,8 +47,10 @@ Page {
         }
 
         onRejected: {
+            new_password.text = "";
+            new_password_verify.text = "";
             new_password.placeholderText = "New Password"
-            new_password_verify.placeholderText = "New Password"
+            new_password_verify.placeholderText = "Verify Password"
         }
     }
 
@@ -64,6 +68,7 @@ Page {
 
         onAccepted: {
             var result = _helper.verify_user_password(Settings.username, password_field.text)
+            password_field.text = "";
             if(result == true)
             {
                 if(account_window.dial == "1")

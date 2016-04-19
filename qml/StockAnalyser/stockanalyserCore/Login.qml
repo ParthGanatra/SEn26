@@ -51,6 +51,8 @@ Page {
                 anchors.right: parent.horizontalCenter
                 anchors.rightMargin: 15
                 onClicked: {
+                    username.text = "";
+                    passwordField.text = "";
                     pageStack.push(Qt.resolvedUrl("Signup.qml"))
                 }
             }
@@ -68,6 +70,8 @@ Page {
                     if(result == true){
                         Settings.username = username.text
                         _chartdata.onLogin(username.text);
+                        username.text = "";
+                        passwordField.text = "";
                         pageStack.replace(Qt.resolvedUrl("Central_window.qml"))
                     }
                     else

@@ -75,7 +75,7 @@ Page{
                         temp = _frontend.sendOTP(email.text,otp);
                         if(temp==0){
                             snackbar.open("No Internet Connection");
-                            pageStack.pop();
+//                            pageStack.pop();
                         }
                         else{
                             //                        pageStack.clear();
@@ -108,8 +108,9 @@ Page{
                 backgroundColor: Theme.primaryColor
                 anchors.left: parent.horizontalCenter*1.2
                 onClicked: {
-                    pageStack.clear();
-                    pageStack.push(Qt.resolvedUrl("Login.qml"));
+//                    pageStack.clear();
+                    pageStack.pop();
+//                    pageStack.push(Qt.resolvedUrl("Login.qml"));
                 }
             }
         }
