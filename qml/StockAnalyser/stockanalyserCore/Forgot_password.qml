@@ -79,6 +79,15 @@ Page{
             TextField {
                 id: forgot_pass_name
                 implicitWidth: 200
+                placeholderText: "Username"
+                floatingLabel: true
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            TextField {
+                id: username
+                visible: false
+                implicitWidth: 200
                 placeholderText: "Enter username"
                 anchors.horizontalCenter: parent.horizontalCenter
             }

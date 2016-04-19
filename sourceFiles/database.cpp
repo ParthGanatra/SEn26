@@ -179,7 +179,7 @@ QStringList Database::getIndex(int index){
     for (int i=1;i<=stocklist.size();i++){
         temp = cursor->next();
         list.append(QString::fromStdString(temp.jsonString()));
-//        qDebug()<<list.at(i-1);
+        //        qDebug()<<list.at(i-1);
     }
     return list;
 }
@@ -246,7 +246,7 @@ QStringList Database ::getTickInterval(int start,int end,QString name)
 
 int Database::removePopup(QString name,QString indicator,QString condition,QString threshold)
 {
-//    qDebug() << name << indicator << condition << threshold;
+    //    qDebug() << name << indicator << condition << threshold;
     QString temp=username+".popup";
     c.remove(temp.toStdString(),MONGO_QUERY("name" <<name.toStdString() << "indicator" <<indicator.toStdString()  <<  "condition" << condition.toStdString()<<"threshold"<<threshold.toStdString()));
 
@@ -261,9 +261,6 @@ QString Database:: getTickIndicator(int index,QString name,QString rsi,QString c
         return "";
 
     QString temp2=username+".indicator";
-
-
-
 
     //    std::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("index" << index << "name" << name.toStdString()));
     mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("index" << index << "name" << name.toStdString()<<"rsi"<<rsi.toStdString()<<"cci"<<cci.toStdString()<<"ma"<<ma.toStdString()<<"so"<<so.toStdString()));
@@ -325,10 +322,10 @@ QStringList Database::getallpopupscondition(QString name,QString indicator)
     while(cursor->more())
     {
         QString str = QString::fromStdString(cursor->next().jsonString());
-//        qDebug()<<str;
+        //        qDebug()<<str;
         QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
         QJsonObject temp = doc.object();
-//        qDebug()<<temp["indicator"].toString();
+        //        qDebug()<<temp["indicator"].toString();
 
         list.append(str);
 

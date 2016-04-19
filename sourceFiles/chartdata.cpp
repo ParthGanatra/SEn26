@@ -8,16 +8,16 @@
 Chartdata::Chartdata(QObject *parent)
     : QObject(parent)
 {
-//    Backend * backend = new Backend();
-//    Database * datbase = new Database();
+    //    Backend * backend = new Backend();
+    //    Database * datbase = new Database();
 }
 
 Chartdata::~Chartdata()
 {}
 
 void Chartdata::addBackend_data(QQmlApplicationEngine *engin){//Backend *temp, Database *temp1){
-//    backend = temp;
-//    database = temp1;
+    //    backend = temp;
+    //    database = temp1;
     engine = engin;
 }
 
@@ -30,10 +30,10 @@ QJsonObject Chartdata::getWH() const
 }
 
 QJsonObject Chartdata::timeUpdate(QString stockName, int start, int end){
-//            backend.add_data(start);
-//    qDebug()<<"ASF";
+    //            backend.add_data(start);
+    //    qDebug()<<"ASF";
     emit addData(start);
-//    qDebug()<<"ASF4656";
+    //    qDebug()<<"ASF4656";
     return getstockPriceData(stockName,start,end);
 }
 
@@ -118,9 +118,9 @@ Backend * Chartdata::getdata(){
 }
 
 int Chartdata::onLogin(QString user){
-    qDebug()<<user;
+    qDebug()<<user.toLower();
 
-    database.setUser(user);
+    database.setUser(user.toLower());
     database.stocklist = backend.stocklist;
     database.run();
     backend.addDatabse(&database);

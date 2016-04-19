@@ -128,6 +128,14 @@ Page {
                     text: qsTr(_helper.get_user_lastname(Settings.username))
                     floatingLabel: true
                 }
+
+                TextField {
+                    id: username
+                    visible: false
+                    implicitWidth: 200
+                    placeholderText: "Enter username"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
             }
 
 

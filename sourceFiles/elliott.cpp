@@ -99,7 +99,7 @@ void Elliott::assignWavecount(int start,int end,int level){
             //		  if(!increasing && -prices[min] + prices[x]>=minLen[level] && -prices[min] + prices[x] <= maxLen[level]){
             if(ind < 5)
             {
-//                qDebug() << "Assigned " << level << min;
+                //                qDebug() << "Assigned " << level << min;
                 wavecount[level][min] = ind ;
                 ind++;
             }
@@ -121,7 +121,7 @@ void Elliott::assignWavecount(int start,int end,int level){
             //		  if(increasing && prices[max] - prices[x]>=minLen[level] && prices[max] - prices[x] <= maxLen[level]){
             if(ind < 5)
             {
-//                qDebug() << "Assigned " << level << max;
+                //                qDebug() << "Assigned " << level << max;
                 wavecount[level][max] = ind ;
                 ind++;
             }
@@ -147,8 +147,8 @@ void Elliott::assignWavecount(int start,int end,int level){
 
     }
     //   if(increasing && prices[end] - prices[x]>=minLen[level] && prices[end] - prices[x] <= maxLen[level])
-        if(x!=start)
-    wavecount[level][end] = ind ;
+    if(x!=start)
+        wavecount[level][end] = ind ;
     //   if(!increasing && -prices[end] + prices[x]>=minLen[level] && -prices[end] + prices[x] <= maxLen[level])
     //      wavecount[level][end] = ind ;
 

@@ -22,7 +22,7 @@ int Frontend::sendOTP(QString email,QString otp)
     smtp.setUser("group26.sen@gmail.com");
     smtp.setPassword("Group26 SEn.");
     if(smtp.connectToHost()){
-//        qDebug() << "connect" << connection;
+        //        qDebug() << "connect" << connection;
         qDebug() << "Login" << smtp.login();
 
         MimeMessage message;

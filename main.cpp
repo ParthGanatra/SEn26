@@ -54,13 +54,13 @@ int main(int argc, char *argv[])
                      &channel, &QWebChannel::connectTo);
 
     Chartdata chartdata;
-//    chartdata.addBackend_data(&backend,&db);
+    //    chartdata.addBackend_data(&backend,&db);
     Backend *backend = new Backend();
     backend = chartdata.getdata();
     engine.rootContext()->setContextProperty("_backend", chartdata.getdata());
     engine.rootContext()->setContextProperty("myModel", QVariant::fromValue(backend->stocklist));
 
-//    chartdata.addBackend_data(&engine);
+    //    chartdata.addBackend_data(&engine);
     channel.registerObject("chartdata", &chartdata);
     engine.rootContext()->setContextProperty("_chartdata", &chartdata);
 
