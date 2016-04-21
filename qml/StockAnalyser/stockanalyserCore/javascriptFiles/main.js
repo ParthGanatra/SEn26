@@ -37,8 +37,17 @@ function myLoop () {
                         volume: +returnValue.list[i].volume,
                     });
                 }
-                myLoop();
-                value_recieved(indexID,mainData);
+                if(indicatorType[indexID] == "elliott"){
+                    mainCaller.getEllietteCount(activeTab, indexStart[activeTab], indexEnd[activeTab], currentLevel[indexID], function(returnValue){
+                        elliottCount = returnValue;
+                        myLoop();
+                        value_recieved(indexID,mainData);
+                    });
+                }
+                else{
+                    myLoop();
+                    value_recieved(indexID,mainData);
+                }
             });
         }
     }, 2000);

@@ -104,6 +104,10 @@ Database::~Database()
 
 
 void Database::run() {
+    QString str = username+".stock";
+    c.dropCollection(str.toStdString());
+    str = username+".indicator";
+    c.dropCollection(str.toStdString());
 
     for (int i=1;i<=stocklist.size();i++)
     {
@@ -230,17 +234,6 @@ QStringList Database ::getTickInterval(int start,int end,QString name)
         }
         i++;
     }
-
-
-    //    if(dataloaded==-1)
-    //        return list;
-
-
-    //    for(int i=start;i<=end;i++)
-    //    {
-    //        list.append(getTick(i,name));
-    //     }
-
     return list;
 }
 
@@ -273,20 +266,27 @@ QString Database:: getTickIndicator(int index,QString name,QString rsi,QString c
     return QString::fromStdString(temp.jsonString());
 }
 
-
-QStringList Database ::getTickIntervalIndicator(int start,int end,QString name,QString rsi,QString cci,QString ma, QString so)
+QStringList Database::getTickIntervalIndicator(int start,int end,QString name)
 {
+    QString temp2=username+".indicator";
+    mongo::auto_ptr<mongo::DBClientCursor> cursor = c.query(temp2.toStdString(), MONGO_QUERY("name"<<name.toStdString()));
+    mongo::BSONObj temp;
+    QJsonObject temp1;
+    int i=0;
+
     QStringList list;
 
-    if(dataloaded==-1)
-        return list;
-
-
-    for(int i=start;i<=end;i++)
-    {
-        list.append(getTickIndicator(i,name,rsi,cci,ma,so));
+    while(cursor->more()){
+        temp = cursor->next();
+        QJsonDocument doc = QJsonDocument::fromJson(QString::fromStdString(temp.jsonString()).toUtf8());
+        temp1 = doc.object();
+        if(end<temp1["index"].toInt())
+            break;
+        if(start<=temp1["index"].toInt()){
+            list.append(QString::fromStdString(temp.jsonString()));
+        }
+        i++;
     }
-
     return list;
 }
 

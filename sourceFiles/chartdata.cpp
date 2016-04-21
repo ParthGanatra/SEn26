@@ -65,6 +65,22 @@ QJsonObject Chartdata::getEllietteCount(QString stock, int start, int end, int l
     return temp;
 }
 
+QJsonObject Chartdata::getindicatorData(QString stockName, int start, int end){
+    QStringList str = database.getTickIntervalIndicator(start,end,stockName);
+    QJsonArray arr;
+    QJsonObject temp;
+    for(int i=1;i<str.length();i++){
+        QJsonDocument doc = QJsonDocument::fromJson(str.at(i).toUtf8());
+        temp = doc.object();
+        arr.append(temp);
+    }
+    arr.append(temp);
+    arr.append(temp);
+    QJsonObject list1;
+    list1["list"] = arr;
+    return list1;
+}
+
 QJsonObject Chartdata::getstockPriceData(QString stockName, int start, int end){
     QStringList str = database.getTickInterval(start,end,stockName);
     QJsonArray arr;
@@ -117,10 +133,25 @@ Backend * Chartdata::getdata(){
     return &backend;
 }
 
-int Chartdata::onLogin(QString user){
-    qDebug()<<user.toLower();
+int Chartdata::onLogin(QString user){    
+    user = user.toLower();
+    user = user.simplified();
+    user.replace(" ", "");
+    user.replace("/", "");
+    user.replace("\\", "");
+    user.replace(".", "");
+    user.replace("“", "");
+    user.replace("*", "");
+    user.replace("<", "");
+    user.replace(">", "");
+    user.replace(":", "");
+    user.replace("|", "");
+    user.replace("?", "");
+    user.replace("$", "");
 
-    database.setUser(user.toLower());
+    qDebug()<<user<<"\\";
+
+    database.setUser(user);
     database.stocklist = backend.stocklist;
     database.run();
     backend.addDatabse(&database);

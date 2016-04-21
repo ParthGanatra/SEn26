@@ -39,6 +39,7 @@ public:
     Q_INVOKABLE QJsonObject getEllietteCount(QString stock, int start, int end, int lev);
     Q_INVOKABLE QJsonObject getstockPriceDataIndex(QString stockName, int index);
     Q_INVOKABLE QJsonObject timeUpdate(QString stockName, int start, int end);
+    Q_INVOKABLE QJsonObject getindicatorData(QString stockName, int start, int end);
     Q_INVOKABLE void print(QString str);
     Q_INVOKABLE Backend * getdata();
 };

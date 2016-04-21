@@ -33,7 +33,7 @@ Page{
         TextField {
             id: email
             implicitWidth: 200
-            placeholderText: "email"
+            placeholderText: "Email"
             floatingLabel: true
             anchors.horizontalCenter: parent.horizontalCenter
 

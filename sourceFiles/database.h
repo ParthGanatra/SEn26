@@ -33,7 +33,7 @@ public slots:
     QStringList getTickInterval(int start,int end,QString name);
 
     void setUser(QString user);
-    QStringList getTickIntervalIndicator(int start,int end,QString name,QString rsi,QString cci,QString ma, QString so);
+    QStringList getTickIntervalIndicator(int start,int end,QString name);
     QString getTickIndicator(int index,QString name,QString rsi,QString cci,QString ma, QString so);
     int removePopup(QString name,QString indicator,QString condition,QString threshold);
     void addPopup(QString name,QString indicator,QString condition,QString threshold);

@@ -79,6 +79,7 @@ Page {
                 {
                     _helper.change_details(Settings.username,firstname.text,lastname.text,email.text)
                     Settings.username = firstname.text
+                    dialogSnackBar.open("Changes Saved")
                 }
             }
             else
