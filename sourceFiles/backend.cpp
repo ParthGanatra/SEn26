@@ -111,7 +111,7 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
                     tmp["indicator"] = "RSI";
                     tmp["value"] = sp.rsi;
                     remove_popup_condition(QString::fromStdString(name),tmp["indicator"].toString(),json["condition"].toString(),QString::number(threshold));
-                    trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("RSI"),json["condition"].toString(),json["threshold"].toString()));
+                    trig_popups_list->insert(0,new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("RSI"),json["condition"].toString(),json["threshold"].toString()));
                     emit trigPopupsListChanged();
                 }
             }
@@ -122,7 +122,7 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
                     tmp["indicator"] = "RSI";
                     tmp["value"] = sp.rsi;
                     remove_popup_condition(QString::fromStdString(name),tmp["indicator"].toString(),json["condition"].toString(),QString::number(threshold));
-                    trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("RSI"),json["condition"].toString(),json["threshold"].toString()));
+                    trig_popups_list->insert(0,new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("RSI"),json["condition"].toString(),json["threshold"].toString()));
                     emit trigPopupsListChanged();
                 }
             }
@@ -143,7 +143,7 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
                     tmp["indicator"] = "CCI";
                     tmp["value"] = sp.cci;
                     remove_popup_condition(QString::fromStdString(name),tmp["indicator"].toString(),json["condition"].toString(),QString::number(threshold));
-                    trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("CCI"),json["condition"].toString(),json["threshold"].toString()));
+                    trig_popups_list->insert(0,new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("CCI"),json["condition"].toString(),json["threshold"].toString()));
                     emit trigPopupsListChanged();
                 }
             }
@@ -154,7 +154,7 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
                     tmp["indicator"] = "CCI";
                     tmp["value"] = sp.cci;
                     remove_popup_condition(QString::fromStdString(name),tmp["indicator"].toString(),json["condition"].toString(),QString::number(threshold));
-                    trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("CCI"),json["condition"].toString(),json["threshold"].toString()));
+                    trig_popups_list->insert(0,new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("CCI"),json["condition"].toString(),json["threshold"].toString()));
                     emit trigPopupsListChanged();
                 }
             }
@@ -176,7 +176,7 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
                     tmp["indicator"] = "MA";
                     tmp["value"] = sp.ma;
                     remove_popup_condition(QString::fromStdString(name),tmp["indicator"].toString(),json["condition"].toString(),QString::number(threshold));
-                    trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("MA"),json["condition"].toString(),json["threshold"].toString()));
+                    trig_popups_list->insert(0,new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("MA"),json["condition"].toString(),json["threshold"].toString()));
                     emit trigPopupsListChanged();
                 }
             }
@@ -187,7 +187,7 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
                     tmp["indicator"] = "MA";
                     tmp["value"] = sp.ma;
                     remove_popup_condition(QString::fromStdString(name),tmp["indicator"].toString(),json["condition"].toString(),QString::number(threshold));
-                    trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("MA"),json["condition"].toString(),json["threshold"].toString()));
+                    trig_popups_list->insert(0,new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("MA"),json["condition"].toString(),json["threshold"].toString()));
                     emit trigPopupsListChanged();
                 }
             }
@@ -208,7 +208,7 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
                     tmp["indicator"] = "SO";
                     tmp["value"] = sp.soD;
                     remove_popup_condition(QString::fromStdString(name),tmp["indicator"].toString(),json["condition"].toString(),QString::number(threshold));
-                    trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("SO"),json["condition"].toString(),json["threshold"].toString()));
+                    trig_popups_list->insert(0,new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("SO"),json["condition"].toString(),json["threshold"].toString()));
                     emit trigPopupsListChanged();
                 }
             }
@@ -219,7 +219,7 @@ void Backend::checkConditions(StockPrice & sp,string name){ // check popup condi
                     tmp["indicator"] = "SO";
                     tmp["value"] = sp.soD;
                     remove_popup_condition(QString::fromStdString(name),tmp["indicator"].toString(),json["condition"].toString(),QString::number(threshold));
-                    trig_popups_list->append(new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("SO"),json["condition"].toString(),json["threshold"].toString()));
+                    trig_popups_list->insert(0,new All_Popups_Model(QString::fromStdString(name),QString::fromStdString("SO"),json["condition"].toString(),json["threshold"].toString()));
                     emit trigPopupsListChanged();
                 }
             }
@@ -290,7 +290,7 @@ void Backend::remove_popup_trigger(QString stock,QString indicator,QString condi
     //    db->removePopup(stock,indicator,condition,threshold);
 }
 void Backend::add_popup_condition(QString stock,QString indicator,QString condition,QString threshold){
-    //    trig_popups_list->append(new All_Popups_Model(stock,indicator,condition,threshold));
+    //    trig_popups_list->insert(0,new All_Popups_Model(stock,indicator,condition,threshold));
     //    emit trigPopupsListChanged();
     all_popups_list->append(new All_Popups_Model(stock,indicator,condition,threshold));
     emit allPopupsListChanged();

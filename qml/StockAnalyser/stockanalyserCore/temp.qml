@@ -18,8 +18,8 @@ Page {
 
         Label {
             id: text
-            font.family: "Roboto"
-            font.weight: Font.bold
+//            font.family: "Roboto"
+//            font.weight: Font.bold
             text: "Click to proceed"
             font.pixelSize: Units.dp(24)
 

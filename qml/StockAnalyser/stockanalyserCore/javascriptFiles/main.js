@@ -50,7 +50,7 @@ function myLoop () {
                 }
             });
         }
-    }, 2000);
+    }, 5000);
 }
 
 window.onload = function() {

@@ -17,7 +17,7 @@ Page{
         TextField {
             id: firstname
             implicitWidth: 200
-            placeholderText: "First Name"
+            placeholderText: "First Name/Username"
             floatingLabel: true
             anchors.horizontalCenter: parent.horizontalCenter
         }
